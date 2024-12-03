@@ -12,4 +12,4 @@ const String helpUrl =
 const String supportUrl =
     'https://www.aurelitec.com/support/?utm_source=injuredpixels_app&utm_medium=app_link&utm_campaign=injuredpixels_app_support';
 
-const String supportUsUrl = 'https://www.aurelitec.com/support/';
+const String supportUsUrl = 'https://www.aurelitec.com/';
