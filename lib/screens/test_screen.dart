@@ -12,6 +12,7 @@ import '../common/strings.dart' as strings;
 import '../common/urls.dart' as urls;
 import '../models/test_color.dart';
 import '../utils/utils.dart' as utils;
+import '../utils/web_utils.dart' as web_utils;
 import '../widgets/on_screen_tip.dart';
 import '../widgets/test_control_panel.dart';
 
@@ -33,6 +34,8 @@ class _TestScreenState extends State<TestScreen> {
   /// The focus node for the body of the screen, used to capture key events.
   late final FocusNode _bodyFocusNode;
 
+  bool _isFullScreen = false;
+
   /// Whether we are in inspection mode, which hides all UI elements except the color screen.
   bool _inInspectionMode = false;
 
@@ -45,12 +48,19 @@ class _TestScreenState extends State<TestScreen> {
     if (kIsWeb) BrowserContextMenu.disableContextMenu();
 
     _mouseIsConnected = WidgetsBinding.instance.mouseTracker.mouseIsConnected;
+
+    web_utils.subscribeToFullscreenChange((event) {
+      print('Fullscreen change event: $event');
+      print('Document fullscreen: ${web_utils.isDocumentFullscreen()}');
+      setState(() => _isFullScreen = web_utils.isDocumentFullscreen());
+    });
   }
 
   @override
   void dispose() {
     _bodyFocusNode.dispose();
     if (kIsWeb) BrowserContextMenu.enableContextMenu();
+    web_utils.unsubscribeFromFullscreenChange();
     super.dispose();
   }
 
@@ -107,6 +117,10 @@ class _TestScreenState extends State<TestScreen> {
   /// Performs the actions of the app bar.
   void _onAction(_AppBarActions action) async {
     switch (action) {
+      case _AppBarActions.toggleFullscreen:
+        web_utils.toggleFullscreen(_isFullScreen);
+        break;
+
       case _AppBarActions.toggleTip:
         setState(() => prefs.showTip.value = !prefs.showTip.value);
         break;
@@ -163,6 +177,7 @@ class _TestScreenState extends State<TestScreen> {
                 right: 0.0,
                 child: _AppBar(
                   foregroundColor: contrastColor,
+                  isFullScreen: _isFullScreen,
                   onAction: _onAction,
                 ),
               ),
@@ -197,6 +212,7 @@ class _TestScreenState extends State<TestScreen> {
 
 /// Enum that defines the actions of the app bar.
 enum _AppBarActions {
+  toggleFullscreen,
   toggleTip,
   help,
   support,
@@ -207,10 +223,15 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
   const _AppBar({
     super.key, // ignore: unused_element
     required this.foregroundColor,
+    required this.isFullScreen,
     required this.onAction,
   });
 
+  /// The foreground color of the app bar used for the text and icons.
   final Color foregroundColor;
+
+  /// Whether the app is in full screen mode.
+  final bool isFullScreen;
 
   /// The callback that is called when an app bar action is pressed.
   final void Function(_AppBarActions action) onAction;
@@ -220,10 +241,23 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       forceMaterialTransparency: true,
       foregroundColor: foregroundColor,
+      centerTitle: true,
+
       title: const Text(strings.appName),
 
       // The common operations displayed in this app bar
       actions: <Widget>[
+        // Add the Toggle Fullscreen button
+        OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: foregroundColor,
+            side: BorderSide(color: foregroundColor, width: 2.0),
+            visualDensity: VisualDensity.comfortable,
+          ),
+          onPressed: () => onAction(_AppBarActions.toggleFullscreen),
+          child: Text(isFullScreen ? strings.exitFullScreen : strings.enterFullScreen),
+        ),
+
         // Add the Popup Menu items
         PopupMenuButton<_AppBarActions>(
           onSelected: onAction,
