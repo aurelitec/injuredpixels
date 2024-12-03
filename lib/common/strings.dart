@@ -16,18 +16,11 @@ const String appName = 'InjuredPixels';
 // Test Screen (Home Screen)
 // -----------------------------------------------------------------------------------------------
 
-const String enterFullScreen = 'Go fullscreen';
-const String exitFullScreen = 'Exit fullscreen';
-
+const String toggleFullScreen = 'Toggle fullscreen';
 String showTipMenuItem(bool show) => show ? 'Show tip' : 'Hide tip';
 const String helpMenuItem = 'Online help';
 const String supportMenuItem = 'Contact support';
 const String supportUsMenuItem = 'Support us';
-
-// const String inspectModeTooltip = 'Enter inspection mode';
-
-// String testScreenTip(bool mouseIsConnected) =>
-//     '<b>Long ${mouseIsConnected ? 'click' : 'tap'}</b> the color screen or press <b>Space</b> to enter and exit inspection mode. <b>Double ${mouseIsConnected ? 'click' : 'tap'}</b> the color screen or use <b>arrow keys</b> to cycle through colors. ';
 
 String testScreenTip(bool mouseIsConnected) =>
     '<b>Long ${mouseIsConnected ? 'click' : 'tap'}</b> the color screen or press <b>Space</b> to toggle inspection mode. <b>Double ${mouseIsConnected ? 'click' : 'tap'}</b> or use <b>arrow keys</b> to cycle colors. <b>Go fullscreen</b> to inspect all pixels.';

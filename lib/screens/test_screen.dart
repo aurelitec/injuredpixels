@@ -34,8 +34,6 @@ class _TestScreenState extends State<TestScreen> {
   /// The focus node for the body of the screen, used to capture key events.
   late final FocusNode _bodyFocusNode;
 
-  bool _isFullScreen = false;
-
   /// Whether we are in inspection mode, which hides all UI elements except the color screen.
   bool _inInspectionMode = false;
 
@@ -48,19 +46,12 @@ class _TestScreenState extends State<TestScreen> {
     if (kIsWeb) BrowserContextMenu.disableContextMenu();
 
     _mouseIsConnected = WidgetsBinding.instance.mouseTracker.mouseIsConnected;
-
-    web_utils.subscribeToFullscreenChange((event) {
-      print('Fullscreen change event: $event');
-      print('Document fullscreen: ${web_utils.isDocumentFullscreen()}');
-      setState(() => _isFullScreen = web_utils.isDocumentFullscreen());
-    });
   }
 
   @override
   void dispose() {
     _bodyFocusNode.dispose();
     if (kIsWeb) BrowserContextMenu.enableContextMenu();
-    web_utils.unsubscribeFromFullscreenChange();
     super.dispose();
   }
 
@@ -118,7 +109,7 @@ class _TestScreenState extends State<TestScreen> {
   void _onAction(_AppBarActions action) async {
     switch (action) {
       case _AppBarActions.toggleFullscreen:
-        web_utils.toggleFullscreen(_isFullScreen);
+        web_utils.toggleFullscreen();
         break;
 
       case _AppBarActions.toggleTip:
@@ -177,7 +168,6 @@ class _TestScreenState extends State<TestScreen> {
                 right: 0.0,
                 child: _AppBar(
                   foregroundColor: contrastColor,
-                  isFullScreen: _isFullScreen,
                   onAction: _onAction,
                 ),
               ),
@@ -223,15 +213,11 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
   const _AppBar({
     super.key, // ignore: unused_element
     required this.foregroundColor,
-    required this.isFullScreen,
     required this.onAction,
   });
 
   /// The foreground color of the app bar used for the text and icons.
   final Color foregroundColor;
-
-  /// Whether the app is in full screen mode.
-  final bool isFullScreen;
 
   /// The callback that is called when an app bar action is pressed.
   final void Function(_AppBarActions action) onAction;
@@ -255,7 +241,7 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
             visualDensity: VisualDensity.comfortable,
           ),
           onPressed: () => onAction(_AppBarActions.toggleFullscreen),
-          child: Text(isFullScreen ? strings.exitFullScreen : strings.enterFullScreen),
+          child: const Text(strings.toggleFullScreen),
         ),
 
         // Add the Popup Menu items
