@@ -107,6 +107,10 @@ class _TestScreenState extends State<TestScreen> {
   /// Performs the actions of the app bar.
   void _onAction(_AppBarActions action) async {
     switch (action) {
+      case _AppBarActions.toggleTip:
+        setState(() => prefs.showTip.value = !prefs.showTip.value);
+        break;
+
       case _AppBarActions.help:
         utils.launchUrlExternal(context, urls.helpUrl);
         break;
@@ -193,6 +197,7 @@ class _TestScreenState extends State<TestScreen> {
 
 /// Enum that defines the actions of the app bar.
 enum _AppBarActions {
+  toggleTip,
   help,
   support,
   supportUs,
@@ -223,6 +228,14 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
         PopupMenuButton<_AppBarActions>(
           onSelected: onAction,
           itemBuilder: (BuildContext context) => <PopupMenuEntry<_AppBarActions>>[
+            // The Toggle tip menu item
+            PopupMenuItem<_AppBarActions>(
+              value: _AppBarActions.toggleTip,
+              child: Text(strings.showTipMenuItem(!prefs.showTip.value)),
+            ),
+
+            const PopupMenuDivider(),
+
             // The Help menu item
             const PopupMenuItem<_AppBarActions>(
               value: _AppBarActions.help,
@@ -240,7 +253,6 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
             // The Support Us menu item
             const PopupMenuItem<_AppBarActions>(
               value: _AppBarActions.supportUs,
-              enabled: false,
               child: Text(strings.supportUsMenuItem),
             ),
           ],

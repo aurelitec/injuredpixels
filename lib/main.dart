@@ -31,11 +31,8 @@ class InjuredPixelsApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: strings.appName,
-
-      // Due to the purpose of this app, a single dark theme is used for both light and dark mode
-      theme: getAppTheme(),
-      darkTheme: getAppTheme(),
-
+      theme: getAppTheme(Brightness.light),
+      darkTheme: getAppTheme(Brightness.dark),
       home: const TestScreen(),
     );
   }

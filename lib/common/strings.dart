@@ -16,9 +16,10 @@ const String appName = 'InjuredPixels';
 // Test Screen (Home Screen)
 // -----------------------------------------------------------------------------------------------
 
-const String helpMenuItem = 'Online Help';
-const String supportMenuItem = 'Contact Support';
-const String supportUsMenuItem = 'Support Us';
+String showTipMenuItem(bool show) => show ? 'Show tip' : 'Hide tip';
+const String helpMenuItem = 'Online help';
+const String supportMenuItem = 'Contact support';
+const String supportUsMenuItem = 'Support us';
 
 // -----------------------------------------------------------------------------------------------
 // Test Screen

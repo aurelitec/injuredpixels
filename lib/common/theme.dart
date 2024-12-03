@@ -6,26 +6,20 @@
 import 'package:flutter/material.dart';
 
 /// Returns the theme for the app.
-///
-/// Because of the purpose of this app, it's a dark theme that is used for both light and dark mode.
-ThemeData getAppTheme() {
+ThemeData getAppTheme(Brightness brightness) {
+  final Color contrastColor = brightness == Brightness.light ? Colors.black : Colors.white;
+
   return ThemeData(
     useMaterial3: true,
-
-    // The brightness of the theme is always dark
-    brightness: Brightness.dark,
-
-    // The color scheme for the app
-    colorScheme: ColorScheme.dark(
-      primary: Colors.white,
-      surfaceContainerLow: Colors.grey[900],
-
-      // secondary: Colors.white,
+    brightness: brightness,
+    popupMenuTheme: PopupMenuThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4.0),
+        side: BorderSide(color: contrastColor),
+      ),
     ),
-    scaffoldBackgroundColor: Colors.grey[900],
-
     dividerTheme: DividerThemeData(
-      color: Colors.grey[700],
+      color: contrastColor,
     ),
   );
 }
