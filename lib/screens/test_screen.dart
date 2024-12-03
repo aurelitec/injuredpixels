@@ -224,10 +224,12 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLargeScreen = MediaQuery.of(context).size.width > 600.0;
+
     return AppBar(
       forceMaterialTransparency: true,
       foregroundColor: foregroundColor,
-      centerTitle: true,
+      centerTitle: isLargeScreen,
 
       title: const Text(strings.appName),
 

@@ -9,19 +9,17 @@ import '../models/test_color.dart';
 import '../utils/utils.dart' as utils;
 
 /// The size of each color button in the control panel.
-const Size _colorButtonSize = Size(64.0, 64.0);
-const Size _colorButtonSizeLarge = Size(100.0, 100.0);
+const Size _buttonSize = Size(64.0, 64.0);
+const Size _buttonSizeLarge = Size(100.0, 100.0);
 
+/// The screen size enum for the control panel widget.
 enum _ScreenSize {
   small,
   medium,
   large,
 }
 
-/// The control panel widget for the test screen.
-///
-/// This widget displays a grid of color buttons that can be used to select the test color, as well
-/// as an "app bar" with back and hide buttons.
+/// The control panel widget for the test screen that displays the color buttons.
 class TestControlPanel extends StatelessWidget {
   const TestControlPanel({
     super.key,
@@ -65,61 +63,32 @@ class TestControlPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int testColorCount = TestColor.values.length;
-    final double width = MediaQuery.of(context).size.width;
 
     // Check if the screen is small, medium, or large
+    final double width = MediaQuery.of(context).size.width;
     final _ScreenSize screenSize = width < 600.0
         ? _ScreenSize.small
         : width < 1200.0
             ? _ScreenSize.medium
             : _ScreenSize.large;
 
+    // TODO: Fix the layout of the color buttons on very small screens
+
+    // If the screen is large, show all the color buttons in a single row
     if (screenSize == _ScreenSize.large) {
-      return _rowOfButtons(0, testColorCount, _colorButtonSizeLarge);
+      return _rowOfButtons(0, testColorCount, _buttonSizeLarge);
     }
 
-    final Size buttonSize =
-        screenSize == _ScreenSize.small ? _colorButtonSize : _colorButtonSizeLarge;
+    // If the screen is small or medium, show the buttons in two rows
+    // Use smaller buttons on small screens and larger buttons on medium screens
+    final Size buttonSize = screenSize == _ScreenSize.small ? _buttonSize : _buttonSizeLarge;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // Show the first half of the color buttons in the first row and the second half in the second row
         _rowOfButtons(0, testColorCount ~/ 2, buttonSize),
         _rowOfButtons(testColorCount ~/ 2, testColorCount, buttonSize),
       ],
     );
-
-    // final Size buttonSize = isLargeScreen ? _colorButtonSizeLarge : _colorButtonSize;
-
-    // // Show the first half of the color buttons in the first row and the second half in the second row
-    // // _rowOfButtons(0, testColorCount ~/ 2),
-    // // _rowOfButtons(testColorCount ~/ 2, testColorCount),
-
-    // // _rowOfButtons(0, testColorCount),
-
-    // return isLargeScreen
-    //     ? _rowOfButtons(0, testColorCount, buttonSize)
-    //     : Column(
-    //         mainAxisSize: MainAxisSize.min,
-    //         children: <Widget>[
-    //           // Show the first half of the color buttons in the first row and the second half in the second row
-    //           _rowOfButtons(0, testColorCount ~/ 2, buttonSize),
-    //           _rowOfButtons(testColorCount ~/ 2, testColorCount, buttonSize),
-    //         ],
-    //       );
-
-    // // return Padding(
-    // //   padding: const EdgeInsets.all(32.0),
-    // //   child: Wrap(
-    // //     alignment: WrapAlignment.center,
-    // //     spacing: 16.0,
-    // //     runSpacing: 16.0,
-    // //     children: <Widget>[
-    // //       for (int index = 0; index < testColorCount; index++)
-    // //         _testColorButton(index, isLargeScreen ? _colorButtonSizeLarge : _colorButtonSize),
-    // //     ],
-    // //   ),
-    // // );
   }
 }
 
