@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/test_color.dart';
-import '../utils/color_utils.dart' as color_utils;
+import '../utils/utils.dart' as utils;
 
 /// The size of each color button in the control panel.
 // const Size _colorButtonSize = Size(64.0, 64.0);
@@ -98,7 +98,7 @@ class _TestColorButton extends StatelessWidget {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         backgroundColor: color,
-        foregroundColor: color_utils.contrastColor(color),
+        foregroundColor: utils.getContrastColor(color),
         fixedSize: _colorButtonSize,
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),

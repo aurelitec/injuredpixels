@@ -9,8 +9,9 @@ import 'package:flutter/services.dart';
 
 import '../common/preferences.dart' as prefs;
 import '../common/strings.dart' as strings;
+import '../common/urls.dart' as urls;
 import '../models/test_color.dart';
-import '../utils/color_utils.dart' as color_utils;
+import '../utils/utils.dart' as utils;
 import '../widgets/on_screen_tip.dart';
 import '../widgets/test_control_panel.dart';
 
@@ -31,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   /// The focus node for the body of the screen, used to capture key events.
   late final FocusNode _bodyFocusNode;
 
-  /// Whether the control panel is currently visible.
-  bool _showControlPanel = true;
+  /// Whether we are in inspection mode, which hides all UI elements except the color screen.
+  bool _inInspectionMode = false;
 
   @override
   void initState() {
@@ -92,20 +93,37 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       // Toggle the control panel visibility when the space key is pressed
       case LogicalKeyboardKey.space:
-        _toggleControlPanelVisibility();
+        _toggleInspectionMode();
         break;
     }
   }
 
-  /// Toggles the visibility of the control panel.
-  void _toggleControlPanelVisibility() {
-    setState(() => _showControlPanel = !_showControlPanel);
+  /// Toggles the inspection mode, which hides all UI elements except the color screen.
+  void _toggleInspectionMode() {
+    setState(() => _inInspectionMode = !_inInspectionMode);
+  }
+
+  /// Performs the actions of the app bar.
+  void _onAction(_AppBarActions action) async {
+    switch (action) {
+      case _AppBarActions.help:
+        utils.launchUrlExternal(context, urls.helpUrl);
+        break;
+
+      case _AppBarActions.support:
+        utils.launchUrlExternal(context, urls.supportUrl);
+        break;
+
+      case _AppBarActions.supportUs:
+        utils.launchUrlExternal(context, urls.supportUsUrl);
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final Color currentColor = TestColor.values[prefs.testColorIndex.value].value;
-    final Color contrastColor = color_utils.contrastColor(currentColor);
+    final Color contrastColor = utils.getContrastColor(currentColor);
 
     return Scaffold(
       backgroundColor: currentColor,
@@ -126,22 +144,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Go to the next color on double tap and hide the cycle part of the tip
                 onDoubleTap: () => _nextColor(),
                 // Toggle the control panel visibility on long press and hide the control panel part of the tip
-                onLongPress: () => _toggleControlPanelVisibility(),
+                onLongPress: () => _toggleInspectionMode(),
               ),
             ),
 
-            // Because we don't use an app bar to enlarge the gesture area for toggling the
-            // inspection mode, manually add the back to home button in the top left corner
-            if (_showControlPanel) ...[
+            // Show UI elements only when not in inspection mode
+            if (!_inInspectionMode) ...[
+              // Show the app bar in the stack because we want to capture tap events even on the
+              // app bar (on areas that do not contain widgets)
               Positioned(
-                top: 8.0,
-                left: 8.0,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: color_utils.contrastColor(currentColor),
-                  ),
-                  onPressed: Navigator.of(context).pop,
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: _AppBar(
+                  foregroundColor: contrastColor,
+                  onAction: _onAction,
                 ),
               ),
 
@@ -155,19 +172,82 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               /// Show the tip text at the bottom of the screen
-              Positioned(
-                bottom: 32.0,
-                left: 16.0,
-                right: 16.0,
-                child: OnScreenTip(
-                  text: strings.testScreenTip(_mouseIsConnected),
-                  foregroundColor: contrastColor,
+              if (prefs.showTip.value)
+                Positioned(
+                  bottom: 32.0,
+                  left: 16.0,
+                  right: 16.0,
+                  child: OnScreenTip(
+                    text: strings.testScreenTip(_mouseIsConnected),
+                    foregroundColor: contrastColor,
+                  ),
                 ),
-              ),
             ],
           ],
         ),
       ),
     );
   }
+}
+
+/// Enum that defines the actions of the app bar.
+enum _AppBarActions {
+  help,
+  support,
+  supportUs,
+}
+
+class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _AppBar({
+    super.key, // ignore: unused_element
+    required this.foregroundColor,
+    required this.onAction,
+  });
+
+  final Color foregroundColor;
+
+  /// The callback that is called when an app bar action is pressed.
+  final void Function(_AppBarActions action) onAction;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      forceMaterialTransparency: true,
+      foregroundColor: foregroundColor,
+      title: const Text(strings.appName),
+
+      // The common operations displayed in this app bar
+      actions: <Widget>[
+        // Add the Popup Menu items
+        PopupMenuButton<_AppBarActions>(
+          onSelected: onAction,
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<_AppBarActions>>[
+            // The Help menu item
+            const PopupMenuItem<_AppBarActions>(
+              value: _AppBarActions.help,
+              child: Text(strings.helpMenuItem),
+            ),
+
+            // The Support menu item
+            const PopupMenuItem<_AppBarActions>(
+              value: _AppBarActions.support,
+              child: Text(strings.supportMenuItem),
+            ),
+
+            const PopupMenuDivider(),
+
+            // The Support Us menu item
+            const PopupMenuItem<_AppBarActions>(
+              value: _AppBarActions.supportUs,
+              enabled: false,
+              child: Text(strings.supportUsMenuItem),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

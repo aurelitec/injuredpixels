@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../utils/material_utils.dart';
+import '../utils/utils.dart' as utils;
 
 class OnScreenTip extends StatelessWidget {
   const OnScreenTip({
@@ -37,7 +37,7 @@ class OnScreenTip extends StatelessWidget {
             child: RichText(
               // textAlign: TextAlign.center,
               softWrap: true,
-              text: parseBoldStyledText(
+              text: utils.parseBoldStyledText(
                 text,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: foregroundColor),
               ),

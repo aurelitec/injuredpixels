@@ -3,10 +3,24 @@
 // See the LICENSE file in the project root for license information.
 // @author TechAurelian <dev@techaurelian.com> (https://techaurelian.com)
 
-/// Various utilities for working with Material widgets.
+/// Various utilities used throughout the app.
 library;
 
 import 'package:flutter/material.dart';
+
+import 'package:url_launcher/url_launcher.dart';
+
+/// Returns the black or white contrast color of the given [Color].
+Color getContrastColor(Color color) {
+  return ThemeData.estimateBrightnessForColor(color) == Brightness.light
+      ? Colors.black
+      : Colors.white;
+}
+
+/// Launches the specified [URL] in the mobile platform, using the default external application.
+Future<void> launchUrlExternal(BuildContext context, String url) async {
+  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+}
 
 /// Parses a string with bold tags and returns a [TextSpan] with the bold parts styled.
 ///

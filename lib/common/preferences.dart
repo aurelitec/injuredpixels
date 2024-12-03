@@ -16,11 +16,18 @@ AppPreference<int> testColorIndex = AppPreference<int>(
   key: 'testColorIndex',
 );
 
+/// The app preference for showing the tip on the test screen.
+AppPreference<bool> showTip = AppPreference<bool>(
+  defaultValue: true,
+  key: 'showTip',
+);
+
 /// Loads app settings from persistent storage.
 Future<void> load() async {
   try {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     testColorIndex.loadValue(preferences);
+    showTip.loadValue(preferences);
   } catch (e) {
     // We can ignore errors here, as the default values will be used.
     // ignore: avoid_print

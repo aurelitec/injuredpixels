@@ -16,9 +16,9 @@ const String appName = 'InjuredPixels';
 // Home Screen (Test Screen)
 // -----------------------------------------------------------------------------------------------
 
-// const String helpMenuItem = 'Online Help';
-// const String supportMenuItem = 'Contact Support';
-// const String rateAppMenuItem = 'Rate App';
+const String helpMenuItem = 'Online Help';
+const String supportMenuItem = 'Contact Support';
+const String supportUsMenuItem = 'Support Us';
 
 // -----------------------------------------------------------------------------------------------
 // Test Screen
