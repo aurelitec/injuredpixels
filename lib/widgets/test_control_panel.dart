@@ -9,8 +9,14 @@ import '../models/test_color.dart';
 import '../utils/utils.dart' as utils;
 
 /// The size of each color button in the control panel.
-// const Size _colorButtonSize = Size(64.0, 64.0);
-const Size _colorButtonSize = Size(100.0, 100.0);
+const Size _colorButtonSize = Size(64.0, 64.0);
+const Size _colorButtonSizeLarge = Size(100.0, 100.0);
+
+enum _ScreenSize {
+  small,
+  medium,
+  large,
+}
 
 /// The control panel widget for the test screen.
 ///
@@ -30,7 +36,7 @@ class TestControlPanel extends StatelessWidget {
   final void Function(int)? onColorButtonPressed;
 
   /// A thin wrapper that builds a color button widget for the test control panel.
-  Widget _testColorButton(int index) {
+  Widget _testColorButton(int index, Size size) {
     final Color buttonColor = TestColor.values[index].value;
     final Color? boderColor = TestColor.values[index].name == 'white' ? Colors.black : null;
 
@@ -39,6 +45,7 @@ class TestControlPanel extends StatelessWidget {
       child: _TestColorButton(
         color: buttonColor,
         borderColor: boderColor,
+        size: size,
         isSelected: index == selectedIndex,
         onPressed: () => onColorButtonPressed?.call(index),
       ),
@@ -46,11 +53,11 @@ class TestControlPanel extends StatelessWidget {
   }
 
   /// Builds a row of color buttons for the test control panel.
-  Widget _rowOfButtons(int start, int end) {
+  Widget _rowOfButtons(int start, int end, Size size) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        for (int index = start; index < end; index++) _testColorButton(index),
+        for (int index = start; index < end; index++) _testColorButton(index, size),
       ],
     );
   }
@@ -58,17 +65,61 @@ class TestControlPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int testColorCount = TestColor.values.length;
+    final double width = MediaQuery.of(context).size.width;
 
+    // Check if the screen is small, medium, or large
+    final _ScreenSize screenSize = width < 600.0
+        ? _ScreenSize.small
+        : width < 1200.0
+            ? _ScreenSize.medium
+            : _ScreenSize.large;
+
+    if (screenSize == _ScreenSize.large) {
+      return _rowOfButtons(0, testColorCount, _colorButtonSizeLarge);
+    }
+
+    final Size buttonSize =
+        screenSize == _ScreenSize.small ? _colorButtonSize : _colorButtonSizeLarge;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         // Show the first half of the color buttons in the first row and the second half in the second row
-        // _rowOfButtons(0, testColorCount ~/ 2),
-        // _rowOfButtons(testColorCount ~/ 2, testColorCount),
-
-        _rowOfButtons(0, testColorCount),
+        _rowOfButtons(0, testColorCount ~/ 2, buttonSize),
+        _rowOfButtons(testColorCount ~/ 2, testColorCount, buttonSize),
       ],
     );
+
+    // final Size buttonSize = isLargeScreen ? _colorButtonSizeLarge : _colorButtonSize;
+
+    // // Show the first half of the color buttons in the first row and the second half in the second row
+    // // _rowOfButtons(0, testColorCount ~/ 2),
+    // // _rowOfButtons(testColorCount ~/ 2, testColorCount),
+
+    // // _rowOfButtons(0, testColorCount),
+
+    // return isLargeScreen
+    //     ? _rowOfButtons(0, testColorCount, buttonSize)
+    //     : Column(
+    //         mainAxisSize: MainAxisSize.min,
+    //         children: <Widget>[
+    //           // Show the first half of the color buttons in the first row and the second half in the second row
+    //           _rowOfButtons(0, testColorCount ~/ 2, buttonSize),
+    //           _rowOfButtons(testColorCount ~/ 2, testColorCount, buttonSize),
+    //         ],
+    //       );
+
+    // // return Padding(
+    // //   padding: const EdgeInsets.all(32.0),
+    // //   child: Wrap(
+    // //     alignment: WrapAlignment.center,
+    // //     spacing: 16.0,
+    // //     runSpacing: 16.0,
+    // //     children: <Widget>[
+    // //       for (int index = 0; index < testColorCount; index++)
+    // //         _testColorButton(index, isLargeScreen ? _colorButtonSizeLarge : _colorButtonSize),
+    // //     ],
+    // //   ),
+    // // );
   }
 }
 
@@ -78,6 +129,7 @@ class _TestColorButton extends StatelessWidget {
     super.key, // ignore: unused_element
     required this.color,
     this.borderColor,
+    this.size,
     this.isSelected = false,
     this.onPressed,
   });
@@ -85,7 +137,11 @@ class _TestColorButton extends StatelessWidget {
   /// The color of the button.
   final Color color;
 
+  /// The color of the button border.
   final Color? borderColor;
+
+  /// The size of the button.
+  final Size? size;
 
   /// Whether the button is selected.
   final bool isSelected;
@@ -99,7 +155,7 @@ class _TestColorButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         backgroundColor: color,
         foregroundColor: utils.getContrastColor(color),
-        fixedSize: _colorButtonSize,
+        fixedSize: size,
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         side: BorderSide(
