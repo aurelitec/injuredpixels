@@ -13,7 +13,7 @@ library;
 const String appName = 'InjuredPixels';
 
 // -----------------------------------------------------------------------------------------------
-// Home Screen (Test Screen)
+// Test Screen (Home Screen)
 // -----------------------------------------------------------------------------------------------
 
 const String helpMenuItem = 'Online Help';

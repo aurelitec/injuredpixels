@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../common/preferences.dart' as prefs;
 import 'common/strings.dart' as strings;
 import 'common/theme.dart';
-import 'screens/home_screen.dart';
+import 'screens/test_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ class InjuredPixelsApp extends StatelessWidget {
       theme: getAppTheme(),
       darkTheme: getAppTheme(),
 
-      home: const HomeScreen(),
+      home: const TestScreen(),
     );
   }
 }

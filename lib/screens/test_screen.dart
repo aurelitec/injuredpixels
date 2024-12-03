@@ -15,18 +15,19 @@ import '../utils/utils.dart' as utils;
 import '../widgets/on_screen_tip.dart';
 import '../widgets/test_control_panel.dart';
 
-/// The Test screen that shows a full-screen color to let the user inspect the display for defects.
+/// The home screen of the app.
 ///
-/// The screen allows the user to cycle through a list of test colors and to show/hide a control
-/// panel with color buttons to select the test color.
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+/// It's a test screen that shows a full-screen color to let the user inspect the display for
+/// defects, allows the user to cycle through a list of test colors, and to enter/exit an inspection
+/// mode that hides all UI elements except the color screen.
+class TestScreen extends StatefulWidget {
+  const TestScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<TestScreen> createState() => _TestScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TestScreenState extends State<TestScreen> {
   late final bool _mouseIsConnected;
 
   /// The focus node for the body of the screen, used to capture key events.
