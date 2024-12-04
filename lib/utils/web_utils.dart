@@ -14,4 +14,16 @@ void toggleFullscreen() async {
   }
 }
 
+void enterFullscreen() {
+  if (!isDocumentFullscreen()) {
+    document.documentElement?.requestFullscreen();
+  }
+}
+
+void exitFullscreen() {
+  if (isDocumentFullscreen()) {
+    document.exitFullscreen();
+  }
+}
+
 bool isDocumentFullscreen() => document.fullscreenElement != null;

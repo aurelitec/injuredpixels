@@ -29,13 +29,17 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  late final bool _mouseIsConnected;
+  /// Whether the mouse is connected to the device. Used to update the tip text terminology
+  /// ("click" or "tap").
+  bool _mouseIsConnected = false;
 
   /// The focus node for the body of the screen, used to capture key events.
   late final FocusNode _bodyFocusNode;
 
   /// Whether we are in inspection mode, which hides all UI elements except the color screen.
   bool _inInspectionMode = false;
+
+  bool _showInspectionModeTip = true;
 
   @override
   void initState() {
@@ -44,8 +48,6 @@ class _TestScreenState extends State<TestScreen> {
 
     // Disable the context menu on the web platform to be able to capture long press events
     if (kIsWeb) BrowserContextMenu.disableContextMenu();
-
-    _mouseIsConnected = WidgetsBinding.instance.mouseTracker.mouseIsConnected;
   }
 
   @override
@@ -94,22 +96,37 @@ class _TestScreenState extends State<TestScreen> {
         _nextColor();
         break;
       // Toggle the control panel visibility when the space key is pressed
+      // case LogicalKeyboardKey.space:
       case LogicalKeyboardKey.space:
         _toggleInspectionMode();
         break;
     }
   }
 
-  /// Toggles the inspection mode, which hides all UI elements except the color screen.
+  /// Toggles the inspection mode, which hides all UI elements and goes fullscreen.
   void _toggleInspectionMode() {
+    if (_inInspectionMode) {
+      // Update the mouse connection status to update the tip text terminology
+      _mouseIsConnected = WidgetsBinding.instance.mouseTracker.mouseIsConnected;
+    }
+
+    // If entering inspection mode, show the tip if it was not hidden permanently
+    if (!_showInspectionModeTip) {
+      setState(() => _showInspectionModeTip = prefs.showTip.value);
+    }
+
+    // Toggle the inspection mode state and update the UI by hiding or showing the controls
     setState(() => _inInspectionMode = !_inInspectionMode);
+
+    // Enter or exit fullscreen mode when entering or exiting inspection mode
+    _inInspectionMode ? web_utils.enterFullscreen() : web_utils.exitFullscreen();
   }
 
   /// Performs the actions of the app bar.
   void _onAction(_AppBarActions action) async {
     switch (action) {
-      case _AppBarActions.toggleFullscreen:
-        web_utils.toggleFullscreen();
+      case _AppBarActions.inspectionMode:
+        _toggleInspectionMode();
         break;
 
       case _AppBarActions.toggleTip:
@@ -180,19 +197,23 @@ class _TestScreenState extends State<TestScreen> {
                   onColorButtonPressed: _onColorButtonPressed,
                 ),
               ),
-
-              /// Show the tip text at the bottom of the screen
-              if (prefs.showTip.value)
-                Positioned(
-                  bottom: 32.0,
-                  left: 16.0,
-                  right: 16.0,
-                  child: OnScreenTip(
-                    text: strings.testScreenTip(_mouseIsConnected),
-                    foregroundColor: contrastColor,
-                  ),
-                ),
             ],
+
+            /// Show the tip text at the bottom of the screen
+            if (_inInspectionMode && _showInspectionModeTip)
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(32.0),
+                child: OnScreenTip(
+                  text: strings.testScreenTip(_mouseIsConnected),
+                  foregroundColor: contrastColor,
+                  onOkPressed: () => setState(() => _showInspectionModeTip = false),
+                  onDontShowAgainPressed: () => setState(() {
+                    prefs.showTip.value = false;
+                    _showInspectionModeTip = false;
+                  }),
+                ),
+              ),
           ],
         ),
       ),
@@ -202,7 +223,7 @@ class _TestScreenState extends State<TestScreen> {
 
 /// Enum that defines the actions of the app bar.
 enum _AppBarActions {
-  toggleFullscreen,
+  inspectionMode,
   toggleTip,
   help,
   support,
@@ -224,14 +245,11 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLargeScreen = MediaQuery.of(context).size.width > 600.0;
+    // final bool isLargeScreen = MediaQuery.of(context).size.width > 600.0;
 
     return AppBar(
       forceMaterialTransparency: true,
       foregroundColor: foregroundColor,
-      centerTitle: isLargeScreen,
-
-      title: const Text(strings.appName),
 
       // The common operations displayed in this app bar
       actions: <Widget>[
@@ -242,8 +260,8 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
             side: BorderSide(color: foregroundColor, width: 2.0),
             visualDensity: VisualDensity.comfortable,
           ),
-          onPressed: () => onAction(_AppBarActions.toggleFullscreen),
-          child: const Text(strings.toggleFullScreen),
+          onPressed: () => onAction(_AppBarActions.inspectionMode),
+          child: const Text(strings.inspectionModeButton),
         ),
 
         // Add the Popup Menu items
