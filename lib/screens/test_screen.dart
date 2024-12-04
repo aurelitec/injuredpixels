@@ -128,8 +128,10 @@ class _TestScreenState extends State<TestScreen> {
         _toggleInspectionMode();
         break;
 
-      case _AppBarActions.toggleTip:
-        setState(() => prefs.showInspectionModeTip.value = !prefs.showInspectionModeTip.value);
+      case _AppBarActions.toggleInspectionModeTip:
+        prefs.showInspectionModeTip.value = !prefs.showInspectionModeTip.value;
+        _showInspectionModeTip = prefs.showInspectionModeTip.value;
+        setState(() {});
         break;
 
       case _AppBarActions.help:
@@ -183,7 +185,7 @@ class _TestScreenState extends State<TestScreen> {
                 right: 0.0,
                 child: _AppBar(
                   foregroundColor: contrastColor,
-                  inspectionModeTipStatus: _showInspectionModeTip,
+                  inspectionModeTipStatus: prefs.showInspectionModeTip.value,
                   onAction: _onAction,
                 ),
               ),
@@ -223,7 +225,7 @@ class _TestScreenState extends State<TestScreen> {
 /// Enum that defines the actions of the app bar.
 enum _AppBarActions {
   inspectionMode,
-  toggleTip,
+  toggleInspectionModeTip,
   help,
   support,
   supportUs,
@@ -270,10 +272,19 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
           onSelected: onAction,
           itemBuilder: (BuildContext context) => <PopupMenuEntry<_AppBarActions>>[
             // The Inspection mode tip menu item
-            CheckedPopupMenuItem<_AppBarActions>(
-              value: _AppBarActions.toggleTip,
-              checked: inspectionModeTipStatus,
-              child: const Text(strings.inspectionModeTipMenuItem),
+            // CheckedPopupMenuItem<_AppBarActions>(
+            //   value: _AppBarActions.toggleInspectionModeTip,
+            //   checked: inspectionModeTipStatus,
+            //   child: const Text(strings.inspectionModeTipMenuItem),
+            // ),
+            PopupMenuItem<_AppBarActions>(
+              value: _AppBarActions.toggleInspectionModeTip,
+              child: ListTile(
+                title: const Text(strings.inspectionModeTipMenuItem),
+                trailing: inspectionModeTipStatus
+                    ? const Icon(Icons.check_box)
+                    : const Icon(Icons.check_box_outline_blank),
+              ),
             ),
 
             const PopupMenuDivider(),
