@@ -29,8 +29,7 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  /// Whether the mouse is connected to the device. Used to update the tip text terminology
-  /// ("click" or "tap").
+  /// Whether a mouse is connected. Used to update the tip text terminology ("click" or "tap").
   bool _mouseIsConnected = false;
 
   /// The focus node for the body of the screen, used to capture key events.
@@ -39,6 +38,7 @@ class _TestScreenState extends State<TestScreen> {
   /// Whether we are in inspection mode, which hides all UI elements except the color screen.
   bool _inInspectionMode = false;
 
+  /// Whether to show the inspection mode tip.
   bool _showInspectionModeTip = true;
 
   @override
@@ -80,7 +80,7 @@ class _TestScreenState extends State<TestScreen> {
     });
   }
 
-  /// Handles the key events for changing colors and toggling the control panel visibility.
+  /// Handles the key events for changing colors and toggling the inspection mode.
   void _handleKeys(KeyEvent event) {
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
       return;
@@ -95,8 +95,7 @@ class _TestScreenState extends State<TestScreen> {
       case LogicalKeyboardKey.arrowRight:
         _nextColor();
         break;
-      // Toggle the control panel visibility when the space key is pressed
-      // case LogicalKeyboardKey.space:
+      // Toggle the inspection mode when the space key is pressed
       case LogicalKeyboardKey.space:
         _toggleInspectionMode();
         break;
@@ -112,7 +111,7 @@ class _TestScreenState extends State<TestScreen> {
 
     // If entering inspection mode, show the tip if it was not hidden permanently
     if (!_showInspectionModeTip) {
-      setState(() => _showInspectionModeTip = prefs.showTip.value);
+      setState(() => _showInspectionModeTip = prefs.showInspectionModeTip.value);
     }
 
     // Toggle the inspection mode state and update the UI by hiding or showing the controls
@@ -130,7 +129,7 @@ class _TestScreenState extends State<TestScreen> {
         break;
 
       case _AppBarActions.toggleTip:
-        setState(() => prefs.showTip.value = !prefs.showTip.value);
+        setState(() => prefs.showInspectionModeTip.value = !prefs.showInspectionModeTip.value);
         break;
 
       case _AppBarActions.help:
@@ -155,8 +154,7 @@ class _TestScreenState extends State<TestScreen> {
     return Scaffold(
       backgroundColor: currentColor,
 
-      // Use a KeyboardListener to capture key events for cycling through test colors and toggling
-      // the control panel visibility
+      // Capture key events for cycling through test colors and toggling the inspection mode
       body: KeyboardListener(
         focusNode: _bodyFocusNode,
         autofocus: true,
@@ -165,12 +163,12 @@ class _TestScreenState extends State<TestScreen> {
           alignment: Alignment.center,
           children: <Widget>[
             // Fill the screen with a gesture detector to detect gestures for cycling through test
-            // colors and toggling the control panel visibility
+            // colors and toggling the inspection mode
             Positioned.fill(
               child: GestureDetector(
                 // Go to the next color on double tap and hide the cycle part of the tip
                 onDoubleTap: () => _nextColor(),
-                // Toggle the control panel visibility on long press and hide the control panel part of the tip
+                // Toggle the inspection mode on long press
                 onLongPress: () => _toggleInspectionMode(),
               ),
             ),
@@ -185,6 +183,7 @@ class _TestScreenState extends State<TestScreen> {
                 right: 0.0,
                 child: _AppBar(
                   foregroundColor: contrastColor,
+                  inspectionModeTipStatus: _showInspectionModeTip,
                   onAction: _onAction,
                 ),
               ),
@@ -199,7 +198,7 @@ class _TestScreenState extends State<TestScreen> {
               ),
             ],
 
-            /// Show the tip text at the bottom of the screen
+            /// Show the inspection mode tip when in inspection mode and the tip is not hidden
             if (_inInspectionMode && _showInspectionModeTip)
               Container(
                 alignment: Alignment.center,
@@ -209,7 +208,7 @@ class _TestScreenState extends State<TestScreen> {
                   foregroundColor: contrastColor,
                   onOkPressed: () => setState(() => _showInspectionModeTip = false),
                   onDontShowAgainPressed: () => setState(() {
-                    prefs.showTip.value = false;
+                    prefs.showInspectionModeTip.value = false;
                     _showInspectionModeTip = false;
                   }),
                 ),
@@ -234,19 +233,21 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
   const _AppBar({
     super.key, // ignore: unused_element
     required this.foregroundColor,
+    required this.inspectionModeTipStatus,
     required this.onAction,
   });
 
   /// The foreground color of the app bar used for the text and icons.
   final Color foregroundColor;
 
+  /// The status of the inspection mode tip menu item (checked or unchecked).
+  final bool inspectionModeTipStatus;
+
   /// The callback that is called when an app bar action is pressed.
   final void Function(_AppBarActions action) onAction;
 
   @override
   Widget build(BuildContext context) {
-    // final bool isLargeScreen = MediaQuery.of(context).size.width > 600.0;
-
     return AppBar(
       forceMaterialTransparency: true,
       foregroundColor: foregroundColor,
@@ -268,10 +269,11 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
         PopupMenuButton<_AppBarActions>(
           onSelected: onAction,
           itemBuilder: (BuildContext context) => <PopupMenuEntry<_AppBarActions>>[
-            // The Toggle tip menu item
-            PopupMenuItem<_AppBarActions>(
+            // The Inspection mode tip menu item
+            CheckedPopupMenuItem<_AppBarActions>(
               value: _AppBarActions.toggleTip,
-              child: Text(strings.showTipMenuItem(!prefs.showTip.value)),
+              checked: inspectionModeTipStatus,
+              child: const Text(strings.inspectionModeTipMenuItem),
             ),
 
             const PopupMenuDivider(),

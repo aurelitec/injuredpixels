@@ -17,19 +17,12 @@ const String appName = 'InjuredPixels';
 // -----------------------------------------------------------------------------------------------
 
 const String inspectionModeButton = 'Inspection Mode';
-String showTipMenuItem(bool show) => show ? 'Show tip' : 'Hide tip';
+const String inspectionModeTipMenuItem = 'Inspection mode tip';
 const String helpMenuItem = 'Online help';
 const String supportMenuItem = 'Contact support';
 const String supportUsMenuItem = 'Support us';
 
-// String testScreenTip(bool mouseIsConnected) =>
-//     '<b>Long ${mouseIsConnected ? 'click' : 'tap'}</b> the color screen or press <b>Space</b> to toggle inspection mode. <b>Double ${mouseIsConnected ? 'click' : 'tap'}</b> or use <b>arrow keys</b> to cycle colors. <b>Go fullscreen</b> to inspect all pixels.';
-
-// String testScreenTip(bool mouseIsConnected) =>
-//     '<b>Long ${mouseIsConnected ? 'click' : 'tap'}</b> the color screen or press <b>Space</b> to toggle inspection mode. <b>Double ${mouseIsConnected ? 'click' : 'tap'}</b> or use <b>arrow keys</b> to cycle colors. Make sure you are running the app in <b>fullscreen mode</b> to inspect all pixels.';
-
 String testScreenTip(bool mouseIsConnected) =>
     '<b>Long ${mouseIsConnected ? 'click' : 'tap'}</b> the color screen or press <b>Space</b> to toggle inspection mode. <b>Double ${mouseIsConnected ? 'click' : 'tap'}</b> or use <b>arrow keys</b> to cycle colors. Run the app <b>fullscreen</b> to inspect all pixels.';
-
 const String okButton = 'OK';
 const String dontShowAgainButton = 'Don\'t show again';

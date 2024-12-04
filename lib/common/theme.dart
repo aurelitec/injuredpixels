@@ -21,10 +21,5 @@ ThemeData getAppTheme(Brightness brightness) {
     dividerTheme: DividerThemeData(
       color: contrastColor,
     ),
-    // appBarTheme: const AppBarTheme(
-    //   actionsIconTheme: IconThemeData(
-    //     size: 32.0,
-    //   ),
-    // ),
   );
 }

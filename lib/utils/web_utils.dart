@@ -3,27 +3,24 @@
 // See the LICENSE file in the project root for license information.
 // @author TechAurelian <dev@techaurelian.com> (https://techaurelian.com)
 
+/// Web utilities for the InjuredPixels web app.
+library;
+
 import 'package:web/web.dart';
 
-/// Toggles the fullscreen mode of the web app.
-void toggleFullscreen() async {
-  if (isDocumentFullscreen()) {
-    document.exitFullscreen();
-  } else {
-    document.documentElement?.requestFullscreen();
-  }
-}
-
+/// Makes the web app go fullscreen.
 void enterFullscreen() {
   if (!isDocumentFullscreen()) {
     document.documentElement?.requestFullscreen();
   }
 }
 
+/// Makes the web app exit fullscreen.
 void exitFullscreen() {
   if (isDocumentFullscreen()) {
     document.exitFullscreen();
   }
 }
 
+/// Returns whether the web app is in fullscreen mode.
 bool isDocumentFullscreen() => document.fullscreenElement != null;
