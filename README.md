@@ -1,4 +1,4 @@
-# injuredpixels
+# InjuredPixels
 
 A new Flutter project.
 
