@@ -27,3 +27,4 @@ dist-ssr
 .claude
 .temp
 .vscode/mcp.json
+.specs
