@@ -1,10 +1,12 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
 import { TEST_COLORS, COLOR_COUNT, type ColorIndex } from './constants/colors';
 import { ColorBackground } from './components/color-background';
 import { ControlPanel } from './components/control-panel';
 import { ColorSwatches } from './components/color-swatches';
 import { ActionToolbar } from './components/action-toolbar';
 import { HelpButton } from './components/help-button';
+import { HelpDialog } from './components/help-dialog';
+import { Toast } from './components/toast';
 import { useLocalStorage } from './hooks/use-local-storage';
 import { useFullscreen } from './hooks/use-fullscreen';
 import { useReducedMotion } from './hooks/use-reduced-motion';
@@ -13,6 +15,9 @@ import { useKeyboardShortcuts } from './hooks/use-keyboard-shortcuts';
 /** localStorage key for persisting color selection */
 const STORAGE_KEY = 'injuredpixels-color';
 
+/** Toast message shown when panel is hidden for the first time */
+const PANEL_HINT_MESSAGE = 'Press Space, right-click, or touch and hold to show panel';
+
 function App() {
   // Persisted state: last selected color
   const [colorIndex, setColorIndex] = useLocalStorage<ColorIndex>(STORAGE_KEY, 0);
@@ -20,6 +25,10 @@ function App() {
   // UI state (not persisted)
   const [panelVisible, setPanelVisible] = useState(true);
   const [helpOpen, setHelpOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Session flag: has the panel hint been shown this session?
+  const hasShownPanelHintRef = useRef(false);
 
   // Hooks
   const { isFullscreen, toggleFullscreen } = useFullscreen();
@@ -29,7 +38,6 @@ function App() {
   const currentColor = TEST_COLORS[colorIndex];
 
   // --- Centralized Handlers ---
-  // These are passed to both useKeyboardShortcuts and UI components
 
   const handleSelectColor = useCallback((index: ColorIndex) => {
     setColorIndex(index);
@@ -44,7 +52,24 @@ function App() {
   }, [setColorIndex]);
 
   const handleTogglePanel = useCallback(() => {
-    setPanelVisible((prev) => !prev);
+    setPanelVisible((prev) => {
+      const willBeHidden = prev; // If currently visible, will become hidden
+
+      // Handle toast logic based on visibility change
+      // Using setTimeout(0) to batch state updates properly
+      if (willBeHidden && !hasShownPanelHintRef.current) {
+        hasShownPanelHintRef.current = true;
+        setTimeout(() => setToastMessage(PANEL_HINT_MESSAGE), 0);
+      } else if (!willBeHidden) {
+        setTimeout(() => {
+          setToastMessage((current) =>
+            current === PANEL_HINT_MESSAGE ? null : current
+          );
+        }, 0);
+      }
+
+      return !prev;
+    });
   }, []);
 
   const handleToggleFullscreen = useCallback(() => {
@@ -53,6 +78,10 @@ function App() {
 
   const handleToggleHelp = useCallback(() => {
     setHelpOpen((prev) => !prev);
+  }, []);
+
+  const handleDismissToast = useCallback(() => {
+    setToastMessage(null);
   }, []);
 
   // ColorBackground event handlers
@@ -102,43 +131,14 @@ function App() {
         />
       </ControlPanel>
 
-      {/* HelpDialog and Toast will be added in Phase 4 */}
-      {helpOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-          onClick={handleToggleHelp}
-        >
-          <div
-            className="bg-white p-6 rounded-dialog shadow-dialog max-w-sm"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-lg font-semibold mb-4">Keyboard Shortcuts</h2>
-            <dl className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <dt className="font-mono">1-8</dt>
-                <dd>Select color</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="font-mono">← →</dt>
-                <dd>Cycle colors</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="font-mono">F</dt>
-                <dd>Fullscreen</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="font-mono">Space</dt>
-                <dd>Toggle panel</dd>
-              </div>
-            </dl>
-            <button
-              onClick={handleToggleHelp}
-              className="mt-4 w-full py-2 bg-gray-100 hover:bg-gray-200 rounded"
-            >
-              Close
-            </button>
-          </div>
-        </div>
+      <HelpDialog open={helpOpen} onClose={handleToggleHelp} reducedMotion={reducedMotion} />
+
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          onDismiss={handleDismissToast}
+          reducedMotion={reducedMotion}
+        />
       )}
     </>
   );

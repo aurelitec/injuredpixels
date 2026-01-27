@@ -28,3 +28,4 @@ dist-ssr
 .temp
 .vscode/mcp.json
 .specs
+.playwright-mcp/

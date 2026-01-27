@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 interface ControlPanelProps {
-  /** Whether the panel is visible */
+  /** Whether the panel should be visible */
   visible: boolean;
   /** Panel content (swatches, toolbar, help button) */
   children: ReactNode;
@@ -11,16 +11,49 @@ interface ControlPanelProps {
 
 /**
  * Control panel container - centered on screen with shadow.
- * Handles entry/exit animations based on visibility.
+ * Handles entry/exit animations with proper mount/unmount timing.
  */
-export function ControlPanel({
-  visible,
-  children,
-  reducedMotion,
-}: ControlPanelProps) {
-  // When not visible, don't render at all (for Phase 2, no animations yet)
-  if (!visible) {
+export function ControlPanel({ visible, children, reducedMotion }: ControlPanelProps) {
+  // Track whether panel is mounted (stays true during exit animation)
+  const [isMounted, setIsMounted] = useState(visible);
+
+  // When visible becomes true, ensure we're mounted
+  if (visible && !isMounted) {
+    setIsMounted(true);
+  }
+
+  // Handle animation end - unmount after exit animation completes
+  const handleAnimationEnd = () => {
+    if (!visible) {
+      setIsMounted(false);
+    }
+  };
+
+  // For reduced motion: sync mount state with visibility immediately
+  if (reducedMotion && isMounted !== visible) {
+    setIsMounted(visible);
+  }
+
+  // Don't render if not mounted
+  if (!isMounted) {
     return null;
+  }
+
+  // Determine animation
+  const isEntering = visible;
+  const isExiting = !visible && isMounted;
+
+  let animationStyle: React.CSSProperties = {};
+  if (!reducedMotion) {
+    if (isEntering) {
+      animationStyle = {
+        animation: 'panel-enter var(--duration-panel-in) var(--ease-panel-in) forwards',
+      };
+    } else if (isExiting) {
+      animationStyle = {
+        animation: 'panel-exit var(--duration-panel-out) var(--ease-panel-out) forwards',
+      };
+    }
   }
 
   return (
@@ -31,14 +64,8 @@ export function ControlPanel({
     >
       <div
         className="relative rounded-panel shadow-panel pointer-events-auto"
-        style={{
-          // Animation will be added in Phase 4
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'scale(1)' : 'scale(0.95)',
-          transition: reducedMotion
-            ? 'none'
-            : `opacity var(--duration-panel-in) var(--ease-panel-in), transform var(--duration-panel-in) var(--ease-panel-in)`,
-        }}
+        style={animationStyle}
+        onAnimationEnd={handleAnimationEnd}
       >
         {children}
       </div>
