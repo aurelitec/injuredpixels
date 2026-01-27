@@ -26,7 +26,7 @@ export function ColorSwatch({
       aria-pressed={isSelected}
     >
       <div
-        className="w-swatch h-swatch min-w-swatch-min min-h-swatch-min rounded-swatch border border-swatch-border transition-shadow"
+        className="w-swatch h-swatch min-w-swatch min-h-swatch rounded-swatch border border-swatch-border transition-shadow"
         style={{
           backgroundColor: color.hex,
           ...(isSelected && {

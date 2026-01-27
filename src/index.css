@@ -38,7 +38,7 @@
   --shadow-swatch-selected: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 
   /* =========================
-     SPACING
+     SPACING (--spacing-* → gap-*, p-*, m-*)
      ========================= */
 
   --spacing-swatch-gap: 0.5rem;
@@ -46,12 +46,15 @@
   --spacing-toolbar-gap: 0.5rem;
 
   /* =========================
-     SIZING
+     SIZING (--width-* → w-*, --height-* → h-*)
      ========================= */
 
-  --size-swatch: 3.5rem;
-  --size-swatch-min: 3rem;
-  --size-touch-target: 3rem;
+  --width-swatch: 3.5rem;
+  --height-swatch: 3.5rem;
+  --min-width-swatch: 3rem;
+  --min-height-swatch: 3rem;
+  --width-touch-target: 3rem;
+  --height-touch-target: 3rem;
 
   /* =========================
      BORDER RADIUS
