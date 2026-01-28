@@ -21,6 +21,9 @@ function portableHtmlPlugin(): Plugin {
     closeBundle() {
       const html = readFileSync(resolve(__dirname, 'index.html'), 'utf-8');
 
+      // In app mode, Vite auto-injects CSS and JS into HTML. Library mode skips
+      // HTML processing, so we manually add both: the CSS (normally injected by
+      // Vite from `import './index.css'` in main.tsx) and the IIFE script.
       const transformed = html
         .replace(
           '<script type="module" src="/src/main.tsx"></script>',
