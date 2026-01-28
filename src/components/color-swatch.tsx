@@ -32,7 +32,7 @@ export function ColorSwatch({
       aria-label={`${color.name} color${isSelected ? ' (selected)' : ''}`}
       aria-pressed={isSelected}
     >
-      <span className="text-base font-medium select-none">{color.name}</span>
+      <span className="text-sm font-bold select-none">{color.name}</span>
     </button>
   );
 }

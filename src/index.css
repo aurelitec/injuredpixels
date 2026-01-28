@@ -42,8 +42,8 @@
      ========================= */
 
   --spacing-swatch-gap: 1rem;
-  --spacing-panel-padding: 2.5rem;
-  --spacing-toolbar-gap: 0.5rem;
+  --spacing-panel-padding: 2rem;
+  --spacing-toolbar-gap: 1rem;
 
   /* =========================
      SIZING (--width-* → w-*, --height-* → h-*)

@@ -23,7 +23,7 @@ export function ToolbarButton({
       type="button"
       onClick={onClick}
       aria-label={ariaLabel ?? label}
-      className="flex items-center gap-1.5 px-3 py-2 text-sm text-toolbar-text rounded-button hover:bg-toolbar-hover active:bg-toolbar-active focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-panel-toolbar transition-colors"
+      className="flex items-center gap-2 rounded-button px-3 py-2 text-sm font-medium text-toolbar-text transition-colors hover:bg-toolbar-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-panel-toolbar active:bg-toolbar-active"
     >
       <span className="text-lg">{icon}</span>
       <span>{label}</span>
