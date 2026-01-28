@@ -4,7 +4,6 @@ import { ColorBackground } from './components/color-background';
 import { ControlPanel } from './components/control-panel';
 import { ColorSwatches } from './components/color-swatches';
 import { ActionToolbar } from './components/action-toolbar';
-import { HelpButton } from './components/help-button';
 import { HelpDialog } from './components/help-dialog';
 import { Toast } from './components/toast';
 import { useLocalStorage } from './hooks/use-local-storage';
@@ -131,13 +130,13 @@ function App() {
       />
 
       <ControlPanel visible={panelVisible} reducedMotion={reducedMotion}>
-        <HelpButton onClick={handleToggleHelp} />
         <ColorSwatches selectedIndex={colorIndex} onSelect={handleSelectColor} />
         <ActionToolbar
           onPrevious={handlePrevious}
           onNext={handleNext}
           onFullscreen={handleToggleFullscreen}
           onTogglePanel={handleTogglePanel}
+          onHelp={handleToggleHelp}
           isFullscreen={isFullscreen}
         />
       </ControlPanel>
