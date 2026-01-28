@@ -30,8 +30,13 @@ function App() {
   // Session flag: has the panel hint been shown this session?
   const hasShownPanelHintRef = useRef(false);
 
+  // Show panel when exiting fullscreen (e.g., user presses Escape as "panic recovery")
+  const handleFullscreenExit = useCallback(() => {
+    setPanelVisible(true);
+  }, []);
+
   // Hooks
-  const { isFullscreen, toggleFullscreen } = useFullscreen();
+  const { isFullscreen, toggleFullscreen } = useFullscreen({ onExit: handleFullscreenExit });
   const reducedMotion = useReducedMotion();
 
   // Derived state
@@ -80,6 +85,10 @@ function App() {
     setHelpOpen((prev) => !prev);
   }, []);
 
+  const handleShowPanel = useCallback(() => {
+    setPanelVisible(true);
+  }, []);
+
   const handleDismissToast = useCallback(() => {
     setToastMessage(null);
   }, []);
@@ -96,6 +105,7 @@ function App() {
       onNext: handleNext,
       onToggleFullscreen: handleToggleFullscreen,
       onTogglePanel: handleTogglePanel,
+      onShowPanel: handleShowPanel,
       onToggleHelp: handleToggleHelp,
     }),
     [
@@ -104,6 +114,7 @@ function App() {
       handleNext,
       handleToggleFullscreen,
       handleTogglePanel,
+      handleShowPanel,
       handleToggleHelp,
     ]
   );

@@ -7,6 +7,7 @@ interface KeyboardHandlers {
   onNext: () => void;
   onToggleFullscreen: () => void;
   onTogglePanel: () => void;
+  onShowPanel: () => void;
   onToggleHelp: () => void;
 }
 
@@ -18,6 +19,7 @@ interface KeyboardHandlers {
  * - ← / →: Previous / Next color
  * - F: Toggle fullscreen
  * - Space: Toggle panel visibility
+ * - Escape: Show panel (if hidden) + browser exits fullscreen
  * - ?: Show help dialog
  */
 export function useKeyboardShortcuts(handlers: KeyboardHandlers): void {
@@ -62,6 +64,11 @@ export function useKeyboardShortcuts(handlers: KeyboardHandlers): void {
         case '?':
           event.preventDefault();
           handlers.onToggleHelp();
+          break;
+
+        case 'Escape':
+          // Show panel if hidden - don't preventDefault so browser can exit fullscreen
+          handlers.onShowPanel();
           break;
       }
     };

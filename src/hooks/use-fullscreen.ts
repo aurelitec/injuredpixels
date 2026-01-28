@@ -1,4 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+
+interface UseFullscreenOptions {
+  /** Called when exiting fullscreen (via Escape key or programmatically) */
+  onExit?: () => void;
+}
 
 interface UseFullscreenReturn {
   isFullscreen: boolean;
@@ -11,16 +16,26 @@ interface UseFullscreenReturn {
  * Hook that wraps the Fullscreen API with React state synchronization.
  * Listens for fullscreenchange events to update state when user exits via Escape.
  */
-export function useFullscreen(): UseFullscreenReturn {
+export function useFullscreen(options?: UseFullscreenOptions): UseFullscreenReturn {
   const [isFullscreen, setIsFullscreen] = useState(() => {
     if (typeof document === 'undefined') return false;
     return document.fullscreenElement !== null;
   });
 
+  // Use ref for callback to avoid re-running effect when callback changes
+  const onExitRef = useRef(options?.onExit);
+  onExitRef.current = options?.onExit;
+
   // Sync state when fullscreen changes (e.g., user presses Escape)
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullscreen(document.fullscreenElement !== null);
+      const isNowFullscreen = document.fullscreenElement !== null;
+      setIsFullscreen(isNowFullscreen);
+
+      // Call onExit when transitioning from fullscreen to non-fullscreen
+      if (!isNowFullscreen && onExitRef.current) {
+        onExitRef.current();
+      }
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
