@@ -16,7 +16,7 @@ import { useKeyboardShortcuts } from './hooks/use-keyboard-shortcuts';
 const STORAGE_KEY = 'injuredpixels-color';
 
 /** Toast message shown when panel is hidden for the first time */
-const PANEL_HINT_MESSAGE = 'Press Space, right-click, or touch and hold to show panel';
+const PANEL_HINT_MESSAGE = 'Press Space or Escape, right-click, or touch and hold to show panel';
 
 function App() {
   // Persisted state: last selected color

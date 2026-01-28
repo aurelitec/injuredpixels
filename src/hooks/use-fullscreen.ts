@@ -32,7 +32,7 @@ export function useFullscreen(options?: UseFullscreenOptions): UseFullscreenRetu
       const isNowFullscreen = document.fullscreenElement !== null;
       setIsFullscreen(isNowFullscreen);
 
-      // Call onExit when transitioning from fullscreen to non-fullscreen
+      // Call onExit when exiting fullscreen (fullscreenElement becomes null)
       if (!isNowFullscreen && onExitRef.current) {
         onExitRef.current();
       }
