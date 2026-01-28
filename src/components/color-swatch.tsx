@@ -11,7 +11,7 @@ interface ColorSwatchProps {
   onClick: () => void;
 }
 
-/** Individual color swatch with label and selected state indicator */
+/** Individual color swatch with label inside and selected state indicator */
 export function ColorSwatch({
   color,
   isSelected,
@@ -21,20 +21,18 @@ export function ColorSwatch({
     <button
       type="button"
       onClick={onClick}
-      className="flex flex-col items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2"
+      className="w-swatch h-swatch min-w-swatch min-h-swatch rounded-swatch border border-swatch-border transition-shadow flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2"
+      style={{
+        backgroundColor: color.hex,
+        color: color.contrastBorder,
+        ...(isSelected && {
+          boxShadow: `var(--shadow-swatch-selected), 0 0 0 2px ${color.contrastBorder}`,
+        }),
+      }}
       aria-label={`${color.name} color${isSelected ? ' (selected)' : ''}`}
       aria-pressed={isSelected}
     >
-      <div
-        className="w-swatch h-swatch min-w-swatch min-h-swatch rounded-swatch border border-swatch-border transition-shadow"
-        style={{
-          backgroundColor: color.hex,
-          ...(isSelected && {
-            boxShadow: `var(--shadow-swatch-selected), 0 0 0 2px ${color.contrastBorder}`,
-          }),
-        }}
-      />
-      <span className="text-xs text-gray-700 select-none">{color.name}</span>
+      <span className="text-[11px] font-medium select-none">{color.name}</span>
     </button>
   );
 }
