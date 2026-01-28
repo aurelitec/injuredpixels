@@ -30,3 +30,4 @@ dist-portable
 .vscode/mcp.json
 .specs
 .playwright-mcp/
+.ai-threads
