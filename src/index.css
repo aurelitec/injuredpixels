@@ -41,7 +41,7 @@
      SPACING (--spacing-* → gap-*, p-*, m-*)
      ========================= */
 
-  --spacing-swatch-gap: 0.5rem;
+  --spacing-swatch-gap: 1rem;
   --spacing-panel-padding: 2.5rem;
   --spacing-toolbar-gap: 0.5rem;
 
@@ -49,8 +49,8 @@
      SIZING (--width-* → w-*, --height-* → h-*)
      ========================= */
 
-  --width-swatch: 3.5rem;
-  --height-swatch: 3.5rem;
+  --width-swatch: 5rem;
+  --height-swatch: 5rem;
   --min-width-swatch: 3rem;
   --min-height-swatch: 3rem;
   --width-touch-target: 3rem;
