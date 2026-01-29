@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:portable": "tsc -b && vite build --config vite.config.portable.ts",
+    "build:portable": "tsc -b && vite build --config vite.config.portable.ts && cp portable/* dist-portable/",
     "clean": "rm -rf dist dist-portable",
     "lint": "eslint .",
     "preview": "vite preview"
