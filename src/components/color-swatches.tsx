@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2009-2026 Aurelitec
+ * https://www.aurelitec.com/injuredpixels/
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
+
 import { TEST_COLORS, type ColorIndex } from '../constants/colors';
 import { ColorSwatch } from './color-swatch';
 

@@ -1,4 +1,10 @@
 /**
+ * Copyright (c) 2009-2026 Aurelitec
+ * https://www.aurelitec.com/injuredpixels/
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
+
+/**
  * Centralized UI strings for InjuredPixels.
  * All user-visible text should be defined here to support language review
  * and future localization.

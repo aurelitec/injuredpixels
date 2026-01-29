@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2009-2026 Aurelitec
+ * https://www.aurelitec.com/injuredpixels/
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
+
 import { useState, useCallback, useMemo, useRef } from 'react';
 import { TEST_COLORS, COLOR_COUNT, type ColorIndex } from './constants/colors';
 import { ColorBackground } from './components/color-background';
