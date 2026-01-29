@@ -60,25 +60,16 @@ function App() {
   }, [setColorIndex]);
 
   const handleTogglePanel = useCallback(() => {
-    setPanelVisible((prev) => {
-      const willBeHidden = prev; // If currently visible, will become hidden
-
-      // Handle toast logic based on visibility change
-      // Using setTimeout(0) to batch state updates properly
-      if (willBeHidden && !hasShownPanelHintRef.current) {
-        hasShownPanelHintRef.current = true;
-        setTimeout(() => setToastMessage(strings.PANEL_HINT), 0);
-      } else if (!willBeHidden) {
-        setTimeout(() => {
-          setToastMessage((current) =>
-            current === strings.PANEL_HINT ? null : current
-          );
-        }, 0);
-      }
-
-      return !prev;
-    });
-  }, []);
+    if (panelVisible && !hasShownPanelHintRef.current) {
+      hasShownPanelHintRef.current = true;
+      setToastMessage(strings.PANEL_HINT);
+    } else if (!panelVisible) {
+      setToastMessage((current) =>
+        current === strings.PANEL_HINT ? null : current
+      );
+    }
+    setPanelVisible((prev) => !prev);
+  }, [panelVisible]);
 
   const handleToggleFullscreen = useCallback(() => {
     toggleFullscreen();

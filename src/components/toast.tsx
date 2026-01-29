@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { XIcon } from './icons';
 import * as strings from '../constants/strings';
 
@@ -29,17 +29,10 @@ export function Toast({
   duration = 4500,
   reducedMotion = false,
 }: ToastProps) {
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   // Auto-dismiss after duration
   useEffect(() => {
-    timerRef.current = setTimeout(onDismiss, duration);
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
+    const timer = setTimeout(onDismiss, duration);
+    return () => clearTimeout(timer);
   }, [duration, onDismiss]);
 
   const animationStyle = reducedMotion
