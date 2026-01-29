@@ -1,4 +1,5 @@
 import type { TestColor, ColorIndex } from '../types';
+import * as strings from '../constants/strings';
 
 interface ColorSwatchProps {
   /** Color definition from TEST_COLORS */
@@ -29,7 +30,7 @@ export function ColorSwatch({
           boxShadow: `var(--shadow-swatch-selected), 0 0 0 2px ${color.contrastColor}`,
         }),
       }}
-      aria-label={`${color.name} color${isSelected ? ' (selected)' : ''}`}
+      aria-label={strings.COLOR_LABEL(color.name, isSelected)}
       aria-pressed={isSelected}
     >
       <span className="text-sm font-bold select-none">{color.name}</span>

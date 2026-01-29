@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { XIcon } from './icons';
+import * as strings from '../constants/strings';
 
 interface ToastProps {
   /** Toast message content */
@@ -54,7 +55,7 @@ export function Toast({
       <button
         onClick={onDismiss}
         className="shrink-0 p-1 rounded hover:bg-white/10 transition-colors"
-        aria-label="Dismiss"
+        aria-label={strings.DISMISS}
       >
         <XIcon className="w-4 h-4" />
       </button>

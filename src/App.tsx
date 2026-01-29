@@ -10,12 +10,10 @@ import { useLocalStorage } from './hooks/use-local-storage';
 import { useFullscreen } from './hooks/use-fullscreen';
 import { useReducedMotion } from './hooks/use-reduced-motion';
 import { useKeyboardShortcuts } from './hooks/use-keyboard-shortcuts';
+import * as strings from './constants/strings';
 
 /** localStorage key for persisting color selection */
 const STORAGE_KEY = 'injuredpixels-color';
-
-/** Toast message shown when panel is hidden for the first time */
-const PANEL_HINT_MESSAGE = 'Press Space or Escape, right-click, or touch and hold to show panel';
 
 function App() {
   // Persisted state: last selected color
@@ -63,11 +61,11 @@ function App() {
       // Using setTimeout(0) to batch state updates properly
       if (willBeHidden && !hasShownPanelHintRef.current) {
         hasShownPanelHintRef.current = true;
-        setTimeout(() => setToastMessage(PANEL_HINT_MESSAGE), 0);
+        setTimeout(() => setToastMessage(strings.PANEL_HINT), 0);
       } else if (!willBeHidden) {
         setTimeout(() => {
           setToastMessage((current) =>
-            current === PANEL_HINT_MESSAGE ? null : current
+            current === strings.PANEL_HINT ? null : current
           );
         }, 0);
       }

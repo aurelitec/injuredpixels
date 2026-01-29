@@ -1,0 +1,54 @@
+/**
+ * Centralized UI strings for InjuredPixels.
+ * All user-visible text should be defined here to support language review
+ * and future localization.
+ */
+
+// --- Toast messages ---
+export const PANEL_HINT =
+  'Press Space or Escape, right-click, or touch and hold to show panel';
+
+// --- Action toolbar buttons ---
+export const PREVIOUS = 'Previous';
+export const NEXT = 'Next';
+export const FULLSCREEN = 'Fullscreen';
+export const ENTER_FULLSCREEN = 'Enter fullscreen';
+export const EXIT_FULLSCREEN = 'Exit fullscreen';
+export const TOGGLE_PANEL = 'Toggle this panel';
+export const HIDE_CONTROL_PANEL = 'Hide control panel';
+export const HELP = 'Help';
+
+// --- Help dialog ---
+export const CLOSE = 'Close';
+export const SECTION_KEYBOARD = 'Keyboard';
+export const SECTION_MOUSE = 'Mouse';
+export const SECTION_TOUCH = 'Touch';
+
+// Shortcut keys (left column)
+export const KEYS_NUMBERS = '1-8';
+export const KEYS_ARROWS = '← →';
+export const KEYS_F = 'F';
+export const KEYS_SPACE = 'Space';
+export const KEYS_ESC = 'Esc';
+export const KEYS_DOUBLE_CLICK = 'Double-click';
+export const KEYS_RIGHT_CLICK = 'Right-click';
+export const KEYS_DOUBLE_TAP = 'Double-tap';
+export const KEYS_TOUCH_HOLD = 'Touch and hold';
+
+// Shortcut descriptions (right column)
+export const DESC_JUMP_TO_COLOR = 'Jump to color';
+export const DESC_CYCLE_COLORS = 'Cycle colors';
+export const DESC_FULLSCREEN = 'Fullscreen';
+export const DESC_TOGGLE_PANEL = 'Toggle panel';
+export const DESC_EXIT_FULLSCREEN = 'Exit fullscreen';
+export const DESC_NEXT_COLOR = 'Next color';
+
+// --- Control panel ---
+export const CONTROL_PANEL = 'Control panel';
+
+// --- Color swatch ---
+export const COLOR_LABEL = (name: string, isSelected: boolean) =>
+  `${name} color${isSelected ? ' (selected)' : ''}`;
+
+// --- Toast ---
+export const DISMISS = 'Dismiss';

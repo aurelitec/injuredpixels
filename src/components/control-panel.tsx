@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import * as strings from '../constants/strings';
 
 interface ControlPanelProps {
   /** Whether the panel should be visible */
@@ -60,7 +61,7 @@ export function ControlPanel({ visible, children, reducedMotion }: ControlPanelP
     <div
       className="fixed inset-0 flex items-center justify-center pointer-events-none"
       role="dialog"
-      aria-label="Control panel"
+      aria-label={strings.CONTROL_PANEL}
     >
       <div
         className="relative rounded-panel shadow-panel pointer-events-auto"

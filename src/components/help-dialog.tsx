@@ -1,4 +1,5 @@
 import { XIcon } from './icons';
+import * as strings from '../constants/strings';
 
 interface HelpDialogProps {
   /** Whether the dialog is open */
@@ -55,35 +56,35 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
         style={dialogAnimation}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
-        aria-label="Help"
+        aria-label={strings.HELP}
         aria-modal="true"
       >
         {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-3 right-3 p-1.5 rounded hover:bg-gray-100 transition-colors"
-          aria-label="Close"
+          aria-label={strings.CLOSE}
         >
           <XIcon className="w-5 h-5 text-gray-500" />
         </button>
 
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Help</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">{strings.HELP}</h2>
 
         <dl className="space-y-1.5 text-sm">
-          <SectionHeader>Keyboard</SectionHeader>
-          <ShortcutRow keys="1-8" description="Jump to color" />
-          <ShortcutRow keys="← →" description="Cycle colors" />
-          <ShortcutRow keys="F" description="Fullscreen" />
-          <ShortcutRow keys="Space" description="Toggle panel" />
-          <ShortcutRow keys="Esc" description="Exit fullscreen" />
+          <SectionHeader>{strings.SECTION_KEYBOARD}</SectionHeader>
+          <ShortcutRow keys={strings.KEYS_NUMBERS} description={strings.DESC_JUMP_TO_COLOR} />
+          <ShortcutRow keys={strings.KEYS_ARROWS} description={strings.DESC_CYCLE_COLORS} />
+          <ShortcutRow keys={strings.KEYS_F} description={strings.DESC_FULLSCREEN} />
+          <ShortcutRow keys={strings.KEYS_SPACE} description={strings.DESC_TOGGLE_PANEL} />
+          <ShortcutRow keys={strings.KEYS_ESC} description={strings.DESC_EXIT_FULLSCREEN} />
 
-          <SectionHeader>Mouse</SectionHeader>
-          <ShortcutRow keys="Double-click" description="Next color" />
-          <ShortcutRow keys="Right-click" description="Toggle panel" />
+          <SectionHeader>{strings.SECTION_MOUSE}</SectionHeader>
+          <ShortcutRow keys={strings.KEYS_DOUBLE_CLICK} description={strings.DESC_NEXT_COLOR} />
+          <ShortcutRow keys={strings.KEYS_RIGHT_CLICK} description={strings.DESC_TOGGLE_PANEL} />
 
-          <SectionHeader>Touch</SectionHeader>
-          <ShortcutRow keys="Double-tap" description="Next color" />
-          <ShortcutRow keys="Touch and hold" description="Toggle panel" />
+          <SectionHeader>{strings.SECTION_TOUCH}</SectionHeader>
+          <ShortcutRow keys={strings.KEYS_DOUBLE_TAP} description={strings.DESC_NEXT_COLOR} />
+          <ShortcutRow keys={strings.KEYS_TOUCH_HOLD} description={strings.DESC_TOGGLE_PANEL} />
         </dl>
       </div>
     </div>

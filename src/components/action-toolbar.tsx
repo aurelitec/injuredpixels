@@ -7,6 +7,7 @@ import {
   HelpCircleIcon,
 } from './icons';
 import { ToolbarButton } from './toolbar-button';
+import * as strings from '../constants/strings';
 
 interface ActionToolbarProps {
   /** Called when Previous button is clicked */
@@ -38,32 +39,32 @@ export function ActionToolbar({
       <div className="flex items-center gap-toolbar-gap">
         <ToolbarButton
           icon={<ChevronLeftIcon />}
-          label="Previous"
+          label={strings.PREVIOUS}
           onClick={onPrevious}
         />
         <ToolbarButton
           icon={<ChevronRightIcon />}
-          label="Next"
+          label={strings.NEXT}
           onClick={onNext}
         />
         <ToolbarButton
           icon={isFullscreen ? <MinimizeIcon /> : <MaximizeIcon />}
-          label="Fullscreen"
+          label={strings.FULLSCREEN}
           onClick={onFullscreen}
-          ariaLabel={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          ariaLabel={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
         />
         <ToolbarButton
           icon={<MenuIcon />}
-          label="Toggle this panel"
+          label={strings.TOGGLE_PANEL}
           onClick={onTogglePanel}
-          ariaLabel="Hide control panel"
+          ariaLabel={strings.HIDE_CONTROL_PANEL}
         />
       </div>
 
       {/* Help - right side */}
       <ToolbarButton
         icon={<HelpCircleIcon />}
-        label="Help"
+        label={strings.HELP}
         onClick={onHelp}
       />
     </div>
