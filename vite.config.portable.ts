@@ -41,11 +41,14 @@ export default defineConfig({
   ],
   build: {
     outDir: 'dist-portable',
+    assetsDir: '',
     rollupOptions: {
       output: {
         format: 'iife',
         name: 'InjuredPixels',
         inlineDynamicImports: true,
+        entryFileNames: 'injuredpixels.js',
+        assetFileNames: '[name][extname]',
       },
     },
   },
