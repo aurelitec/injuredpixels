@@ -1,4 +1,9 @@
 import { defineConfig, type Plugin } from 'vite';
+import { copyFileSync, readdirSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { ViteMinifyPlugin } from 'vite-plugin-minify';
@@ -22,6 +27,23 @@ function portableHtmlPlugin(): Plugin {
 }
 
 /**
+ * Copies static files (README.txt, LICENSE.txt) from the portable/
+ * directory into the build output after bundling completes.
+ */
+function portableStaticFilesPlugin(): Plugin {
+  return {
+    name: 'portable-static-files',
+    closeBundle() {
+      const srcDir = resolve(__dirname, 'portable');
+      const outDir = resolve(__dirname, 'dist-portable');
+      for (const file of readdirSync(srcDir)) {
+        copyFileSync(join(srcDir, file), join(outDir, file));
+      }
+    },
+  };
+}
+
+/**
  * Portable ZIP build configuration.
  * - Builds as IIFE format (works with Rolldown-Vite when inlineDynamicImports is enabled)
  * - Uses relative paths (base: './') for file:// protocol compatibility
@@ -37,6 +59,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     portableHtmlPlugin(),
+    portableStaticFilesPlugin(),
     ViteMinifyPlugin(),
   ],
   build: {
