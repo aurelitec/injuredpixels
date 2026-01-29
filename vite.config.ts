@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { ViteMinifyPlugin } from 'vite-plugin-minify';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -43,5 +44,6 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
       },
     }),
+    ViteMinifyPlugin(),
   ],
 });

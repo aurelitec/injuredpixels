@@ -1,6 +1,7 @@
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import { ViteMinifyPlugin } from 'vite-plugin-minify';
 
 /**
  * Transforms HTML for portable build:
@@ -36,6 +37,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     portableHtmlPlugin(),
+    ViteMinifyPlugin(),
   ],
   build: {
     outDir: 'dist-portable',
