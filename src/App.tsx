@@ -62,10 +62,10 @@ function App() {
   const handleTogglePanel = useCallback(() => {
     if (panelVisible && !hasShownPanelHintRef.current) {
       hasShownPanelHintRef.current = true;
-      setToastMessage(strings.PANEL_HINT);
+      setToastMessage(strings.CONTROLS_DISPLAY_HINT);
     } else if (!panelVisible) {
       setToastMessage((current) =>
-        current === strings.PANEL_HINT ? null : current
+        current === strings.CONTROLS_DISPLAY_HINT ? null : current
       );
     }
     setPanelVisible((prev) => !prev);

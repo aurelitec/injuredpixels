@@ -81,16 +81,16 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
           <ShortcutRow keys={strings.KEYS_NUMBERS} description={strings.DESC_JUMP_TO_COLOR} />
           <ShortcutRow keys={strings.KEYS_ARROWS} description={strings.DESC_CYCLE_COLORS} />
           <ShortcutRow keys={strings.KEYS_F} description={strings.DESC_FULLSCREEN} />
-          <ShortcutRow keys={strings.KEYS_SPACE} description={strings.DESC_TOGGLE_PANEL} />
+          <ShortcutRow keys={strings.KEYS_SPACE} description={strings.DESC_HIDE_SHOW_CONTROLS} />
           <ShortcutRow keys={strings.KEYS_ESC} description={strings.DESC_EXIT_FULLSCREEN} />
 
           <SectionHeader>{strings.SECTION_MOUSE}</SectionHeader>
           <ShortcutRow keys={strings.KEYS_DOUBLE_CLICK} description={strings.DESC_NEXT_COLOR} />
-          <ShortcutRow keys={strings.KEYS_RIGHT_CLICK} description={strings.DESC_TOGGLE_PANEL} />
+          <ShortcutRow keys={strings.KEYS_RIGHT_CLICK} description={strings.DESC_HIDE_SHOW_CONTROLS} />
 
           <SectionHeader>{strings.SECTION_TOUCH}</SectionHeader>
           <ShortcutRow keys={strings.KEYS_DOUBLE_TAP} description={strings.DESC_NEXT_COLOR} />
-          <ShortcutRow keys={strings.KEYS_TOUCH_HOLD} description={strings.DESC_TOGGLE_PANEL} />
+          <ShortcutRow keys={strings.KEYS_TOUCH_HOLD} description={strings.DESC_HIDE_SHOW_CONTROLS} />
         </dl>
       </div>
     </div>
