@@ -28,13 +28,10 @@ export function ColorSwatch({
     <button
       type="button"
       onClick={onClick}
-      className="w-swatch h-swatch min-w-swatch min-h-swatch rounded-swatch border border-swatch-border transition-shadow flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2"
+      className={`w-swatch h-swatch min-w-swatch min-h-swatch rounded-swatch flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 ${isSelected ? 'border-3 border-swatch-selected' : 'border border-swatch-border'}`}
       style={{
         backgroundColor: color.hex,
         color: color.contrastColor,
-        ...(isSelected && {
-          boxShadow: `var(--shadow-swatch-selected), 0 0 0 2px ${color.contrastColor}`,
-        }),
       }}
       aria-label={strings.COLOR_LABEL(color.name, isSelected)}
       aria-pressed={isSelected}

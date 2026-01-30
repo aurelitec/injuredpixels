@@ -25,8 +25,11 @@
   /* Swatch borders */
   --color-swatch-border: rgba(0, 0, 0, 0.2);
 
+  /* Selected swatch border */
+  --color-swatch-selected: #858585;
+
   /* Focus ring */
-  --color-focus-ring: #0066ff;
+  --color-focus-ring: #A9A9A9;
 
   /* =========================
      SHADOWS
