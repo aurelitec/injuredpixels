@@ -45,7 +45,7 @@ export const KEYS_TOUCH_HOLD = 'Touch and hold';
 export const DESC_JUMP_TO_COLOR = 'Jump to color';
 export const DESC_CYCLE_COLORS = 'Cycle colors';
 export const DESC_FULLSCREEN = 'Fullscreen';
-export const DESC_TOGGLE_PANEL = 'Toggle panel';
+export const DESC_TOGGLE_PANEL = 'Hide/show controls';
 export const DESC_EXIT_FULLSCREEN = 'Exit fullscreen';
 export const DESC_NEXT_COLOR = 'Next color';
 
