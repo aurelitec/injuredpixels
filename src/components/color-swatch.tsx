@@ -36,7 +36,7 @@ export function ColorSwatch({
       aria-label={strings.COLOR_LABEL(color.name, isSelected)}
       aria-pressed={isSelected}
     >
-      <span className="text-[0.5rem] font-medium select-none sm:text-xs sm:font-bold lg:text-sm">{color.name}</span>
+      <span className="text-[0.5rem] font-medium select-none sm:text-xs sm:font-semibold lg:font-bold lg:text-sm">{color.name}</span>
     </button>
   );
 }
