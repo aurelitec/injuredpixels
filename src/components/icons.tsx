@@ -49,11 +49,11 @@ export function ExitFullscreenIcon(props: IconProps) {
   );
 }
 
-/** Toggle panel icon (hamburger menu) */
-export function MenuIcon(props: IconProps) {
+/** Hide controls icon (Visibility Off icon) */
+export function HideIcon(props: IconProps) {
   return (
     <svg width="1em" height="1em" {...props}>
-      <use href="#icon-menu" />
+      <use href="#icon-hide" />
     </svg>
   );
 }

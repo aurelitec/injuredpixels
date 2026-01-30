@@ -9,7 +9,7 @@ import {
   RightIcon,
   EnterFullscreenIcon,
   ExitFullscreenIcon,
-  MenuIcon,
+  HideIcon,
   HelpIcon,
 } from './icons';
 import { ToolbarButton } from './toolbar-button';
@@ -60,8 +60,8 @@ export function ActionToolbar({
           ariaLabel={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
         />
         <ToolbarButton
-          icon={<MenuIcon />}
-          label={strings.TOGGLE_PANEL}
+          icon={<HideIcon />}
+          label={strings.HIDE_CONTROLS}
           onClick={onTogglePanel}
           ariaLabel={strings.HIDE_CONTROL_PANEL}
         />

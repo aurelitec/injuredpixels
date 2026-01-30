@@ -20,7 +20,7 @@ export const NEXT = 'Next';
 export const FULLSCREEN = 'Fullscreen';
 export const ENTER_FULLSCREEN = 'Enter fullscreen';
 export const EXIT_FULLSCREEN = 'Exit fullscreen';
-export const TOGGLE_PANEL = 'Toggle this panel';
+export const HIDE_CONTROLS = 'Hide controls';
 export const HIDE_CONTROL_PANEL = 'Hide control panel';
 export const HELP = 'Help';
 
