@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'favicon-96x96.png', 'Icon-192.png'],
+      includeAssets: ['favicon.ico', 'favicon-96x96.png', 'icons/*.png'],
       manifest: {
         name: 'InjuredPixels',
         short_name: 'InjuredPixels',
@@ -23,23 +23,23 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'Icon-192.png',
+            src: 'icons/Icon-192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'Icon-512.png',
+            src: 'icons/Icon-512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: 'Icon-maskable-192.png',
+            src: 'icons/Icon-maskable-192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: 'Icon-maskable-512.png',
+            src: 'icons/Icon-maskable-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
