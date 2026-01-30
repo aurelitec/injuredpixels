@@ -23,7 +23,7 @@ interface ColorSwatchesProps {
  */
 export function ColorSwatches({ selectedIndex, onSelect }: ColorSwatchesProps) {
   return (
-    <div className="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 select-none sm:gap-swatch-gap sm:p-panel-padding lg:grid-cols-8 lg:landscape:grid-cols-8">
+    <div className="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 select-none sm:gap-swatch-gap md:grid-cols-8 sm:p-panel-padding">
       {TEST_COLORS.map((color, index) => (
         <ColorSwatch
           key={color.name}
