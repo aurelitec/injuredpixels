@@ -28,7 +28,7 @@ export function ColorSwatch({
     <button
       type="button"
       onClick={onClick}
-      className={`w-12 h-12 sm:w-swatch sm:h-swatch min-w-swatch min-h-swatch rounded-swatch border border-swatch-border flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 ${isSelected ? 'shadow-[0_0_0_3px_var(--color-swatch-selected)]' : ''}`}
+      className={`flex h-12 min-h-swatch w-12 min-w-swatch items-center justify-center rounded-swatch border border-swatch-border focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 sm:h-swatch sm:w-swatch ${isSelected ? 'shadow-[0_0_0_3px_var(--color-swatch-selected)]' : ''}`}
       style={{
         backgroundColor: color.hex,
         color: color.contrastColor,
@@ -36,7 +36,7 @@ export function ColorSwatch({
       aria-label={strings.COLOR_LABEL(color.name, isSelected)}
       aria-pressed={isSelected}
     >
-      <span className="hidden text-sm font-bold select-none sm:inline">{color.name}</span>
+      <span className="text-[0.5rem] font-medium select-none sm:text-xs sm:font-bold lg:text-sm">{color.name}</span>
     </button>
   );
 }
