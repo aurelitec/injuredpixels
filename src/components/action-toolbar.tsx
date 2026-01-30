@@ -56,7 +56,7 @@ export function ActionToolbar({
         label={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
         onClick={onFullscreen}
         ariaLabel={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
-        className="sm:mr-auto"
+        className="lg:mr-auto"
       />
       <ToolbarButton
         icon={<HideIcon />}
