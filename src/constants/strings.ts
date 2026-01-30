@@ -56,5 +56,12 @@ export const CONTROL_PANEL = 'Control panel';
 export const COLOR_LABEL = (name: string, isSelected: boolean) =>
   `${name} color${isSelected ? ' (selected)' : ''}`;
 
+// --- About section (in Help dialog) ---
+export const APP_NAME = 'InjuredPixels';
+export const APP_DESCRIPTION = 'Dead pixel test for LCD and OLED displays';
+export const APP_COPYRIGHT = '\u00A9 2009\u20132026 Aurelitec';
+export const APP_HOMEPAGE_URL = 'https://www.aurelitec.com/injuredpixels/';
+export const APP_HOMEPAGE_LABEL = 'aurelitec.com/injuredpixels';
+
 // --- Toast ---
 export const DISMISS = 'Dismiss';

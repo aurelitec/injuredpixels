@@ -20,8 +20,8 @@ interface HelpDialogProps {
 function ShortcutRow({ keys, description }: { keys: string; description: string }) {
   return (
     <div className="flex justify-between gap-4">
-      <dt className="font-mono text-gray-600 shrink-0">{keys}</dt>
-      <dd className="text-gray-800 text-right">{description}</dd>
+      <dt className="font-mono text-gray-500 shrink-0">{keys}</dt>
+      <dd className="text-gray-700 text-right">{description}</dd>
     </div>
   );
 }
@@ -29,14 +29,15 @@ function ShortcutRow({ keys, description }: { keys: string; description: string 
 /** Section header */
 function SectionHeader({ children }: { children: string }) {
   return (
-    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-4 mb-2 first:mt-0">
+    <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-4 mb-2 first:mt-0">
       {children}
     </h3>
   );
 }
 
 /**
- * Help dialog showing keyboard, mouse, and touch shortcuts.
+ * Help dialog showing keyboard, mouse, and touch shortcuts, plus About info.
+ * Two-tone design matching the Control Panel (dark header, light body).
  * Closes on backdrop click or X button.
  */
 export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogProps) {
@@ -58,40 +59,59 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
       role="presentation"
     >
       <div
-        className="relative bg-dialog-bg rounded-dialog shadow-dialog max-w-sm w-[90vw] p-6"
+        className="relative rounded-panel shadow-dialog max-w-sm w-[90vw] overflow-hidden"
         style={dialogAnimation}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-label={strings.HELP}
         aria-modal="true"
       >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 p-1.5 rounded hover:bg-gray-100 transition-colors"
-          aria-label={strings.CLOSE}
-        >
-          <CloseIcon className="w-5 h-5 text-gray-500" />
-        </button>
+        {/* Dark header */}
+        <div className="bg-panel-toolbar px-6 py-4 flex items-center justify-between">
+          <h2 className="text-base font-semibold text-toolbar-text">{strings.HELP}</h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded hover:bg-toolbar-hover transition-colors"
+            aria-label={strings.CLOSE}
+          >
+            <CloseIcon className="w-5 h-5 text-toolbar-text" />
+          </button>
+        </div>
 
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">{strings.HELP}</h2>
+        {/* Light body — shortcuts */}
+        <div className="bg-panel-swatch px-6 py-5">
+          <dl className="space-y-1.5 text-sm">
+            <SectionHeader>{strings.SECTION_KEYBOARD}</SectionHeader>
+            <ShortcutRow keys={strings.KEYS_NUMBERS} description={strings.DESC_JUMP_TO_COLOR} />
+            <ShortcutRow keys={strings.KEYS_ARROWS} description={strings.DESC_CYCLE_COLORS} />
+            <ShortcutRow keys={strings.KEYS_F} description={strings.DESC_FULLSCREEN} />
+            <ShortcutRow keys={strings.KEYS_SPACE} description={strings.DESC_HIDE_SHOW_CONTROLS} />
+            <ShortcutRow keys={strings.KEYS_ESC} description={strings.DESC_EXIT_FULLSCREEN} />
 
-        <dl className="space-y-1.5 text-sm">
-          <SectionHeader>{strings.SECTION_KEYBOARD}</SectionHeader>
-          <ShortcutRow keys={strings.KEYS_NUMBERS} description={strings.DESC_JUMP_TO_COLOR} />
-          <ShortcutRow keys={strings.KEYS_ARROWS} description={strings.DESC_CYCLE_COLORS} />
-          <ShortcutRow keys={strings.KEYS_F} description={strings.DESC_FULLSCREEN} />
-          <ShortcutRow keys={strings.KEYS_SPACE} description={strings.DESC_HIDE_SHOW_CONTROLS} />
-          <ShortcutRow keys={strings.KEYS_ESC} description={strings.DESC_EXIT_FULLSCREEN} />
+            <SectionHeader>{strings.SECTION_MOUSE}</SectionHeader>
+            <ShortcutRow keys={strings.KEYS_DOUBLE_CLICK} description={strings.DESC_NEXT_COLOR} />
+            <ShortcutRow keys={strings.KEYS_RIGHT_CLICK} description={strings.DESC_HIDE_SHOW_CONTROLS} />
 
-          <SectionHeader>{strings.SECTION_MOUSE}</SectionHeader>
-          <ShortcutRow keys={strings.KEYS_DOUBLE_CLICK} description={strings.DESC_NEXT_COLOR} />
-          <ShortcutRow keys={strings.KEYS_RIGHT_CLICK} description={strings.DESC_HIDE_SHOW_CONTROLS} />
+            <SectionHeader>{strings.SECTION_TOUCH}</SectionHeader>
+            <ShortcutRow keys={strings.KEYS_DOUBLE_TAP} description={strings.DESC_NEXT_COLOR} />
+            <ShortcutRow keys={strings.KEYS_TOUCH_HOLD} description={strings.DESC_HIDE_SHOW_CONTROLS} />
+          </dl>
 
-          <SectionHeader>{strings.SECTION_TOUCH}</SectionHeader>
-          <ShortcutRow keys={strings.KEYS_DOUBLE_TAP} description={strings.DESC_NEXT_COLOR} />
-          <ShortcutRow keys={strings.KEYS_TOUCH_HOLD} description={strings.DESC_HIDE_SHOW_CONTROLS} />
-        </dl>
+          {/* About footer */}
+          <div className="mt-5 pt-4 border-t border-gray-300 text-center text-xs text-gray-500">
+            <p className="font-semibold text-gray-700">{strings.APP_NAME}</p>
+            <p className="mt-0.5">{strings.APP_DESCRIPTION}</p>
+            <p className="mt-1">{strings.APP_COPYRIGHT}</p>
+            <a
+              href={strings.APP_HOMEPAGE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 inline-block text-gray-500 underline hover:text-gray-700 transition-colors"
+            >
+              {strings.APP_HOMEPAGE_LABEL}
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
