@@ -79,10 +79,6 @@ function App() {
     setHelpOpen((prev) => !prev);
   }, []);
 
-  const handleShowPanel = useCallback(() => {
-    setPanelVisible(true);
-  }, []);
-
   const handleDismissToast = useCallback(() => {
     setToastMessage(null);
   }, []);
@@ -99,7 +95,6 @@ function App() {
       onNext: handleNext,
       onToggleFullscreen: handleToggleFullscreen,
       onTogglePanel: handleTogglePanel,
-      onShowPanel: handleShowPanel,
       onToggleHelp: handleToggleHelp,
     }),
     [
@@ -108,7 +103,6 @@ function App() {
       handleNext,
       handleToggleFullscreen,
       handleTogglePanel,
-      handleShowPanel,
       handleToggleHelp,
     ]
   );

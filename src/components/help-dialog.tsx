@@ -87,6 +87,7 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
             <ShortcutRow keys={strings.KEYS_F} description={strings.DESC_FULLSCREEN} />
             <ShortcutRow keys={strings.KEYS_SPACE} description={strings.DESC_HIDE_SHOW_CONTROLS} />
             <ShortcutRow keys={strings.KEYS_ESC} description={strings.DESC_EXIT_FULLSCREEN} />
+            <ShortcutRow keys={strings.KEYS_QUESTION} description={strings.DESC_TOGGLE_HELP} />
 
             <SectionHeader>{strings.SECTION_MOUSE}</SectionHeader>
             <ShortcutRow keys={strings.KEYS_DOUBLE_CLICK} description={strings.DESC_NEXT_COLOR} />

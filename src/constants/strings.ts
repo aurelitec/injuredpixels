@@ -12,7 +12,7 @@
 
 // --- Toast messages ---
 export const CONTROLS_DISPLAY_HINT =
-  'Press Space or Escape, right-click, or touch and hold to show controls.';
+  'Press Space, right-click, or touch and hold to show controls.';
 
 // --- Action toolbar buttons ---
 export const PREVIOUS = 'Previous';
@@ -36,6 +36,7 @@ export const KEYS_ARROWS = '← →';
 export const KEYS_F = 'F';
 export const KEYS_SPACE = 'Space';
 export const KEYS_ESC = 'Esc';
+export const KEYS_QUESTION = '?';
 export const KEYS_DOUBLE_CLICK = 'Double-click';
 export const KEYS_RIGHT_CLICK = 'Right-click';
 export const KEYS_DOUBLE_TAP = 'Double-tap';
@@ -44,10 +45,11 @@ export const KEYS_TOUCH_HOLD = 'Touch and hold';
 // Shortcut descriptions (right column)
 export const DESC_JUMP_TO_COLOR = 'Jump to color';
 export const DESC_CYCLE_COLORS = 'Cycle colors';
-export const DESC_FULLSCREEN = 'Fullscreen';
+export const DESC_FULLSCREEN = 'Enter/exit fullscreen';
 export const DESC_HIDE_SHOW_CONTROLS = 'Hide/show controls';
 export const DESC_EXIT_FULLSCREEN = 'Exit fullscreen';
 export const DESC_NEXT_COLOR = 'Next color';
+export const DESC_TOGGLE_HELP = 'Show/hide help';
 
 // --- Control panel ---
 export const CONTROL_PANEL = 'Control panel';
