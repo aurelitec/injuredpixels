@@ -65,7 +65,7 @@ export function ControlPanel({ visible, children, reducedMotion }: ControlPanelP
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center pointer-events-none"
+      className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none"
       role="dialog"
       aria-label={strings.CONTROL_PANEL}
     >
