@@ -43,9 +43,9 @@ export function Toast({
 
   return (
     <div
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3
+      className="fixed bottom-8 inset-x-0 mx-auto w-fit z-50 flex items-center gap-3
         bg-toast-bg text-toast-text px-4 py-3 rounded-toast shadow-toast
-        max-w-[90vw] sm:max-w-md"
+        max-w-[calc(100vw-2rem)]"
       style={animationStyle}
       role="status"
       aria-live="polite"
