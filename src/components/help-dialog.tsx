@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-import { XIcon } from './icons';
+import { CloseIcon } from './icons';
 import * as strings from '../constants/strings';
 
 interface HelpDialogProps {
@@ -71,7 +71,7 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
           className="absolute top-3 right-3 p-1.5 rounded hover:bg-gray-100 transition-colors"
           aria-label={strings.CLOSE}
         >
-          <XIcon className="w-5 h-5 text-gray-500" />
+          <CloseIcon className="w-5 h-5 text-gray-500" />
         </button>
 
         <h2 className="text-lg font-semibold text-gray-900 mb-4">{strings.HELP}</h2>

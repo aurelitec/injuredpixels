@@ -5,7 +5,7 @@
  */
 
 import { useEffect } from 'react';
-import { XIcon } from './icons';
+import { CloseIcon } from './icons';
 import * as strings from '../constants/strings';
 
 interface ToastProps {
@@ -56,7 +56,7 @@ export function Toast({
         className="shrink-0 p-1 rounded hover:bg-white/10 transition-colors"
         aria-label={strings.DISMISS}
       >
-        <XIcon className="w-4 h-4" />
+        <CloseIcon className="w-4 h-4" />
       </button>
     </div>
   );

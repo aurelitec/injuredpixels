@@ -5,12 +5,12 @@
  */
 
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MaximizeIcon,
-  MinimizeIcon,
+  LeftIcon,
+  RightIcon,
+  EnterFullscreenIcon,
+  ExitFullscreenIcon,
   MenuIcon,
-  HelpCircleIcon,
+  HelpIcon,
 } from './icons';
 import { ToolbarButton } from './toolbar-button';
 import * as strings from '../constants/strings';
@@ -44,18 +44,18 @@ export function ActionToolbar({
       {/* Primary actions - left side */}
       <div className="flex items-center gap-toolbar-gap">
         <ToolbarButton
-          icon={<ChevronLeftIcon />}
+          icon={<LeftIcon />}
           label={strings.PREVIOUS}
           onClick={onPrevious}
         />
         <ToolbarButton
-          icon={<ChevronRightIcon />}
+          icon={<RightIcon />}
           label={strings.NEXT}
           onClick={onNext}
         />
         <ToolbarButton
-          icon={isFullscreen ? <MinimizeIcon /> : <MaximizeIcon />}
-          label={strings.FULLSCREEN}
+          icon={isFullscreen ? <ExitFullscreenIcon /> : <EnterFullscreenIcon />}
+          label={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
           onClick={onFullscreen}
           ariaLabel={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
         />
@@ -69,7 +69,7 @@ export function ActionToolbar({
 
       {/* Help - right side */}
       <ToolbarButton
-        icon={<HelpCircleIcon />}
+        icon={<HelpIcon />}
         label={strings.HELP}
         onClick={onHelp}
       />

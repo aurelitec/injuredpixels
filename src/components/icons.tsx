@@ -13,38 +13,38 @@ type IconProps = SVGProps<SVGSVGElement>;
  * Each icon is a thin wrapper around <use href="#icon-id" />.
  */
 
-/** Previous button icon (chevron left) */
-export function ChevronLeftIcon(props: IconProps) {
+/** Previous button icon (Arrow Circle Left icon) */
+export function LeftIcon(props: IconProps) {
   return (
     <svg width="1em" height="1em" {...props}>
-      <use href="#icon-chevron-left" />
+      <use href="#icon-left" />
     </svg>
   );
 }
 
-/** Next button icon (chevron right) */
-export function ChevronRightIcon(props: IconProps) {
+/** Next button icon (Arrow Circle Right icon) */
+export function RightIcon(props: IconProps) {
   return (
     <svg width="1em" height="1em" {...props}>
-      <use href="#icon-chevron-right" />
+      <use href="#icon-right" />
     </svg>
   );
 }
 
-/** Enter fullscreen icon (expand corners) */
-export function MaximizeIcon(props: IconProps) {
+/** Enter fullscreen icon (Fullscreen icon) */
+export function EnterFullscreenIcon(props: IconProps) {
   return (
     <svg width="1em" height="1em" {...props}>
-      <use href="#icon-maximize" />
+      <use href="#icon-enter-fullscreen" />
     </svg>
   );
 }
 
-/** Exit fullscreen icon (collapse corners) */
-export function MinimizeIcon(props: IconProps) {
+/** Exit fullscreen icon (Fullscreen Exit icon) */
+export function ExitFullscreenIcon(props: IconProps) {
   return (
     <svg width="1em" height="1em" {...props}>
-      <use href="#icon-minimize" />
+      <use href="#icon-exit-fullscreen" />
     </svg>
   );
 }
@@ -58,20 +58,20 @@ export function MenuIcon(props: IconProps) {
   );
 }
 
-/** Help button icon (question mark in circle) */
-export function HelpCircleIcon(props: IconProps) {
+/** Help button icon (Help icon) */
+export function HelpIcon(props: IconProps) {
   return (
     <svg width="1em" height="1em" {...props}>
-      <use href="#icon-help-circle" />
+      <use href="#icon-help" />
     </svg>
   );
 }
 
 /** Close/dismiss icon (X) */
-export function XIcon(props: IconProps) {
+export function CloseIcon(props: IconProps) {
   return (
     <svg width="1em" height="1em" {...props}>
-      <use href="#icon-x" />
+      <use href="#icon-close" />
     </svg>
   );
 }
