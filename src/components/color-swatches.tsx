@@ -16,10 +16,9 @@ interface ColorSwatchesProps {
 
 /**
  * Responsive grid of 8 color swatches.
- * - Desktop (lg): 8×1 horizontal
- * - Tablet (md): 4×2 grid
- * - Mobile: 2×4 grid
- * - Mobile landscape: 4×2 grid
+ * - Default: 4×2 grid (compact gap/padding)
+ * - sm+: 4×2 grid (full gap/padding)
+ * - md+: 8×1 horizontal row
  */
 export function ColorSwatches({ selectedIndex, onSelect }: ColorSwatchesProps) {
   return (
