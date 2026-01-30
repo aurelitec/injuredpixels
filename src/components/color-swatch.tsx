@@ -28,7 +28,7 @@ export function ColorSwatch({
     <button
       type="button"
       onClick={onClick}
-      className={`flex h-12 min-h-swatch w-12 min-w-swatch items-center justify-center rounded-swatch border border-swatch-border focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 sm:h-swatch sm:w-swatch ${isSelected ? 'shadow-[0_0_0_3px_var(--color-swatch-selected)]' : ''}`}
+      className={`flex h-12 w-12 min-h-swatch min-w-swatch items-center justify-center rounded-swatch border border-swatch-border focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 sm:h-16 sm:w-16 lg:h-swatch lg:w-swatch ${isSelected ? 'shadow-[0_0_0_3px_var(--color-swatch-selected)]' : ''}`}
       style={{
         backgroundColor: color.hex,
         color: color.contrastColor,
