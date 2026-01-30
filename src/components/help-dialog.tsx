@@ -59,7 +59,7 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
       role="presentation"
     >
       <div
-        className="relative rounded-panel shadow-dialog max-w-sm w-[90vw] overflow-hidden"
+        className="relative rounded-panel shadow-surface max-w-sm w-[90vw] overflow-hidden"
         style={dialogAnimation}
         onClick={(e) => e.stopPropagation()}
         role="dialog"

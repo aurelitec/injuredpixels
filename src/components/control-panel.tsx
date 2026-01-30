@@ -70,7 +70,7 @@ export function ControlPanel({ visible, children, reducedMotion }: ControlPanelP
       aria-label={strings.CONTROL_PANEL}
     >
       <div
-        className="relative rounded-panel shadow-panel pointer-events-auto"
+        className="relative rounded-panel shadow-surface pointer-events-auto"
         style={animationStyle}
         onAnimationEnd={handleAnimationEnd}
       >
