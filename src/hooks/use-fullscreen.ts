@@ -30,7 +30,9 @@ export function useFullscreen(options?: UseFullscreenOptions): UseFullscreenRetu
 
   // Use ref for callback to avoid re-running effect when callback changes
   const onExitRef = useRef(options?.onExit);
-  onExitRef.current = options?.onExit;
+  useEffect(() => {
+    onExitRef.current = options?.onExit;
+  }, [options?.onExit]);
 
   // Sync state when fullscreen changes (e.g., user presses Escape)
   useEffect(() => {
