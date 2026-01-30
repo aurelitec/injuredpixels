@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'Icon-192.png'],
+      includeAssets: ['favicon.ico', 'favicon-96x96.png', 'Icon-192.png'],
       manifest: {
         name: 'InjuredPixels',
         short_name: 'InjuredPixels',
