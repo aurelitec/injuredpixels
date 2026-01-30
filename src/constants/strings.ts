@@ -61,7 +61,7 @@ export const APP_NAME = 'InjuredPixels';
 export const APP_VERSION = '5.0.0';
 export const APP_COPYRIGHT = '\u00A9 2009\u20132026 Aurelitec';
 export const APP_HOMEPAGE_URL = 'https://www.aurelitec.com/injuredpixels/';
-export const APP_HOMEPAGE_LABEL = 'aurelitec.com/injuredpixels';
+export const APP_HOMEPAGE_LABEL = 'aurelitec.com';
 export const APP_GITHUB_URL = 'https://github.com/aurelitec/injuredpixels';
 export const APP_STAR_ON_GITHUB = 'Star on GitHub';
 

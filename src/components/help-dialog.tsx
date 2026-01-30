@@ -98,13 +98,14 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
           </dl>
 
           {/* About footer */}
-          <div className="mt-5 pt-4 border-t border-gray-300 text-center text-xs text-gray-500">
-            <p className="font-semibold text-gray-700">
-              {strings.APP_NAME}
-              <span className="font-normal text-gray-400"> v{strings.APP_VERSION}</span>
-            </p>
-            <p className="mt-1">{strings.APP_COPYRIGHT}</p>
-            <div className="mt-2 flex items-center justify-center gap-4">
+          <div className="mt-5 pt-4 border-t border-gray-300 flex justify-between gap-4 text-xs text-gray-500">
+            <div className="space-y-1.5">
+              <p className="font-semibold text-gray-700">
+                {strings.APP_NAME} {strings.APP_VERSION}
+              </p>
+              <p className="mt-0.5">{strings.APP_COPYRIGHT}</p>
+            </div>
+            <div className="flex flex-col items-end gap-1 space-y-0.75">
               <a
                 href={strings.APP_HOMEPAGE_URL}
                 target="_blank"
