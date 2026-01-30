@@ -40,7 +40,7 @@ export function ActionToolbar({
   isFullscreen,
 }: ActionToolbarProps) {
   return (
-    <div className="flex items-center justify-between rounded-b-panel bg-panel-toolbar px-8 py-2">
+    <div className="flex items-center justify-between rounded-b-panel bg-panel-toolbar px-8 py-2 select-none">
       {/* Primary actions - left side */}
       <div className="flex items-center gap-toolbar-gap">
         <ToolbarButton

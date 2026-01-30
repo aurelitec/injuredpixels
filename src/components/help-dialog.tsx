@@ -67,7 +67,7 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
         aria-modal="true"
       >
         {/* Dark header */}
-        <div className="bg-panel-toolbar px-6 py-4 flex items-center justify-between">
+        <div className="bg-panel-toolbar px-6 py-4 flex items-center justify-between select-none">
           <h2 className="text-base font-semibold text-toolbar-text">{strings.HELP}</h2>
           <button
             onClick={onClose}
