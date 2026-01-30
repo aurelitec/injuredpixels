@@ -67,6 +67,15 @@ export function HelpIcon(props: IconProps) {
   );
 }
 
+/** GitHub icon (Simple Icons) */
+export function GitHubIcon(props: IconProps) {
+  return (
+    <svg width="1em" height="1em" {...props}>
+      <use href="#icon-github" />
+    </svg>
+  );
+}
+
 /** Close/dismiss icon (X) */
 export function CloseIcon(props: IconProps) {
   return (

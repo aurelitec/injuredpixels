@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-import { CloseIcon } from './icons';
+import { CloseIcon, GitHubIcon } from './icons';
 import * as strings from '../constants/strings';
 
 interface HelpDialogProps {
@@ -99,17 +99,30 @@ export function HelpDialog({ open, onClose, reducedMotion = false }: HelpDialogP
 
           {/* About footer */}
           <div className="mt-5 pt-4 border-t border-gray-300 text-center text-xs text-gray-500">
-            <p className="font-semibold text-gray-700">{strings.APP_NAME}</p>
-            <p className="mt-0.5">{strings.APP_DESCRIPTION}</p>
+            <p className="font-semibold text-gray-700">
+              {strings.APP_NAME}
+              <span className="font-normal text-gray-400"> v{strings.APP_VERSION}</span>
+            </p>
             <p className="mt-1">{strings.APP_COPYRIGHT}</p>
-            <a
-              href={strings.APP_HOMEPAGE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-1 inline-block text-gray-500 underline hover:text-gray-700 transition-colors"
-            >
-              {strings.APP_HOMEPAGE_LABEL}
-            </a>
+            <div className="mt-2 flex items-center justify-center gap-4">
+              <a
+                href={strings.APP_HOMEPAGE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 underline hover:text-gray-700 transition-colors"
+              >
+                {strings.APP_HOMEPAGE_LABEL}
+              </a>
+              <a
+                href={strings.APP_GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                <GitHubIcon className="w-3.5 h-3.5" />
+                {strings.APP_STAR_ON_GITHUB}
+              </a>
+            </div>
           </div>
         </div>
       </div>
