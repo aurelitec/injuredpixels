@@ -59,20 +59,22 @@ export function ActionToolbar({
           onClick={onFullscreen}
           ariaLabel={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
         />
+      </div>
+
+      {/* UI controls - right side */}
+      <div className="flex items-center gap-toolbar-gap">
         <ToolbarButton
           icon={<HideIcon />}
           label={strings.HIDE_CONTROLS}
           onClick={onTogglePanel}
           ariaLabel={strings.HIDE_CONTROL_PANEL}
         />
+        <ToolbarButton
+          icon={<HelpIcon />}
+          label={strings.HELP}
+          onClick={onHelp}
+        />
       </div>
-
-      {/* Help - right side */}
-      <ToolbarButton
-        icon={<HelpIcon />}
-        label={strings.HELP}
-        onClick={onHelp}
-      />
     </div>
   );
 }
