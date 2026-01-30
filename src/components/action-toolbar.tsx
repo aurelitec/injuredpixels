@@ -40,41 +40,35 @@ export function ActionToolbar({
   isFullscreen,
 }: ActionToolbarProps) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-b-panel bg-panel-toolbar px-4 py-2 select-none sm:justify-between sm:px-8">
-      {/* Primary actions - left side */}
-      <div className="flex items-center gap-toolbar-gap">
-        <ToolbarButton
-          icon={<LeftIcon />}
-          label={strings.PREVIOUS}
-          onClick={onPrevious}
-        />
-        <ToolbarButton
-          icon={<RightIcon />}
-          label={strings.NEXT}
-          onClick={onNext}
-        />
-        <ToolbarButton
-          icon={isFullscreen ? <ExitFullscreenIcon /> : <EnterFullscreenIcon />}
-          label={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
-          onClick={onFullscreen}
-          ariaLabel={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
-        />
-      </div>
-
-      {/* UI controls - right side */}
-      <div className="flex items-center gap-toolbar-gap">
-        <ToolbarButton
-          icon={<HideIcon />}
-          label={strings.HIDE_CONTROLS}
-          onClick={onTogglePanel}
-          ariaLabel={strings.HIDE_CONTROL_PANEL}
-        />
-        <ToolbarButton
-          icon={<HelpIcon />}
-          label={strings.HELP}
-          onClick={onHelp}
-        />
-      </div>
+    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-b-panel bg-panel-toolbar px-4 py-2 select-none sm:px-8">
+      <ToolbarButton
+        icon={<LeftIcon />}
+        label={strings.PREVIOUS}
+        onClick={onPrevious}
+      />
+      <ToolbarButton
+        icon={<RightIcon />}
+        label={strings.NEXT}
+        onClick={onNext}
+      />
+      <ToolbarButton
+        icon={isFullscreen ? <ExitFullscreenIcon /> : <EnterFullscreenIcon />}
+        label={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
+        onClick={onFullscreen}
+        ariaLabel={isFullscreen ? strings.EXIT_FULLSCREEN : strings.ENTER_FULLSCREEN}
+        className="sm:mr-auto"
+      />
+      <ToolbarButton
+        icon={<HideIcon />}
+        label={strings.HIDE_CONTROLS}
+        onClick={onTogglePanel}
+        ariaLabel={strings.HIDE_CONTROL_PANEL}
+      />
+      <ToolbarButton
+        icon={<HelpIcon />}
+        label={strings.HELP}
+        onClick={onHelp}
+      />
     </div>
   );
 }
