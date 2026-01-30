@@ -25,19 +25,23 @@
   /* Swatch borders */
   --color-swatch-border: rgba(0, 0, 0, 0.2);
 
-  /* Selected swatch border */
+  /* Selected swatch ring — neutral gray visible against all swatch colors on #f0f0f0 panel */
   --color-swatch-selected: #858585;
 
-  /* Focus ring */
+  /* Focus ring — neutral to avoid clashing with colored swatches; lighter than selection ring */
   --color-focus-ring: #bbbbbb;
 
   /* =========================
      SHADOWS
      ========================= */
 
+  /* Dark shadow for light backgrounds + gray glow for visibility on dark test colors (Black, Blue) */
   --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 16px rgba(128, 128, 128, 0.4);
+
   --shadow-toast: 0 4px 12px rgba(0, 0, 0, 0.15);
   --shadow-dialog: 0 16px 48px rgba(0, 0, 0, 0.2);
+
+  /* Inset shadow on selected swatch for a pressed/recessed look */
   --shadow-swatch-selected: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 
   /* =========================
