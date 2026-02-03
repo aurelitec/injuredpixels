@@ -25,7 +25,7 @@ dist-portable
 *.sw?
 
 # Miscellaneous
-.aide
+.work
 .claude
 .temp
 .vscode/mcp.json
