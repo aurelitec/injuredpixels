@@ -1,0 +1,16 @@
+name: injuredpixels
+description: A utility app for detecting dead, stuck, or hot pixels on LCD/OLED displays.
+version: 5.0.0
+repository: https://github.com/aurelitec/injuredpixels
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  signals_core: ^6.2.1
+  web: ^1.1.1
+
+dev_dependencies:
+  build_runner: ^2.4.15
+  build_web_compilers: ^4.1.6
+  lints: ^6.0.0
