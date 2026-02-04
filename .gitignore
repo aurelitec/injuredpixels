@@ -28,4 +28,5 @@ dist-portable
 .work
 .claude
 .temp
+temp
 .vscode/mcp.json
