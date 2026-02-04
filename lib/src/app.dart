@@ -8,6 +8,8 @@ import 'package:signals_core/signals_core.dart';
 import 'package:web/web.dart' as web;
 
 import 'components/control_panel.dart';
+import 'components/help_dialog.dart';
+import 'components/toast.dart';
 import 'services/fullscreen_service.dart';
 import 'services/keyboard_service.dart';
 import 'services/storage_service.dart';
@@ -15,6 +17,9 @@ import 'state/app_state.dart';
 
 /// Storage key for persisted color index.
 const _colorIndexKey = 'colorIndex';
+
+/// Hint message shown when panel is hidden for the first time.
+const _panelHintMessage = 'Right-click or press Space to show controls';
 
 /// Global app state instance for debugging from console.
 late AppState _appState;
@@ -30,6 +35,12 @@ class App {
   /// Control panel component.
   late final ControlPanel _controlPanel;
 
+  /// Help dialog component.
+  late final HelpDialog _helpDialog;
+
+  /// Toast component.
+  late final Toast _toast;
+
   /// Fullscreen service.
   late final FullscreenService _fullscreenService;
 
@@ -42,10 +53,10 @@ class App {
   /// Control panel template.
   late final web.HTMLTemplateElement _panelTemplate;
 
-  /// Help dialog template (used in Phase 6).
+  /// Help dialog template.
   late final web.HTMLTemplateElement _helpTemplate;
 
-  /// Toast template (used in Phase 6).
+  /// Toast template.
   late final web.HTMLTemplateElement _toastTemplate;
 
   /// Timer for touch-and-hold gesture.
@@ -53,6 +64,9 @@ class App {
 
   /// Whether touch moved during touch-and-hold.
   var _touchMoved = false;
+
+  /// Whether the panel hint has been shown this session.
+  var _hasShownPanelHint = false;
 
   /// Initializes the application and starts the UI.
   void run() {
@@ -95,6 +109,8 @@ class App {
   /// Create and initialize components.
   void _createComponents() {
     _controlPanel = ControlPanel(appState, _container, _panelTemplate);
+    _helpDialog = HelpDialog(appState, _container, _helpTemplate);
+    _toast = Toast(appState, _container, _toastTemplate);
 
     // Wire callbacks for actions that need app-level coordination
     _controlPanel.onFullscreenToggle = () => _fullscreenService.toggle();
@@ -162,6 +178,20 @@ class App {
     effect(() {
       final index = appState.colorIndex.value;
       _storageService.write(_colorIndexKey, index);
+    });
+
+    // Panel hint toast effect
+    effect(() {
+      final panelVisible = appState.panelVisible.value;
+
+      if (!panelVisible && !_hasShownPanelHint) {
+        // Show hint toast on first panel hide
+        _hasShownPanelHint = true;
+        appState.toastMessage.value = _panelHintMessage;
+      } else if (panelVisible && appState.toastMessage.value == _panelHintMessage) {
+        // Dismiss hint toast when panel is shown
+        appState.toastMessage.value = null;
+      }
     });
   }
 }
