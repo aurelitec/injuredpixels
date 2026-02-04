@@ -37,8 +37,7 @@ class ControlPanel {
   /// Callback for help action (wired by App).
   void Function()? onHelpToggle;
 
-  ControlPanel(
-      this._appState, this._container, web.HTMLTemplateElement template) {
+  ControlPanel(this._appState, this._container, web.HTMLTemplateElement template) {
     _cloneTemplate(template);
     _wireSwatchHandlers();
     _wireToolbarHandlers();

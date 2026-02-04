@@ -24,8 +24,7 @@ class HelpDialog {
   /// Inner dialog panel for animation (has .dialog-inner class).
   late final web.HTMLElement _innerDialog;
 
-  HelpDialog(
-      this._appState, this._container, web.HTMLTemplateElement template) {
+  HelpDialog(this._appState, this._container, web.HTMLTemplateElement template) {
     _cloneTemplate(template);
     _wireHandlers();
     _setupEffects();
@@ -34,10 +33,8 @@ class HelpDialog {
   /// Clone template and extract references.
   void _cloneTemplate(web.HTMLTemplateElement template) {
     final content = template.content.cloneNode(true) as web.DocumentFragment;
-    _dialogElement =
-        content.querySelector('.dialog-backdrop') as web.HTMLElement;
-    _innerDialog =
-        _dialogElement.querySelector('.dialog-inner') as web.HTMLElement;
+    _dialogElement = content.querySelector('.dialog-backdrop') as web.HTMLElement;
+    _innerDialog = _dialogElement.querySelector('.dialog-inner') as web.HTMLElement;
   }
 
   /// Wire event handlers.
