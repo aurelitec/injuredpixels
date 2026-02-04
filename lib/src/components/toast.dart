@@ -12,7 +12,7 @@ import '../state/app_state.dart';
 /// Toast notification component for temporary messages.
 ///
 /// Manages:
-/// - Toast visibility based on toastMessage signal
+/// - Toast visibility based on toastMessage signal via CSS classes
 /// - Auto-dismiss after timeout
 /// - Manual dismiss via close button
 class Toast {
@@ -22,7 +22,7 @@ class Toast {
   /// Auto-dismiss duration.
   static const _autoDismissDuration = Duration(milliseconds: 4500);
 
-  /// The cloned toast element.
+  /// The cloned toast element (has .toast-container class).
   late final web.HTMLElement _toastElement;
 
   /// Message text element.
@@ -40,7 +40,7 @@ class Toast {
   /// Clone template and extract references.
   void _cloneTemplate(web.HTMLTemplateElement template) {
     final content = template.content.cloneNode(true) as web.DocumentFragment;
-    _toastElement = content.firstElementChild as web.HTMLElement;
+    _toastElement = content.querySelector('.toast-container') as web.HTMLElement;
     _messageElement = _toastElement.querySelector('[data-message]')!;
   }
 
@@ -64,17 +64,14 @@ class Toast {
       if (message != null && !isCurrentlyVisible && !isAnimating) {
         // Show toast
         _messageElement.textContent = message;
-        _toastElement.style.opacity = '0';
-        _toastElement.style.transform = 'translateY(1rem)';
+        _toastElement.classList.remove('hiding');
         _container.append(_toastElement);
 
-        // Trigger reflow then animate in
-        // ignore: unnecessary_statements
-        _toastElement.offsetHeight; // Force reflow
+        // Force reflow then animate in
+        _toastElement.offsetHeight;
 
-        _toastElement.style.transition = 'opacity 200ms ease-out, transform 200ms ease-out';
-        _toastElement.style.opacity = '1';
-        _toastElement.style.transform = 'translateY(0)';
+        _toastElement.classList.remove('hidden-state');
+        _toastElement.classList.add('visible-state');
 
         // Start auto-dismiss timer
         _dismissTimer?.cancel();
@@ -87,15 +84,15 @@ class Toast {
         _dismissTimer?.cancel();
         _dismissTimer = null;
 
-        _toastElement.style.transition = 'opacity 150ms ease-in, transform 150ms ease-in';
-        _toastElement.style.opacity = '0';
-        _toastElement.style.transform = 'translateY(1rem)';
+        _toastElement.classList.add('hiding');
+        _toastElement.classList.remove('visible-state');
+        _toastElement.classList.add('hidden-state');
 
         // Remove after animation
         Timer(const Duration(milliseconds: 150), () {
           if (_appState.toastMessage.value == null) {
             _toastElement.remove();
-            _toastElement.style.transition = '';
+            _toastElement.classList.remove('hiding');
           }
           isAnimating = false;
         });

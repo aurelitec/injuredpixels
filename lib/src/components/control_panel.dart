@@ -14,7 +14,7 @@ import '../state/app_state.dart';
 /// Manages:
 /// - Color swatch grid with selection state
 /// - Action toolbar (previous, next, fullscreen, hide, help)
-/// - Panel visibility with animation
+/// - Panel visibility with animation via CSS classes
 class ControlPanel {
   final AppState _appState;
   final web.HTMLDivElement _container;
@@ -22,7 +22,7 @@ class ControlPanel {
   /// The cloned panel element (outer wrapper).
   late final web.Element _panelElement;
 
-  /// Inner panel for animation.
+  /// Inner panel for animation (has .panel-inner class).
   late final web.HTMLElement _innerPanel;
 
   /// List of swatch buttons for selection handling.
@@ -37,7 +37,8 @@ class ControlPanel {
   /// Callback for help action (wired by App).
   void Function()? onHelpToggle;
 
-  ControlPanel(this._appState, this._container, web.HTMLTemplateElement template) {
+  ControlPanel(
+      this._appState, this._container, web.HTMLTemplateElement template) {
     _cloneTemplate(template);
     _wireSwatchHandlers();
     _wireToolbarHandlers();
@@ -48,7 +49,7 @@ class ControlPanel {
   void _cloneTemplate(web.HTMLTemplateElement template) {
     final content = template.content.cloneNode(true) as web.DocumentFragment;
     _panelElement = content.querySelector('[role="dialog"]')!;
-    _innerPanel = _panelElement.querySelector('.rounded-panel') as web.HTMLElement;
+    _innerPanel = _panelElement.querySelector('.panel-inner') as web.HTMLElement;
 
     // Query swatch buttons
     final swatches = _panelElement.querySelectorAll('[data-index]');
@@ -127,7 +128,7 @@ class ControlPanel {
       }
     });
 
-    // Effect: panel visibility with animation
+    // Effect: panel visibility with animation via CSS classes
     var isFirstRender = true;
     var isCurrentlyVisible = false;
     var isAnimating = false;
@@ -137,35 +138,29 @@ class ControlPanel {
 
       if (visible && !isCurrentlyVisible && !isAnimating) {
         // Show panel
-        _innerPanel.style.opacity = '0';
-        _innerPanel.style.transform = 'scale(0.95)';
+        _innerPanel.classList.remove('hiding');
         _container.append(_panelElement);
 
         if (!isFirstRender) {
-          // Trigger reflow then animate in
-          // ignore: unnecessary_statements
-          _innerPanel.offsetHeight; // Force reflow
-          _innerPanel.style.transition =
-              'opacity 250ms cubic-bezier(0.16, 1, 0.3, 1), transform 250ms cubic-bezier(0.16, 1, 0.3, 1)';
-          _innerPanel.style.opacity = '1';
-          _innerPanel.style.transform = 'scale(1)';
-        } else {
-          _innerPanel.style.opacity = '1';
-          _innerPanel.style.transform = 'scale(1)';
+          // Force reflow then animate in
+          _innerPanel.offsetHeight;
         }
 
+        _innerPanel.classList.remove('hidden-state');
+        _innerPanel.classList.add('visible-state');
         isCurrentlyVisible = true;
       } else if (!visible && isCurrentlyVisible && !isAnimating) {
         // Hide panel with animation
         isAnimating = true;
-        _innerPanel.style.transition = 'opacity 150ms cubic-bezier(0.4, 0, 1, 1)';
-        _innerPanel.style.opacity = '0';
+        _innerPanel.classList.add('hiding');
+        _innerPanel.classList.remove('visible-state');
+        _innerPanel.classList.add('hidden-state');
 
         // Remove after animation
         Timer(const Duration(milliseconds: 150), () {
           if (!_appState.panelVisible.value) {
             _panelElement.remove();
-            _innerPanel.style.transition = '';
+            _innerPanel.classList.remove('hiding');
           }
           isAnimating = false;
         });

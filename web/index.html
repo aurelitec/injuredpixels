@@ -62,7 +62,7 @@
   <template id="control-panel">
     <div class="fixed inset-0 flex items-center justify-center p-4 pointer-events-none"
          role="dialog" aria-label="Control panel">
-      <div class="relative rounded-panel shadow-surface pointer-events-auto">
+      <div class="panel-inner hidden-state relative rounded-panel shadow-surface pointer-events-auto">
 
         <!-- Color swatches grid -->
         <div class="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 select-none sm:gap-swatch-gap md:grid-cols-8 sm:p-panel-padding">
@@ -124,9 +124,9 @@
        HELP DIALOG TEMPLATE
        ========================= -->
   <template id="help-dialog">
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-dialog-backdrop"
+    <div class="dialog-backdrop hidden-state fixed inset-0 z-50 flex items-center justify-center bg-dialog-backdrop"
          role="presentation" data-backdrop>
-      <div class="relative rounded-panel shadow-surface max-w-sm w-[90vw] overflow-hidden"
+      <div class="dialog-inner hidden-state relative rounded-panel shadow-surface max-w-sm w-[90vw] overflow-hidden"
            role="dialog" aria-label="Help" aria-modal="true">
 
         <!-- Dark header -->
@@ -185,7 +185,7 @@
        TOAST TEMPLATE
        ========================= -->
   <template id="toast">
-    <div class="fixed bottom-8 inset-x-0 mx-auto w-fit z-50 flex items-center gap-3
+    <div class="toast-container hidden-state fixed bottom-8 inset-x-0 mx-auto w-fit z-50 flex items-center gap-3
                 bg-toast-bg text-toast-text px-4 py-3 rounded-toast shadow-toast select-none
                 max-w-[calc(100vw-2rem)]"
          role="status" aria-live="polite">

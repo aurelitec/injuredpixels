@@ -12,19 +12,20 @@ import '../state/app_state.dart';
 /// Help dialog component showing keyboard, mouse, and touch shortcuts.
 ///
 /// Manages:
-/// - Dialog visibility with animation
+/// - Dialog visibility with animation via CSS classes
 /// - Close on backdrop click or X button
 class HelpDialog {
   final AppState _appState;
   final web.HTMLDivElement _container;
 
-  /// The cloned dialog element (backdrop wrapper).
+  /// The cloned dialog element (backdrop wrapper, has .dialog-backdrop class).
   late final web.HTMLElement _dialogElement;
 
-  /// Inner dialog panel for animation.
+  /// Inner dialog panel for animation (has .dialog-inner class).
   late final web.HTMLElement _innerDialog;
 
-  HelpDialog(this._appState, this._container, web.HTMLTemplateElement template) {
+  HelpDialog(
+      this._appState, this._container, web.HTMLTemplateElement template) {
     _cloneTemplate(template);
     _wireHandlers();
     _setupEffects();
@@ -33,8 +34,10 @@ class HelpDialog {
   /// Clone template and extract references.
   void _cloneTemplate(web.HTMLTemplateElement template) {
     final content = template.content.cloneNode(true) as web.DocumentFragment;
-    _dialogElement = content.querySelector('[data-backdrop]') as web.HTMLElement;
-    _innerDialog = _dialogElement.querySelector('[role="dialog"]') as web.HTMLElement;
+    _dialogElement =
+        content.querySelector('.dialog-backdrop') as web.HTMLElement;
+    _innerDialog =
+        _dialogElement.querySelector('.dialog-inner') as web.HTMLElement;
   }
 
   /// Wire event handlers.
@@ -69,39 +72,35 @@ class HelpDialog {
 
       if (visible && !isCurrentlyVisible && !isAnimating) {
         // Show dialog
-        _dialogElement.style.opacity = '0';
-        _innerDialog.style.opacity = '0';
-        _innerDialog.style.transform = 'scale(0.95)';
+        _dialogElement.classList.remove('hiding');
+        _innerDialog.classList.remove('hiding');
         _container.append(_dialogElement);
 
-        // Trigger reflow then animate in
-        // ignore: unnecessary_statements
-        _dialogElement.offsetHeight; // Force reflow
+        // Force reflow then animate in
+        _dialogElement.offsetHeight;
 
-        _dialogElement.style.transition = 'opacity 200ms ease-out';
-        _dialogElement.style.opacity = '1';
-
-        _innerDialog.style.transition = 'opacity 200ms ease-out, transform 200ms ease-out';
-        _innerDialog.style.opacity = '1';
-        _innerDialog.style.transform = 'scale(1)';
+        _dialogElement.classList.remove('hidden-state');
+        _dialogElement.classList.add('visible-state');
+        _innerDialog.classList.remove('hidden-state');
+        _innerDialog.classList.add('visible-state');
 
         isCurrentlyVisible = true;
       } else if (!visible && isCurrentlyVisible && !isAnimating) {
         // Hide dialog with animation
         isAnimating = true;
-
-        _dialogElement.style.transition = 'opacity 150ms ease-in';
-        _dialogElement.style.opacity = '0';
-
-        _innerDialog.style.transition = 'opacity 150ms ease-in';
-        _innerDialog.style.opacity = '0';
+        _dialogElement.classList.add('hiding');
+        _innerDialog.classList.add('hiding');
+        _dialogElement.classList.remove('visible-state');
+        _dialogElement.classList.add('hidden-state');
+        _innerDialog.classList.remove('visible-state');
+        _innerDialog.classList.add('hidden-state');
 
         // Remove after animation
         Timer(const Duration(milliseconds: 150), () {
           if (!_appState.helpOpen.value) {
             _dialogElement.remove();
-            _dialogElement.style.transition = '';
-            _innerDialog.style.transition = '';
+            _dialogElement.classList.remove('hiding');
+            _innerDialog.classList.remove('hiding');
           }
           isAnimating = false;
         });
