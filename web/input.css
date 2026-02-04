@@ -1,5 +1,202 @@
 @import "tailwindcss";
 
 @theme {
-  /* Design tokens will be defined in Phase 2 */
+  /* =========================
+     UI COLORS
+     ========================= */
+
+  /* Panel backgrounds */
+  --color-panel-swatch: #f0f0f0;
+  --color-panel-toolbar: #1a1a1a;
+
+  /* Toolbar buttons */
+  --color-toolbar-text: #ffffff;
+  --color-toolbar-hover: rgba(255, 255, 255, 0.1);
+  --color-toolbar-active: rgba(255, 255, 255, 0.15);
+
+  /* Toast */
+  --color-toast-bg: rgba(0, 0, 0, 0.8);
+  --color-toast-text: #ffffff;
+
+  /* Help dialog */
+  --color-dialog-bg: #ffffff;
+  --color-dialog-backdrop: rgba(0, 0, 0, 0.5);
+
+  /* Swatch borders */
+  --color-swatch-border: rgba(0, 0, 0, 0.2);
+
+  /* Selected swatch ring — neutral gray visible against all swatch colors on #f0f0f0 panel */
+  --color-swatch-selected: #858585;
+
+  /* Focus ring — neutral to avoid clashing with colored swatches; lighter than selection ring */
+  --color-focus-ring: #bbbbbb;
+
+  /* =========================
+     SHADOWS
+     ========================= */
+
+  /* Dark shadow for light backgrounds + gray glow for visibility on dark test colors (Black, Blue) */
+  --shadow-surface: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 16px rgba(128, 128, 128, 0.4);
+
+  --shadow-toast: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* Inset shadow on selected swatch for a pressed/recessed look */
+  --shadow-swatch-selected: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  /* =========================
+     SPACING (--spacing-* → gap-*, p-*, m-*)
+     ========================= */
+
+  --spacing-swatch-gap: 1rem;
+  --spacing-panel-padding: 1.5rem;
+
+  /* =========================
+     SIZING (--width-* → w-*, --height-* → h-*)
+     ========================= */
+
+  --width-swatch: 5rem;
+  --height-swatch: 5rem;
+  --min-width-swatch: 3rem;
+  --min-height-swatch: 3rem;
+
+  /* =========================
+     BORDER RADIUS
+     ========================= */
+
+  --radius-panel: 0.375rem;
+  --radius-toast: 0.5rem;
+  --radius-button: 0.25rem;
+  --radius-swatch: 0.125rem;
+
+  /* =========================
+     ANIMATIONS
+     ========================= */
+
+  --ease-panel-in: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-panel-out: cubic-bezier(0.4, 0, 1, 1);
+
+  --duration-panel-in: 250ms;
+  --duration-panel-out: 150ms;
+  --duration-toast-in: 200ms;
+  --duration-toast-out: 150ms;
+}
+
+/* =========================
+   KEYFRAME ANIMATIONS
+   ========================= */
+
+/* Panel entry: scale up + fade in */
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Panel exit: fade out only */
+@keyframes panel-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Toast entry: slide up + fade in */
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Backdrop fade in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Dialog scale in */
+@keyframes dialog-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   COMPONENT CLASSES
+   ========================= */
+
+@layer components {
+  /* Color swatch button */
+  .color-swatch {
+    @apply flex items-center justify-center
+           h-12 w-12 min-h-swatch min-w-swatch
+           rounded-swatch border border-swatch-border
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2
+           sm:h-16 sm:w-16 lg:h-swatch lg:w-swatch;
+  }
+
+  .color-swatch.selected {
+    @apply shadow-[0_0_0_3px_var(--color-swatch-selected)];
+  }
+
+  .color-swatch-label {
+    @apply text-[0.5rem] font-medium select-none
+           sm:text-xs sm:font-semibold lg:font-bold lg:text-sm;
+  }
+
+  /* Toolbar button */
+  .toolbar-btn {
+    @apply flex items-center gap-2
+           rounded-button px-3 py-2
+           text-sm font-medium text-toolbar-text
+           transition-colors
+           hover:bg-toolbar-hover active:bg-toolbar-active
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-panel-toolbar;
+  }
+
+  .toolbar-btn-icon {
+    @apply text-xl md:text-lg;
+  }
+
+  .toolbar-btn-label {
+    @apply hidden md:inline;
+  }
+
+  /* Help dialog shortcut row */
+  .shortcut-row {
+    @apply flex justify-between gap-4;
+  }
+
+  .shortcut-key {
+    @apply font-mono text-gray-500 shrink-0;
+  }
+
+  .shortcut-desc {
+    @apply text-gray-700 text-right;
+  }
+
+  /* Section header in help dialog */
+  .shortcut-section {
+    @apply text-xs font-semibold text-gray-400 uppercase tracking-wide mt-4 mb-2 first:mt-0;
+  }
 }
