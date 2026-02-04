@@ -8,10 +8,15 @@ import 'package:signals_core/signals_core.dart';
 import 'package:web/web.dart' as web;
 
 import 'components/control_panel.dart';
+import 'services/fullscreen_service.dart';
+import 'services/keyboard_service.dart';
+import 'services/storage_service.dart';
 import 'state/app_state.dart';
 
+/// Storage key for persisted color index.
+const _colorIndexKey = 'colorIndex';
+
 /// Global app state instance for debugging from console.
-/// Access via: window.setColor(index) in browser console.
 late AppState _appState;
 
 /// Main application class that bootstraps and wires everything together.
@@ -24,6 +29,15 @@ class App {
 
   /// Control panel component.
   late final ControlPanel _controlPanel;
+
+  /// Fullscreen service.
+  late final FullscreenService _fullscreenService;
+
+  /// Keyboard service.
+  late final KeyboardService _keyboardService;
+
+  /// Storage service.
+  late final StorageService _storageService;
 
   /// Control panel template.
   late final web.HTMLTemplateElement _panelTemplate;
@@ -44,6 +58,8 @@ class App {
   void run() {
     _appState = appState;
     _queryElements();
+    _createServices();
+    _loadPersistedState();
     _createComponents();
     _setupBodyHandlers();
     _setupEffects();
@@ -61,12 +77,27 @@ class App {
         web.document.querySelector('#toast') as web.HTMLTemplateElement;
   }
 
+  /// Create services.
+  void _createServices() {
+    _storageService = StorageService();
+    _fullscreenService = FullscreenService(appState);
+    _keyboardService = KeyboardService(appState, _fullscreenService);
+  }
+
+  /// Load persisted state from storage.
+  void _loadPersistedState() {
+    final savedIndex = _storageService.read<int>(_colorIndexKey);
+    if (savedIndex != null && savedIndex >= 0 && savedIndex < colorCount) {
+      appState.colorIndex.value = savedIndex;
+    }
+  }
+
   /// Create and initialize components.
   void _createComponents() {
     _controlPanel = ControlPanel(appState, _container, _panelTemplate);
 
     // Wire callbacks for actions that need app-level coordination
-    _controlPanel.onFullscreenToggle = _toggleFullscreen;
+    _controlPanel.onFullscreenToggle = () => _fullscreenService.toggle();
     _controlPanel.onHelpToggle = () => appState.toggleHelp();
   }
 
@@ -126,24 +157,16 @@ class App {
       final isFullscreen = appState.isFullscreen.value;
       _controlPanel.updateFullscreenIcon(isFullscreen);
     });
-  }
 
-  /// Toggle fullscreen mode (placeholder until FullscreenService is implemented).
-  void _toggleFullscreen() {
-    // TODO: Implement in Phase 5 with FullscreenService
-    final doc = web.document;
-    final docElement = web.document.documentElement!;
-
-    if (doc.fullscreenElement != null) {
-      doc.exitFullscreen();
-    } else {
-      docElement.requestFullscreen();
-    }
+    // Persist color index on change
+    effect(() {
+      final index = appState.colorIndex.value;
+      _storageService.write(_colorIndexKey, index);
+    });
   }
 }
 
 /// Set color by index (0-7) - for console debugging.
-/// Usage in browser console: setColor(3) for Cyan
 void setColor(int index) {
   if (index >= 0 && index < colorCount) {
     _appState.colorIndex.value = index;
