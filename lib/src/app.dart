@@ -2,9 +2,12 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
+import 'dart:async';
+
 import 'package:signals_core/signals_core.dart';
 import 'package:web/web.dart' as web;
 
+import 'components/control_panel.dart';
 import 'state/app_state.dart';
 
 /// Global app state instance for debugging from console.
@@ -19,22 +22,30 @@ class App {
   /// Container element for dynamic content.
   late final web.HTMLDivElement _container;
 
+  /// Control panel component.
+  late final ControlPanel _controlPanel;
+
   /// Control panel template.
   late final web.HTMLTemplateElement _panelTemplate;
 
-  /// Help dialog template.
+  /// Help dialog template (used in Phase 6).
   late final web.HTMLTemplateElement _helpTemplate;
 
-  /// Toast template.
+  /// Toast template (used in Phase 6).
   late final web.HTMLTemplateElement _toastTemplate;
 
-  /// List of swatch buttons (for reading color values).
-  final List<web.HTMLButtonElement> _swatchButtons = [];
+  /// Timer for touch-and-hold gesture.
+  Timer? _touchTimer;
+
+  /// Whether touch moved during touch-and-hold.
+  var _touchMoved = false;
 
   /// Initializes the application and starts the UI.
   void run() {
     _appState = appState;
     _queryElements();
+    _createComponents();
+    _setupBodyHandlers();
     _setupEffects();
   }
 
@@ -42,19 +53,63 @@ class App {
   void _queryElements() {
     _container =
         web.document.querySelector('#app-container') as web.HTMLDivElement;
-    _panelTemplate =
-        web.document.querySelector('#control-panel') as web.HTMLTemplateElement;
+    _panelTemplate = web.document.querySelector('#control-panel')
+        as web.HTMLTemplateElement;
     _helpTemplate =
         web.document.querySelector('#help-dialog') as web.HTMLTemplateElement;
     _toastTemplate =
         web.document.querySelector('#toast') as web.HTMLTemplateElement;
+  }
 
-    // Query swatch buttons from the template for color data
-    final panelContent = _panelTemplate.content;
-    final buttons = panelContent.querySelectorAll('[data-index]');
-    for (var i = 0; i < buttons.length; i++) {
-      _swatchButtons.add(buttons.item(i) as web.HTMLButtonElement);
-    }
+  /// Create and initialize components.
+  void _createComponents() {
+    _controlPanel = ControlPanel(appState, _container, _panelTemplate);
+
+    // Wire callbacks for actions that need app-level coordination
+    _controlPanel.onFullscreenToggle = _toggleFullscreen;
+    _controlPanel.onHelpToggle = () => appState.toggleHelp();
+  }
+
+  /// Set up body event handlers for background interactions.
+  void _setupBodyHandlers() {
+    final body = web.document.body!;
+
+    // Double-click: next color
+    body.onDoubleClick.listen((_) {
+      appState.nextColor();
+    });
+
+    // Right-click: toggle panel
+    body.onContextMenu.listen((event) {
+      event.preventDefault();
+      appState.togglePanel();
+    });
+
+    // Touch and hold for panel toggle (long press)
+    body.onTouchStart.listen((_) {
+      _touchMoved = false;
+      _touchTimer = Timer(const Duration(milliseconds: 500), () {
+        if (!_touchMoved) {
+          appState.togglePanel();
+        }
+      });
+    });
+
+    body.onTouchMove.listen((_) {
+      _touchMoved = true;
+      _touchTimer?.cancel();
+      _touchTimer = null;
+    });
+
+    body.onTouchEnd.listen((_) {
+      _touchTimer?.cancel();
+      _touchTimer = null;
+    });
+
+    body.onTouchCancel.listen((_) {
+      _touchTimer?.cancel();
+      _touchTimer = null;
+    });
   }
 
   /// Set up reactive effects.
@@ -62,9 +117,28 @@ class App {
     // Background color effect
     effect(() {
       final index = appState.colorIndex.value;
-      final hex = _swatchButtons[index].getAttribute('data-hex') ?? '#FF0000';
+      final hex = _controlPanel.getColorHex(index);
       web.document.body!.style.backgroundColor = hex;
     });
+
+    // Fullscreen icon update effect
+    effect(() {
+      final isFullscreen = appState.isFullscreen.value;
+      _controlPanel.updateFullscreenIcon(isFullscreen);
+    });
+  }
+
+  /// Toggle fullscreen mode (placeholder until FullscreenService is implemented).
+  void _toggleFullscreen() {
+    // TODO: Implement in Phase 5 with FullscreenService
+    final doc = web.document;
+    final docElement = web.document.documentElement!;
+
+    if (doc.fullscreenElement != null) {
+      doc.exitFullscreen();
+    } else {
+      docElement.requestFullscreen();
+    }
   }
 }
 
