@@ -37,8 +37,7 @@ class ControlPanel {
   /// Callback for help action (wired by App).
   void Function()? onHelpToggle;
 
-  ControlPanel(
-      this._appState, this._container, web.HTMLTemplateElement template) {
+  ControlPanel(this._appState, this._container, web.HTMLTemplateElement template) {
     _cloneTemplate(template);
     _wireSwatchHandlers();
     _wireToolbarHandlers();
@@ -49,8 +48,7 @@ class ControlPanel {
   void _cloneTemplate(web.HTMLTemplateElement template) {
     final content = template.content.cloneNode(true) as web.DocumentFragment;
     _panelElement = content.querySelector('[role="dialog"]')!;
-    _innerPanel =
-        _panelElement.querySelector('.rounded-panel') as web.HTMLElement;
+    _innerPanel = _panelElement.querySelector('.rounded-panel') as web.HTMLElement;
 
     // Query swatch buttons
     final swatches = _panelElement.querySelectorAll('[data-index]');
@@ -160,8 +158,7 @@ class ControlPanel {
       } else if (!visible && isCurrentlyVisible && !isAnimating) {
         // Hide panel with animation
         isAnimating = true;
-        _innerPanel.style.transition =
-            'opacity 150ms cubic-bezier(0.4, 0, 1, 1)';
+        _innerPanel.style.transition = 'opacity 150ms cubic-bezier(0.4, 0, 1, 1)';
         _innerPanel.style.opacity = '0';
 
         // Remove after animation

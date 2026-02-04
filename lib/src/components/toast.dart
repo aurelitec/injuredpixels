@@ -72,8 +72,7 @@ class Toast {
         // ignore: unnecessary_statements
         _toastElement.offsetHeight; // Force reflow
 
-        _toastElement.style.transition =
-            'opacity 200ms ease-out, transform 200ms ease-out';
+        _toastElement.style.transition = 'opacity 200ms ease-out, transform 200ms ease-out';
         _toastElement.style.opacity = '1';
         _toastElement.style.transform = 'translateY(0)';
 
@@ -88,8 +87,7 @@ class Toast {
         _dismissTimer?.cancel();
         _dismissTimer = null;
 
-        _toastElement.style.transition =
-            'opacity 150ms ease-in, transform 150ms ease-in';
+        _toastElement.style.transition = 'opacity 150ms ease-in, transform 150ms ease-in';
         _toastElement.style.opacity = '0';
         _toastElement.style.transform = 'translateY(1rem)';
 

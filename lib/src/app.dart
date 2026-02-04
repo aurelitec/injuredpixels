@@ -81,14 +81,10 @@ class App {
 
   /// Query DOM elements needed for the app.
   void _queryElements() {
-    _container =
-        web.document.querySelector('#app-container') as web.HTMLDivElement;
-    _panelTemplate = web.document.querySelector('#control-panel')
-        as web.HTMLTemplateElement;
-    _helpTemplate =
-        web.document.querySelector('#help-dialog') as web.HTMLTemplateElement;
-    _toastTemplate =
-        web.document.querySelector('#toast') as web.HTMLTemplateElement;
+    _container = web.document.querySelector('#app-container') as web.HTMLDivElement;
+    _panelTemplate = web.document.querySelector('#control-panel') as web.HTMLTemplateElement;
+    _helpTemplate = web.document.querySelector('#help-dialog') as web.HTMLTemplateElement;
+    _toastTemplate = web.document.querySelector('#toast') as web.HTMLTemplateElement;
   }
 
   /// Create services.
