@@ -25,9 +25,10 @@ dist-portable
 *.sw?
 
 # Miscellaneous
+.ai-threads
 .claude
+.playwright-mcp/
+.specs
 .temp
 .vscode/mcp.json
-.specs
-.playwright-mcp/
-.ai-threads
+.work
