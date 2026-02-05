@@ -51,9 +51,6 @@ class App {
   /// Creates service instances.
   void _createServices() {
     _storage = StorageService();
-    fullscreen_service.init(
-      onFullscreenChange: _onFullscreenChange,
-    );
   }
 
   /// Creates component instances.
@@ -155,14 +152,6 @@ class App {
   /// Toggles fullscreen mode.
   void _toggleFullscreen() {
     fullscreen_service.toggle();
-  }
-
-  /// Handles fullscreen state changes.
-  void _onFullscreenChange(bool isFullscreen) {
-    // Panic recovery: show panel when exiting fullscreen
-    // if (!isFullscreen) {
-    //   control_panel_controller.show();
-    // }
   }
 
   /// Handles Escape key.
