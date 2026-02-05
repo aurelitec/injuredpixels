@@ -9,11 +9,21 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
+/// An optional callback invoked after the panel is hidden.
+///
+/// Can be used to trigger hints or other actions.
 late final void Function()? _afterHide;
+
+/// The main control panel HTML element.
 late final HTMLElement _element;
 
+/// Callback for when a color swatch is selected, providing the swatch index.
 late final void Function(String action)? _onAction;
+
+/// Callback for when a toolbar action button is pressed.
 late final void Function(int index)? _onColorSelected;
+
+/// The currently selected swatch index.
 var _selectedIndex = 0;
 
 final List<HTMLElement> _swatches = [];
@@ -32,6 +42,7 @@ void hide() {
   _afterHide?.call();
 }
 
+/// Initializes the control panel controller by assigning callbacks and querying elements.
 void init({
   void Function(int index)? onColorSelected,
   void Function(String action)? onAction,
@@ -41,11 +52,10 @@ void init({
   _onAction = onAction;
   _afterHide = afterHide;
 
+  // Query necessary HTML elements
   _element = document.querySelector('#control-panel') as HTMLElement;
-
   _querySwatches();
   _queryToolbarButtons();
-  _setupEventBlocking();
 }
 
 /// Selects a swatch by index (updates visual state only).
@@ -93,28 +103,6 @@ void _queryToolbarButtons() {
   for (var i = 0; i < buttons.length; i++) {
     final button = buttons.item(i) as HTMLElement;
     final action = button.dataset['action'];
-
-    button.addEventListener(
-      'click',
-      ((Event event) {
-        _onAction?.call(action);
-      }).toJS,
-    );
-  }
-}
-
-/// Prevents body handlers from firing when interacting with the panel.
-void _setupEventBlocking() {
-  for (final eventType in ['click', 'dblclick', 'contextmenu']) {
-    _element.addEventListener(
-      eventType,
-      ((Event event) {
-        event.stopPropagation();
-        // Also prevent default for contextmenu to suppress browser menu
-        if (eventType == 'contextmenu') {
-          event.preventDefault();
-        }
-      }).toJS,
-    );
+    button.addEventListener('click', ((Event event) => _onAction?.call(action)).toJS);
   }
 }

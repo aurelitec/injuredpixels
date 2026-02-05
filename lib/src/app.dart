@@ -77,21 +77,21 @@ class App {
 
   /// Sets up body-level event handlers.
   void _setupBodyHandlers() {
-    // Double-click → next color
-    document.addEventListener(
+    // Double-click (only) on the colored body → next color
+    document.body?.addEventListener(
       'dblclick',
       ((MouseEvent event) {
-        _nextColor();
+        if (event.target == event.currentTarget) _nextColor();
       }).toJS,
     );
 
-    // Right-click → toggle panel
-    // CRITICAL: preventDefault must be called synchronously to suppress browser menu
-    document.addEventListener(
+    // Right-click (only) on the colored body → toggle control panel
+    // Also prevents the context menu from appearing
+    document.body?.addEventListener(
       'contextmenu',
       ((MouseEvent event) {
         event.preventDefault();
-        control_panel_controller.toggle();
+        if (event.target == event.currentTarget) control_panel_controller.toggle();
       }).toJS,
     );
   }
