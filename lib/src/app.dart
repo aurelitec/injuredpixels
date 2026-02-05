@@ -119,7 +119,7 @@ class App {
   void selectColor(int index) {
     if (index < 0 || index >= colorCount) return;
     _colorIndex = index;
-    _body.dataset['colorIndex'] = index.toString();
+    _body.style.backgroundColor = control_panel_controller.getSwatchBackgroundColor(index);
     control_panel_controller.selectSwatch(index);
     _storage.write(_colorIndexKey, index);
   }

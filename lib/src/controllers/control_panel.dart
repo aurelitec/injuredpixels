@@ -26,6 +26,9 @@ late final void Function(int index)? _onColorSelected;
 /// The currently selected swatch index.
 var _selectedIndex = 0;
 
+/// The swatches container element.
+late final HTMLElement _swatchesContainer;
+
 final List<HTMLElement> _swatches = [];
 
 /// Whether the control panel is visible.
@@ -78,18 +81,26 @@ void show() => _element.classList.remove('hidden');
 /// Toggles control panel visibility.
 void toggle() => _element.classList.toggle('hidden');
 
+/// Returns the computed background color of the swatch at the given index.
+String getSwatchBackgroundColor(int index) {
+  if (index < 0 || index >= _swatches.length) return '';
+  return window.getComputedStyle(_swatches[index]).backgroundColor;
+}
+
 /// Queries and wires swatch buttons.
 void _querySwatches() {
-  final swatchElements = _element.querySelectorAll('[data-index]');
-  for (var i = 0; i < swatchElements.length; i++) {
-    final swatch = swatchElements.item(i) as HTMLElement;
+  _swatchesContainer = document.querySelector('#swatches') as HTMLElement;
+  final children = _swatchesContainer.children;
+  for (var i = 0; i < children.length; i++) {
+    final swatch = children.item(i) as HTMLElement;
     _swatches.add(swatch);
 
     swatch.addEventListener(
       'click',
       ((Event event) {
-        final index = int.tryParse(swatch.dataset['index']);
-        if (index != null) {
+        // Find index using DOM position
+        final index = _swatches.indexOf(swatch);
+        if (index != -1) {
           _onColorSelected?.call(index);
         }
       }).toJS,

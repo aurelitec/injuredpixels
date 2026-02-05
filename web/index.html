@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style.css">
   <script defer src="main.dart.js"></script>
 </head>
-<body data-color-index="0">
+<body>
 
   <!-- =========================
        SVG SPRITE
@@ -62,30 +62,29 @@
   <div id="control-panel" class="control-panel" role="dialog" aria-label="Control panel">
 
     <!-- Color swatches grid -->
-    <div class="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 select-none sm:gap-swatch-gap md:grid-cols-8 sm:p-panel-padding">
-      <!-- <button data-index="0" class="color-swatch" style="background-color: #FF0000; color: #FFFFFF;"> -->
-      <button data-index="0" class="color-swatch bg-[#FF0000] text-[#FFFFFF]">
+    <div id="swatches" class="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 select-none sm:gap-swatch-gap md:grid-cols-8 sm:p-panel-padding">
+      <button class="color-swatch bg-[#FF0000] text-[#FFFFFF]">
         <span class="color-swatch-label">Red</span>
       </button>
-      <button data-index="1" class="color-swatch bg-[#00FF00] text-[#000000]">
+      <button class="color-swatch bg-[#00FF00] text-[#000000]">
         <span class="color-swatch-label">Green</span>
       </button>
-      <button data-index="2" class="color-swatch bg-[#0000FF] text-[#FFFFFF]">
+      <button class="color-swatch bg-[#0000FF] text-[#FFFFFF]">
         <span class="color-swatch-label">Blue</span>
       </button>
-      <button data-index="3" class="color-swatch bg-[#00FFFF] text-[#000000]">
+      <button class="color-swatch bg-[#00FFFF] text-[#000000]">
         <span class="color-swatch-label">Cyan</span>
       </button>
-      <button data-index="4" class="color-swatch bg-[#FF00FF] text-[#FFFFFF]">
+      <button class="color-swatch bg-[#FF00FF] text-[#FFFFFF]">
         <span class="color-swatch-label">Magenta</span>
       </button>
-      <button data-index="5" class="color-swatch bg-[#FFFF00] text-[#000000]">
+      <button class="color-swatch bg-[#FFFF00] text-[#000000]">
         <span class="color-swatch-label">Yellow</span>
       </button>
-      <button data-index="6" class="color-swatch bg-[#000000] text-[#FFFFFF]">
+      <button class="color-swatch bg-[#000000] text-[#FFFFFF]">
         <span class="color-swatch-label">Black</span>
       </button>
-      <button data-index="7" class="color-swatch bg-[#FFFFFF] text-[#000000]">
+      <button class="color-swatch bg-[#FFFFFF] text-[#000000]">
         <span class="color-swatch-label">White</span>
       </button>
     </div>

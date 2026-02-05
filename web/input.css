@@ -70,21 +70,12 @@
 }
 
 /* =========================
-   BODY BACKGROUND COLORS
+   BODY
    ========================= */
 
 body {
   @apply min-h-screen flex items-center justify-center select-none;
 }
-
-body[data-color-index="0"] { @apply bg-[#FF0000]; } /* Red */
-body[data-color-index="1"] { @apply bg-[#00FF00]; } /* Green */
-body[data-color-index="2"] { @apply bg-[#0000FF]; } /* Blue */
-body[data-color-index="3"] { @apply bg-[#00FFFF]; } /* Cyan */
-body[data-color-index="4"] { @apply bg-[#FF00FF]; } /* Magenta */
-body[data-color-index="5"] { @apply bg-[#FFFF00]; } /* Yellow */
-body[data-color-index="6"] { @apply bg-[#000000]; } /* Black */
-body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
 
 /* =========================
    COMPONENT CLASSES
