@@ -6,7 +6,7 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
-import 'controllers/control_panel.dart';
+import 'controllers/control_panel.dart' as control_panel_controller;
 import 'controllers/help.dart' as help_controller;
 import 'controllers/toast.dart' as toast_controller;
 import 'services/fullscreen.dart';
@@ -27,8 +27,6 @@ const _panelHideHint = 'Right-click or press Space to show controls';
 /// Orchestrates the app: queries elements, wires events, coordinates components.
 class App {
   late final HTMLElement _body;
-
-  late final ControlPanel _controlPanel;
 
   late final FullscreenService _fullscreen;
   late final StorageService _storage;
@@ -61,11 +59,16 @@ class App {
 
   /// Creates component instances.
   void _createComponents() {
-    final panelElement = document.querySelector('#control-panel') as HTMLElement;
-    _controlPanel = ControlPanel(
-      panelElement,
+    control_panel_controller.init(
       onColorSelected: selectColor,
       onAction: _handleAction,
+      afterHide: () {
+        // Show hint toast on first panel hide per session
+        if (!_hasShownPanelHideHint) {
+          _hasShownPanelHideHint = true;
+          toast_controller.show(_panelHideHint);
+        }
+      },
     );
 
     help_controller.init();
@@ -88,7 +91,7 @@ class App {
       'contextmenu',
       ((MouseEvent event) {
         event.preventDefault();
-        _togglePanel();
+        control_panel_controller.toggle();
       }).toJS,
     );
   }
@@ -100,7 +103,7 @@ class App {
       onPrevious: _previousColor,
       onNext: _nextColor,
       onFullscreenToggle: _toggleFullscreen,
-      onPanelToggle: _togglePanel,
+      onPanelToggle: control_panel_controller.toggle,
       onHelpToggle: _toggleHelp,
       onEscape: _handleEscape,
     );
@@ -117,7 +120,7 @@ class App {
     if (index < 0 || index >= colorCount) return;
     _colorIndex = index;
     _body.dataset['colorIndex'] = index.toString();
-    _controlPanel.selectSwatch(index);
+    control_panel_controller.selectSwatch(index);
     _storage.write(_colorIndexKey, index);
   }
 
@@ -144,29 +147,9 @@ class App {
       case 'fullscreen':
         _toggleFullscreen();
       case 'hide':
-        _hidePanel();
+        control_panel_controller.hide();
       case 'help':
         _toggleHelp();
-    }
-  }
-
-  /// Toggles control panel visibility.
-  void _togglePanel() {
-    if (_controlPanel.isVisible) {
-      _hidePanel();
-    } else {
-      _controlPanel.show();
-    }
-  }
-
-  /// Hides control panel and shows hint toast on first hide.
-  void _hidePanel() {
-    _controlPanel.hide();
-
-    // Show hint toast on first panel hide per session
-    if (!_hasShownPanelHideHint) {
-      _hasShownPanelHideHint = true;
-      toast_controller.show(_panelHideHint);
     }
   }
 
@@ -177,11 +160,11 @@ class App {
 
   /// Handles fullscreen state changes.
   void _onFullscreenChange(bool isFullscreen) {
-    _controlPanel.updateFullscreenButton(isFullscreen);
+    control_panel_controller.updateFullscreenButton(isFullscreen);
 
     // Panic recovery: show panel when exiting fullscreen
     if (!isFullscreen) {
-      _controlPanel.show();
+      control_panel_controller.show();
     }
   }
 
@@ -194,8 +177,8 @@ class App {
     // }
 
     // Show panel if hidden (panic recovery)
-    if (!_controlPanel.isVisible) {
-      _controlPanel.show();
+    if (!control_panel_controller.isVisible) {
+      control_panel_controller.show();
     }
   }
 
