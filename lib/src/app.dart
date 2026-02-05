@@ -7,9 +7,15 @@ import 'dart:js_interop';
 import 'package:web/web.dart';
 
 import 'components/control_panel.dart';
+import 'services/fullscreen.dart';
+import 'services/keyboard.dart';
+import 'services/storage.dart';
 
 /// Number of test colors available.
 const colorCount = 8;
+
+/// Storage key for persisting the selected color.
+const _colorIndexKey = 'colorIndex';
 
 /// Main application class.
 ///
@@ -20,15 +26,19 @@ class App {
   late final HTMLElement _toastElement;
 
   late final ControlPanel _controlPanel;
+  late final FullscreenService _fullscreen;
+  late final StorageService _storage;
 
   var _colorIndex = 0;
 
   /// Runs the application.
   void run() {
     _queryElements();
+    _createServices();
     _createComponents();
     _setupBodyHandlers();
-    _selectInitialColor();
+    _setupKeyboardShortcuts();
+    _loadPersistedState();
   }
 
   /// Queries required elements from the DOM.
@@ -36,6 +46,14 @@ class App {
     _body = document.body!;
     _helpDialogElement = document.querySelector('#help-dialog') as HTMLElement;
     _toastElement = document.querySelector('#toast') as HTMLElement;
+  }
+
+  /// Creates service instances.
+  void _createServices() {
+    _storage = StorageService();
+    _fullscreen = FullscreenService(
+      onFullscreenChange: _onFullscreenChange,
+    );
   }
 
   /// Creates component instances.
@@ -69,9 +87,23 @@ class App {
     );
   }
 
-  /// Selects the initial color on startup.
-  void _selectInitialColor() {
-    selectColor(0);
+  /// Sets up keyboard shortcuts.
+  void _setupKeyboardShortcuts() {
+    setupKeyboardShortcuts(
+      onColorSelect: selectColor,
+      onPrevious: _previousColor,
+      onNext: _nextColor,
+      onFullscreenToggle: _toggleFullscreen,
+      onPanelToggle: _controlPanel.toggle,
+      onHelpToggle: _toggleHelp,
+      onEscape: _handleEscape,
+    );
+  }
+
+  /// Loads persisted state from storage.
+  void _loadPersistedState() {
+    final savedIndex = _storage.read<int>(_colorIndexKey);
+    selectColor(savedIndex ?? 0);
   }
 
   /// Selects a color by index.
@@ -80,6 +112,7 @@ class App {
     _colorIndex = index;
     _body.dataset['colorIndex'] = index.toString();
     _controlPanel.selectSwatch(index);
+    _storage.write(_colorIndexKey, index);
   }
 
   /// Gets the current color index.
@@ -113,7 +146,25 @@ class App {
 
   /// Toggles fullscreen mode.
   void _toggleFullscreen() {
-    // TODO: Implement in Phase 5
+    _fullscreen.toggle();
+  }
+
+  /// Handles fullscreen state changes.
+  void _onFullscreenChange(bool isFullscreen) {
+    _controlPanel.updateFullscreenButton(isFullscreen);
+
+    // Panic recovery: show panel when exiting fullscreen
+    if (!isFullscreen) {
+      _controlPanel.show();
+    }
+  }
+
+  /// Handles Escape key.
+  void _handleEscape() {
+    // Show panel if hidden (panic recovery)
+    if (!_controlPanel.isVisible) {
+      _controlPanel.show();
+    }
   }
 
   /// Toggles help dialog.
