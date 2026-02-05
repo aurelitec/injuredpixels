@@ -11,10 +11,7 @@ import 'package:web/web.dart';
 
 late final void Function()? _afterHide;
 late final HTMLElement _element;
-late final HTMLElement _fullscreenButton;
-late final SVGUseElement _fullscreenIcon;
 
-late final HTMLElement _fullscreenLabel;
 late final void Function(String action)? _onAction;
 late final void Function(int index)? _onColorSelected;
 var _selectedIndex = 0;
@@ -71,17 +68,6 @@ void show() => _element.classList.remove('hidden');
 /// Toggles control panel visibility.
 void toggle() => _element.classList.toggle('hidden');
 
-/// Updates the fullscreen button state.
-void updateFullscreenButton(bool isFullscreen) {
-  final iconId = isFullscreen ? '#icon-exit-fullscreen' : '#icon-enter-fullscreen';
-  final label = isFullscreen
-      ? _fullscreenButton.dataset['labelExit']
-      : _fullscreenButton.dataset['labelEnter'];
-
-  _fullscreenIcon.href.baseVal = iconId;
-  _fullscreenLabel.textContent = label;
-}
-
 /// Queries and wires swatch buttons.
 void _querySwatches() {
   final swatchElements = _element.querySelectorAll('[data-index]');
@@ -107,13 +93,6 @@ void _queryToolbarButtons() {
   for (var i = 0; i < buttons.length; i++) {
     final button = buttons.item(i) as HTMLElement;
     final action = button.dataset['action'];
-
-    // Store reference to fullscreen button for later updates
-    if (action == 'fullscreen') {
-      _fullscreenButton = button;
-      _fullscreenIcon = button.querySelector('use') as SVGUseElement;
-      _fullscreenLabel = button.querySelector('.toolbar-btn-label') as HTMLElement;
-    }
 
     button.addEventListener(
       'click',

@@ -160,8 +160,6 @@ class App {
 
   /// Handles fullscreen state changes.
   void _onFullscreenChange(bool isFullscreen) {
-    control_panel_controller.updateFullscreenButton(isFullscreen);
-
     // Panic recovery: show panel when exiting fullscreen
     if (!isFullscreen) {
       control_panel_controller.show();

@@ -99,10 +99,13 @@
         <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-right"/></svg>
         <span class="toolbar-btn-label">Next</span>
       </button>
-      <button data-action="fullscreen" class="toolbar-btn lg:mr-auto" aria-label="Toggle fullscreen"
-              data-label-enter="Enter fullscreen" data-label-exit="Exit fullscreen">
-        <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-enter-fullscreen"/></svg>
-        <span class="toolbar-btn-label">Enter fullscreen</span>
+      <button data-action="fullscreen" class="toolbar-btn lg:mr-auto" aria-label="Toggle fullscreen">
+        <!-- <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-enter-fullscreen"/></svg> -->
+        <svg class="toolbar-btn-icon inline [*:fullscreen_&]:hidden" width="1em" height="1em"><use href="#icon-enter-fullscreen"/></svg>
+        <svg class="toolbar-btn-icon hidden [*:fullscreen_&]:inline" width="1em" height="1em"><use href="#icon-exit-fullscreen"/></svg>
+        <!-- <span class="toolbar-btn-label">Enter fullscreen</span> -->
+        <span class="toolbar-btn-label inline [*:fullscreen_&]:hidden">Enter fullscreen</span>
+        <span class="toolbar-btn-label hidden [*:fullscreen_&]:inline">Exit fullscreen</span>
       </button>
       <button data-action="hide" class="toolbar-btn">
         <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-hide"/></svg>
