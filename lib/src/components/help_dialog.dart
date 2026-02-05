@@ -6,25 +6,18 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
-/// Manages the help dialog UI: visibility, close actions.
+/// Manages the help dialog using the native `<dialog>` element.
 class HelpDialog {
-  final HTMLElement _element;
-  late final HTMLElement _innerDialog;
+  final HTMLDialogElement _dialog;
 
-  HelpDialog(this._element) {
-    _queryElements();
+  HelpDialog(this._dialog) {
     _setupEventHandlers();
-  }
-
-  /// Queries child elements.
-  void _queryElements() {
-    _innerDialog = _element.querySelector('.help-dialog-inner') as HTMLElement;
   }
 
   /// Sets up event handlers for closing the dialog.
   void _setupEventHandlers() {
     // Close button
-    final closeButton = _element.querySelector('[data-action="close"]');
+    final closeButton = _dialog.querySelector('[data-action="close"]');
     closeButton?.addEventListener(
       'click',
       ((Event event) {
@@ -32,35 +25,35 @@ class HelpDialog {
       }).toJS,
     );
 
-    // Backdrop click (click on backdrop but not on inner dialog)
-    _element.addEventListener(
+    // Backdrop click - native dialog fires click on the dialog element itself
+    // when clicking the backdrop (::backdrop)
+    _dialog.addEventListener(
       'click',
-      ((Event event) {
-        // Only close if click is directly on backdrop (not bubbled from inner)
-        if (event.target == _element) {
+      ((MouseEvent event) {
+        // Close only if click is on the dialog element (backdrop area)
+        // not on its children (the actual content)
+        if (event.target == _dialog) {
           hide();
         }
       }).toJS,
     );
-
-    // Prevent clicks on inner dialog from closing
-    _innerDialog.addEventListener(
-      'click',
-      ((Event event) {
-        event.stopPropagation();
-      }).toJS,
-    );
   }
 
-  /// Shows the help dialog.
-  void show() => _element.classList.remove('hidden');
+  /// Shows the help dialog as a modal.
+  void show() => _dialog.showModal();
 
   /// Hides the help dialog.
-  void hide() => _element.classList.add('hidden');
+  void hide() => _dialog.close();
 
   /// Toggles help dialog visibility.
-  void toggle() => _element.classList.toggle('hidden');
+  void toggle() {
+    if (isVisible) {
+      hide();
+    } else {
+      show();
+    }
+  }
 
   /// Whether the help dialog is visible.
-  bool get isVisible => !_element.classList.contains('hidden');
+  bool get isVisible => _dialog.open;
 }

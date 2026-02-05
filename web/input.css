@@ -73,6 +73,10 @@
    BODY BACKGROUND COLORS
    ========================= */
 
+body {
+  @apply min-h-screen;
+}
+
 body[data-color-index="0"] { @apply bg-[#FF0000]; } /* Red */
 body[data-color-index="1"] { @apply bg-[#00FF00]; } /* Green */
 body[data-color-index="2"] { @apply bg-[#0000FF]; } /* Blue */
@@ -145,9 +149,9 @@ body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
      CONTROL PANEL
      ========================= */
 
-  /* Panel - centered directly without overlay */
+  /* Panel - centered using inset + margin auto (no wrapper needed) */
   .control-panel {
-    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+    @apply fixed inset-0 m-auto w-fit h-fit
            rounded-panel shadow-surface
            transition-[opacity,transform] duration-[250ms] ease-out;
   }
@@ -159,29 +163,16 @@ body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
   }
 
   /* =========================
-     HELP DIALOG
+     HELP DIALOG (native <dialog>)
      ========================= */
 
-  /* Backdrop */
-  .help-dialog-backdrop {
-    @apply fixed inset-0 z-50 flex items-center justify-center bg-dialog-backdrop
-           transition-opacity duration-200 ease-out;
+  .help-dialog {
+    @apply rounded-panel shadow-surface max-w-sm w-[90vw] overflow-hidden p-0 border-0;
   }
 
-  .help-dialog-backdrop.hidden {
-    @apply opacity-0 pointer-events-none
-           duration-150 ease-in;
-  }
-
-  /* Inner dialog */
-  .help-dialog-inner {
-    @apply relative rounded-panel shadow-surface max-w-sm w-[90vw] overflow-hidden
-           transition-[opacity,transform] duration-200 ease-out;
-  }
-
-  .help-dialog-backdrop.hidden .help-dialog-inner {
-    @apply opacity-0 scale-95
-           duration-150 ease-in;
+  /* Native ::backdrop pseudo-element */
+  .help-dialog::backdrop {
+    @apply bg-dialog-backdrop;
   }
 
   /* =========================

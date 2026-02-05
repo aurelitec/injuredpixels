@@ -70,7 +70,7 @@ class App {
       onAction: _handleAction,
     );
 
-    final helpDialogElement = document.querySelector('#help-dialog') as HTMLElement;
+    final helpDialogElement = document.querySelector('#help-dialog') as HTMLDialogElement;
     _helpDialog = HelpDialog(helpDialogElement);
 
     final toastElement = document.querySelector('#toast') as HTMLElement;
