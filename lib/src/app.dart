@@ -7,7 +7,7 @@ import 'dart:js_interop';
 import 'package:web/web.dart';
 
 import 'controllers/control_panel.dart';
-import 'controllers/help_dialog.dart';
+import 'controllers/help.dart' as help_controller;
 import 'controllers/toast.dart' as toast_controller;
 import 'services/fullscreen.dart';
 import 'services/keyboard.dart';
@@ -29,7 +29,6 @@ class App {
   late final HTMLElement _body;
 
   late final ControlPanel _controlPanel;
-  late final HelpDialog _helpDialog;
 
   late final FullscreenService _fullscreen;
   late final StorageService _storage;
@@ -69,9 +68,7 @@ class App {
       onAction: _handleAction,
     );
 
-    final helpDialogElement = document.querySelector('#help-dialog') as HTMLDialogElement;
-    _helpDialog = HelpDialog(helpDialogElement);
-
+    help_controller.init();
     toast_controller.init();
   }
 
@@ -191,8 +188,8 @@ class App {
   /// Handles Escape key.
   void _handleEscape() {
     // Close help dialog if open
-    if (_helpDialog.isVisible) {
-      _helpDialog.hide();
+    if (help_controller.isVisible) {
+      help_controller.hide();
       return;
     }
 
@@ -204,6 +201,6 @@ class App {
 
   /// Toggles help dialog.
   void _toggleHelp() {
-    _helpDialog.toggle();
+    help_controller.toggle();
   }
 }

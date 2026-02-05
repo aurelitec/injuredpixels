@@ -2,12 +2,11 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-/// The toast controller that manages the inspection mode notification toast.
+/// The toast controller that manages the notification toast.
 library;
 
 import 'dart:async';
 import 'dart:js_interop';
-
 import 'package:web/web.dart';
 
 /// Default duration before toast auto-dismisses.
@@ -23,8 +22,13 @@ Timer? _dismissTimer;
 
 /// Initializes the toast controller by querying elements and setting up event handlers.
 void init() {
-  _queryElements();
-  _setupEventHandlers();
+  // Query necessary HTML elements
+  _element = document.querySelector('#toast') as HTMLElement;
+  _messageElement = _element.querySelector('[data-message]') as HTMLElement;
+
+  // Setup the click handler for the dismiss button
+  final dismissButton = _element.querySelector('[data-action="dismiss"]');
+  dismissButton?.addEventListener('click', ((Event event) => _hide()).toJS);
 }
 
 /// Shows a toast message with optional auto-dismiss duration.
@@ -44,19 +48,6 @@ void show(String message, {Duration duration = _defaultDuration}) {
 
 /// Whether the toast is visible.
 bool get _isVisible => _element.matches(':popover-open');
-
-/// Queries child elements.
-void _queryElements() {
-  _element = document.querySelector('#toast') as HTMLElement;
-  _messageElement = _element.querySelector('[data-message]') as HTMLElement;
-}
-
-/// Sets up event handlers for dismissing the toast.
-void _setupEventHandlers() {
-  // Dismiss button
-  final dismissButton = _element.querySelector('[data-action="dismiss"]');
-  dismissButton?.addEventListener('click', ((Event event) => _hide()).toJS);
-}
 
 /// Hides the toast.
 void _hide() {
