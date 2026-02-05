@@ -26,9 +26,6 @@ late final void Function(int index)? _onColorSelected;
 /// The currently selected swatch index.
 var _selectedIndex = 0;
 
-/// The swatches container element.
-late final HTMLElement _swatchesContainer;
-
 final List<HTMLElement> _swatches = [];
 
 /// Whether the control panel is visible.
@@ -89,8 +86,8 @@ String getSwatchBackgroundColor(int index) {
 
 /// Queries and wires swatch buttons.
 void _querySwatches() {
-  _swatchesContainer = document.querySelector('#swatches') as HTMLElement;
-  final children = _swatchesContainer.children;
+  final swatchesContainer = document.querySelector('#swatches') as HTMLElement;
+  final children = swatchesContainer.children;
   for (var i = 0; i < children.length; i++) {
     final swatch = children.item(i) as HTMLElement;
     _swatches.add(swatch);
