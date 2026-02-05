@@ -64,6 +64,7 @@ web/style.css
 # Miscellaneous
 # ---------------------------------------------------------------------------
 
+.ai-threads
 .claude
 .temp
 .vscode/mcp.json
