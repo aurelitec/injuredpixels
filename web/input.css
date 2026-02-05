@@ -167,8 +167,7 @@ body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
      ========================= */
 
   .help-dialog {
-    @apply fixed inset-0 m-auto h-fit
-           rounded-panel shadow-surface max-w-sm w-[90vw] overflow-hidden p-0 border-0;
+    @apply m-auto w-96 rounded-panel shadow-surface;
   }
 
   /* Native ::backdrop pseudo-element */
