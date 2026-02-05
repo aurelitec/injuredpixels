@@ -35,6 +35,12 @@ bool get isVisible => !_element.classList.contains('hidden');
 /// Gets the currently selected swatch index.
 int get selectedIndex => _selectedIndex;
 
+/// Returns the computed background color of the swatch at the given index.
+String getSwatchBackgroundColor(int index) {
+  if (index < 0 || index >= _swatches.length) return '';
+  return window.getComputedStyle(_swatchAt(index)).backgroundColor;
+}
+
 /// Hides the control panel.
 void hide() {
   _element.classList.add('hidden');
@@ -55,8 +61,8 @@ void init({
 
   // Query necessary HTML elements
   _element = document.querySelector('#control-panel') as HTMLElement;
-  _querySwatches();
-  _queryToolbarButtons();
+  _initSwatches();
+  _initToolbarButtons();
 }
 
 /// Selects a swatch by index (updates visual state only).
@@ -65,11 +71,11 @@ void selectSwatch(int index) {
 
   // Remove selection from previous swatch
   if (_selectedIndex >= 0 && _selectedIndex < _swatches.length) {
-    (_swatches.item(_selectedIndex) as HTMLElement).classList.remove('selected');
+    _swatchAt(_selectedIndex).classList.remove('selected');
   }
 
   // Add selection to new swatch
-  (_swatches.item(index) as HTMLElement).classList.add('selected');
+  _swatchAt(index).classList.add('selected');
   _selectedIndex = index;
 }
 
@@ -79,26 +85,20 @@ void show() => _element.classList.remove('hidden');
 /// Toggles control panel visibility.
 void toggle() => _element.classList.toggle('hidden');
 
-/// Returns the computed background color of the swatch at the given index.
-String getSwatchBackgroundColor(int index) {
-  if (index < 0 || index >= _swatches.length) return '';
-  return window.getComputedStyle(_swatches.item(index) as HTMLElement).backgroundColor;
-}
-
 /// Queries and wires swatch buttons.
-void _querySwatches() {
+void _initSwatches() {
   final swatchesContainer = document.querySelector('#swatches') as HTMLElement;
   _swatches = swatchesContainer.children;
 
   for (var i = 0; i < _swatches.length; i++) {
-    final swatch = _swatches.item(i) as HTMLElement;
+    final swatch = _swatchAt(i);
     // Capture index in closure
     swatch.addEventListener('click', ((Event event) => _onColorSelected?.call(i)).toJS);
   }
 }
 
 /// Queries and wires toolbar buttons.
-void _queryToolbarButtons() {
+void _initToolbarButtons() {
   final buttons = _element.querySelectorAll('[data-action]');
   for (var i = 0; i < buttons.length; i++) {
     final button = buttons.item(i) as HTMLElement;
@@ -106,3 +106,6 @@ void _queryToolbarButtons() {
     button.addEventListener('click', ((Event event) => _onAction?.call(action)).toJS);
   }
 }
+
+/// Helper to get the swatch element at a specific index.
+HTMLElement _swatchAt(int index) => _swatches.item(index) as HTMLElement;
