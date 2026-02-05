@@ -7,10 +7,14 @@ library;
 
 import 'dart:async';
 import 'dart:js_interop';
+
 import 'package:web/web.dart';
 
 /// Default duration before toast auto-dismisses.
 const _defaultDuration = Duration(milliseconds: 4500);
+
+/// Timer for auto-dismissing the toast.
+Timer? _dismissTimer;
 
 /// The main toast HTML element.
 late final HTMLElement _element;
@@ -18,7 +22,8 @@ late final HTMLElement _element;
 /// The message element within the toast.
 late final HTMLElement _messageElement;
 
-Timer? _dismissTimer;
+/// Whether the toast is visible.
+bool get _isVisible => _element.matches(':popover-open');
 
 /// Initializes the toast controller by querying elements and setting up event handlers.
 void init() {
@@ -45,9 +50,6 @@ void show(String message, {Duration duration = _defaultDuration}) {
   // Set up auto-dismiss timer
   _dismissTimer = Timer(duration, _hide);
 }
-
-/// Whether the toast is visible.
-bool get _isVisible => _element.matches(':popover-open');
 
 /// Hides the toast.
 void _hide() {

@@ -188,10 +188,10 @@ class App {
   /// Handles Escape key.
   void _handleEscape() {
     // Close help dialog if open
-    if (help_controller.isVisible) {
-      help_controller.hide();
-      return;
-    }
+    // if (help_controller.isVisible) {
+    //   help_controller.hide();
+    //   return;
+    // }
 
     // Show panel if hidden (panic recovery)
     if (!_controlPanel.isVisible) {

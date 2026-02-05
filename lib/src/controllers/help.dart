@@ -6,10 +6,14 @@
 library;
 
 import 'dart:js_interop';
+
 import 'package:web/web.dart';
 
 /// The main help dialog HTML element.
 late final HTMLDialogElement _dialog;
+
+/// Whether the help dialog is visible.
+bool get isVisible => _dialog.open;
 
 /// Initializes the help dialog controller by querying elements and setting up event handlers.
 void init() {
@@ -19,19 +23,16 @@ void init() {
   // Setup the click handler for the close button
   // Closing the dialog by clicking outside or pressing Escape is handled by the `closedby` attribute
   final closeButton = _dialog.querySelector('[data-action="close"]');
-  closeButton?.addEventListener('click', ((Event _) => hide()).toJS);
+  closeButton?.addEventListener('click', ((Event _) => _hide()).toJS);
 }
 
 /// Shows the help dialog as a modal.
 void show() => _dialog.showModal();
 
-/// Hides the help dialog.
-void hide() => _dialog.close();
-
 /// Toggles help dialog visibility.
 void toggle() {
-  isVisible ? hide() : show();
+  isVisible ? _hide() : show();
 }
 
-/// Whether the help dialog is visible.
-bool get isVisible => _dialog.open;
+/// Hides the help dialog.
+void _hide() => _dialog.close();
