@@ -122,10 +122,11 @@ class ControlPanel {
   void updateFullscreenButton(bool isFullscreen) {
     final iconId =
         isFullscreen ? '#icon-exit-fullscreen' : '#icon-enter-fullscreen';
-    final label = isFullscreen ? 'Exit fullscreen' : 'Fullscreen';
+    final label = isFullscreen
+        ? _fullscreenButton.dataset['labelExit']
+        : _fullscreenButton.dataset['labelEnter'];
 
     _fullscreenIcon.href.baseVal = iconId;
     _fullscreenLabel.textContent = label;
-    _fullscreenButton.ariaLabel = label;
   }
 }
