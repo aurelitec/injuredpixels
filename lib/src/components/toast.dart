@@ -47,8 +47,8 @@ class Toast {
     // Update message
     _messageElement.textContent = message;
 
-    // Show toast
-    _element.classList.remove('hidden');
+    // Show toast using Popover API
+    _element.showPopover();
 
     // Set up auto-dismiss timer
     _dismissTimer = Timer(duration, hide);
@@ -58,9 +58,11 @@ class Toast {
   void hide() {
     _dismissTimer?.cancel();
     _dismissTimer = null;
-    _element.classList.add('hidden');
+    if (isVisible) {
+      _element.hidePopover();
+    }
   }
 
   /// Whether the toast is visible.
-  bool get isVisible => !_element.classList.contains('hidden');
+  bool get isVisible => _element.matches(':popover-open');
 }

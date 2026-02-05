@@ -175,19 +175,21 @@ body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
   }
 
   /* =========================
-     TOAST
+     TOAST (popover)
      ========================= */
 
+  /* Override popover defaults: inset:0 and margin:auto center it */
+  /* Don't set display here - popover uses display:none by default */
   .toast {
-    @apply fixed bottom-8 inset-x-0 mx-auto w-fit z-50 flex items-center gap-3
+    @apply inset-auto m-0 fixed bottom-8 left-1/2 -translate-x-1/2
+           w-fit
            bg-toast-bg text-toast-text px-4 py-3 rounded-toast shadow-toast select-none
-           max-w-[calc(100vw-2rem)]
-           transition-[opacity,transform] duration-200 ease-out;
+           max-w-[calc(100vw-2rem)] border-0;
   }
 
-  .toast.hidden {
-    @apply opacity-0 translate-y-4 pointer-events-none
-           duration-150 ease-in;
+  /* Only apply flex when popover is open */
+  .toast:popover-open {
+    @apply flex items-center gap-3;
   }
 }
 
