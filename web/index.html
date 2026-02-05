@@ -59,62 +59,60 @@
   <!-- =========================
        CONTROL PANEL
        ========================= -->
-  <div id="control-panel" class="control-panel-outer" role="dialog" aria-label="Control panel">
-    <div class="control-panel-inner">
+  <div id="control-panel" class="control-panel" role="dialog" aria-label="Control panel">
 
-      <!-- Color swatches grid -->
-      <div class="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 select-none sm:gap-swatch-gap md:grid-cols-8 sm:p-panel-padding">
-        <button data-index="0" class="color-swatch" style="background-color: #FF0000; color: #FFFFFF;">
-          <span class="color-swatch-label">Red</span>
-        </button>
-        <button data-index="1" class="color-swatch" style="background-color: #00FF00; color: #000000;">
-          <span class="color-swatch-label">Green</span>
-        </button>
-        <button data-index="2" class="color-swatch" style="background-color: #0000FF; color: #FFFFFF;">
-          <span class="color-swatch-label">Blue</span>
-        </button>
-        <button data-index="3" class="color-swatch" style="background-color: #00FFFF; color: #000000;">
-          <span class="color-swatch-label">Cyan</span>
-        </button>
-        <button data-index="4" class="color-swatch" style="background-color: #FF00FF; color: #FFFFFF;">
-          <span class="color-swatch-label">Magenta</span>
-        </button>
-        <button data-index="5" class="color-swatch" style="background-color: #FFFF00; color: #000000;">
-          <span class="color-swatch-label">Yellow</span>
-        </button>
-        <button data-index="6" class="color-swatch" style="background-color: #000000; color: #FFFFFF;">
-          <span class="color-swatch-label">Black</span>
-        </button>
-        <button data-index="7" class="color-swatch" style="background-color: #FFFFFF; color: #000000;">
-          <span class="color-swatch-label">White</span>
-        </button>
-      </div>
-
-      <!-- Action toolbar -->
-      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-b-panel bg-panel-toolbar px-4 py-2 select-none sm:px-8">
-        <button data-action="previous" class="toolbar-btn">
-          <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-left"/></svg>
-          <span class="toolbar-btn-label">Previous</span>
-        </button>
-        <button data-action="next" class="toolbar-btn">
-          <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-right"/></svg>
-          <span class="toolbar-btn-label">Next</span>
-        </button>
-        <button data-action="fullscreen" class="toolbar-btn lg:mr-auto" aria-label="Enter fullscreen">
-          <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-enter-fullscreen"/></svg>
-          <span class="toolbar-btn-label">Fullscreen</span>
-        </button>
-        <button data-action="hide" class="toolbar-btn">
-          <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-hide"/></svg>
-          <span class="toolbar-btn-label">Hide</span>
-        </button>
-        <button data-action="help" class="toolbar-btn">
-          <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-help"/></svg>
-          <span class="toolbar-btn-label">Help</span>
-        </button>
-      </div>
-
+    <!-- Color swatches grid -->
+    <div class="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 select-none sm:gap-swatch-gap md:grid-cols-8 sm:p-panel-padding">
+      <button data-index="0" class="color-swatch" style="background-color: #FF0000; color: #FFFFFF;">
+        <span class="color-swatch-label">Red</span>
+      </button>
+      <button data-index="1" class="color-swatch" style="background-color: #00FF00; color: #000000;">
+        <span class="color-swatch-label">Green</span>
+      </button>
+      <button data-index="2" class="color-swatch" style="background-color: #0000FF; color: #FFFFFF;">
+        <span class="color-swatch-label">Blue</span>
+      </button>
+      <button data-index="3" class="color-swatch" style="background-color: #00FFFF; color: #000000;">
+        <span class="color-swatch-label">Cyan</span>
+      </button>
+      <button data-index="4" class="color-swatch" style="background-color: #FF00FF; color: #FFFFFF;">
+        <span class="color-swatch-label">Magenta</span>
+      </button>
+      <button data-index="5" class="color-swatch" style="background-color: #FFFF00; color: #000000;">
+        <span class="color-swatch-label">Yellow</span>
+      </button>
+      <button data-index="6" class="color-swatch" style="background-color: #000000; color: #FFFFFF;">
+        <span class="color-swatch-label">Black</span>
+      </button>
+      <button data-index="7" class="color-swatch" style="background-color: #FFFFFF; color: #000000;">
+        <span class="color-swatch-label">White</span>
+      </button>
     </div>
+
+    <!-- Action toolbar -->
+    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-b-panel bg-panel-toolbar px-4 py-2 select-none sm:px-8">
+      <button data-action="previous" class="toolbar-btn">
+        <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-left"/></svg>
+        <span class="toolbar-btn-label">Previous</span>
+      </button>
+      <button data-action="next" class="toolbar-btn">
+        <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-right"/></svg>
+        <span class="toolbar-btn-label">Next</span>
+      </button>
+      <button data-action="fullscreen" class="toolbar-btn lg:mr-auto" aria-label="Enter fullscreen">
+        <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-enter-fullscreen"/></svg>
+        <span class="toolbar-btn-label">Fullscreen</span>
+      </button>
+      <button data-action="hide" class="toolbar-btn">
+        <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-hide"/></svg>
+        <span class="toolbar-btn-label">Hide</span>
+      </button>
+      <button data-action="help" class="toolbar-btn">
+        <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-help"/></svg>
+        <span class="toolbar-btn-label">Help</span>
+      </button>
+    </div>
+
   </div>
 
   <!-- =========================

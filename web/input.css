@@ -145,19 +145,15 @@ body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
      CONTROL PANEL
      ========================= */
 
-  /* Outer container - centers the panel */
-  .control-panel-outer {
-    @apply fixed inset-0 flex items-center justify-center p-4 pointer-events-none;
-  }
-
-  /* Inner panel - the visible card */
-  .control-panel-inner {
-    @apply relative rounded-panel shadow-surface pointer-events-auto
+  /* Panel - centered directly without overlay */
+  .control-panel {
+    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+           rounded-panel shadow-surface
            transition-[opacity,transform] duration-[250ms] ease-out;
   }
 
   /* Hidden state - faster exit animation */
-  .control-panel-outer.hidden .control-panel-inner {
+  .control-panel.hidden {
     @apply opacity-0 scale-95 pointer-events-none
            duration-[150ms] ease-in;
   }

@@ -80,18 +80,18 @@ class App {
   /// Sets up body-level event handlers.
   void _setupBodyHandlers() {
     // Double-click → next color
-    _body.addEventListener(
+    document.addEventListener(
       'dblclick',
-      ((Event event) {
+      ((MouseEvent event) {
         _nextColor();
       }).toJS,
     );
 
     // Right-click → toggle panel
     // CRITICAL: preventDefault must be called synchronously to suppress browser menu
-    _body.addEventListener(
+    document.addEventListener(
       'contextmenu',
-      ((Event event) {
+      ((MouseEvent event) {
         event.preventDefault();
         _togglePanel();
       }).toJS,

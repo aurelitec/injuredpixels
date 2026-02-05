@@ -80,6 +80,10 @@ class ControlPanel {
         eventType,
         ((Event event) {
           event.stopPropagation();
+          // Also prevent default for contextmenu to suppress browser menu
+          if (eventType == 'contextmenu') {
+            event.preventDefault();
+          }
         }).toJS,
       );
     }
