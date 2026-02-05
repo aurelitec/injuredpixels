@@ -9,7 +9,7 @@ import 'package:web/web.dart';
 import 'controllers/control_panel.dart' as control_panel_controller;
 import 'controllers/help.dart' as help_controller;
 import 'controllers/toast.dart' as toast_controller;
-import 'services/fullscreen.dart';
+import 'services/fullscreen.dart' as fullscreen_service;
 import 'services/keyboard.dart';
 import 'services/storage.dart';
 
@@ -28,7 +28,6 @@ const _panelHideHint = 'Right-click or press Space to show controls';
 class App {
   late final HTMLElement _body;
 
-  late final FullscreenService _fullscreen;
   late final StorageService _storage;
 
   var _colorIndex = 0;
@@ -52,7 +51,7 @@ class App {
   /// Creates service instances.
   void _createServices() {
     _storage = StorageService();
-    _fullscreen = FullscreenService(
+    fullscreen_service.init(
       onFullscreenChange: _onFullscreenChange,
     );
   }
@@ -155,25 +154,19 @@ class App {
 
   /// Toggles fullscreen mode.
   void _toggleFullscreen() {
-    _fullscreen.toggle();
+    fullscreen_service.toggle();
   }
 
   /// Handles fullscreen state changes.
   void _onFullscreenChange(bool isFullscreen) {
     // Panic recovery: show panel when exiting fullscreen
-    if (!isFullscreen) {
-      control_panel_controller.show();
-    }
+    // if (!isFullscreen) {
+    //   control_panel_controller.show();
+    // }
   }
 
   /// Handles Escape key.
   void _handleEscape() {
-    // Close help dialog if open
-    // if (help_controller.isVisible) {
-    //   help_controller.hide();
-    //   return;
-    // }
-
     // Show panel if hidden (panic recovery)
     if (!control_panel_controller.isVisible) {
       control_panel_controller.show();
