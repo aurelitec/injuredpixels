@@ -7,7 +7,6 @@ environment:
   sdk: ^3.10.8
 
 dependencies:
-  signals_core: ^6.2.1
   web: ^1.1.1
 
 dev_dependencies:
