@@ -6,9 +6,9 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
-import 'components/control_panel.dart';
-import 'components/help_dialog.dart';
-import 'components/toast.dart';
+import 'controllers/control_panel.dart';
+import 'controllers/help_dialog.dart';
+import 'controllers/toast.dart' as toast_controller;
 import 'services/fullscreen.dart';
 import 'services/keyboard.dart';
 import 'services/storage.dart';
@@ -30,7 +30,6 @@ class App {
 
   late final ControlPanel _controlPanel;
   late final HelpDialog _helpDialog;
-  late final Toast _toast;
 
   late final FullscreenService _fullscreen;
   late final StorageService _storage;
@@ -73,8 +72,7 @@ class App {
     final helpDialogElement = document.querySelector('#help-dialog') as HTMLDialogElement;
     _helpDialog = HelpDialog(helpDialogElement);
 
-    final toastElement = document.querySelector('#toast') as HTMLElement;
-    _toast = Toast(toastElement);
+    toast_controller.init();
   }
 
   /// Sets up body-level event handlers.
@@ -171,7 +169,7 @@ class App {
     // Show hint toast on first panel hide per session
     if (!_hasShownPanelHideHint) {
       _hasShownPanelHideHint = true;
-      _toast.show(_panelHideHint);
+      toast_controller.show(_panelHideHint);
     }
   }
 

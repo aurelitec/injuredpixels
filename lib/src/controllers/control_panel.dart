@@ -58,10 +58,8 @@ class ControlPanel {
       // Store reference to fullscreen button for later updates
       if (action == 'fullscreen') {
         _fullscreenButton = button;
-        _fullscreenIcon =
-            button.querySelector('use') as SVGUseElement;
-        _fullscreenLabel =
-            button.querySelector('.toolbar-btn-label') as HTMLElement;
+        _fullscreenIcon = button.querySelector('use') as SVGUseElement;
+        _fullscreenLabel = button.querySelector('.toolbar-btn-label') as HTMLElement;
       }
 
       button.addEventListener(
@@ -120,8 +118,7 @@ class ControlPanel {
 
   /// Updates the fullscreen button state.
   void updateFullscreenButton(bool isFullscreen) {
-    final iconId =
-        isFullscreen ? '#icon-exit-fullscreen' : '#icon-enter-fullscreen';
+    final iconId = isFullscreen ? '#icon-exit-fullscreen' : '#icon-enter-fullscreen';
     final label = isFullscreen
         ? _fullscreenButton.dataset['labelExit']
         : _fullscreenButton.dataset['labelEnter'];
