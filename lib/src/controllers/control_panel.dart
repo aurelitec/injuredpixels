@@ -26,7 +26,8 @@ late final void Function(int index)? _onColorSelected;
 /// The currently selected swatch index.
 var _selectedIndex = 0;
 
-final List<HTMLElement> _swatches = [];
+/// The color swatch elements (live HTMLCollection).
+late final HTMLCollection _swatches;
 
 /// Whether the control panel is visible.
 bool get isVisible => !_element.classList.contains('hidden');
@@ -64,11 +65,11 @@ void selectSwatch(int index) {
 
   // Remove selection from previous swatch
   if (_selectedIndex >= 0 && _selectedIndex < _swatches.length) {
-    _swatches[_selectedIndex].classList.remove('selected');
+    (_swatches.item(_selectedIndex) as HTMLElement).classList.remove('selected');
   }
 
   // Add selection to new swatch
-  _swatches[index].classList.add('selected');
+  (_swatches.item(index) as HTMLElement).classList.add('selected');
   _selectedIndex = index;
 }
 
@@ -81,27 +82,18 @@ void toggle() => _element.classList.toggle('hidden');
 /// Returns the computed background color of the swatch at the given index.
 String getSwatchBackgroundColor(int index) {
   if (index < 0 || index >= _swatches.length) return '';
-  return window.getComputedStyle(_swatches[index]).backgroundColor;
+  return window.getComputedStyle(_swatches.item(index) as HTMLElement).backgroundColor;
 }
 
 /// Queries and wires swatch buttons.
 void _querySwatches() {
   final swatchesContainer = document.querySelector('#swatches') as HTMLElement;
-  final children = swatchesContainer.children;
-  for (var i = 0; i < children.length; i++) {
-    final swatch = children.item(i) as HTMLElement;
-    _swatches.add(swatch);
+  _swatches = swatchesContainer.children;
 
-    swatch.addEventListener(
-      'click',
-      ((Event event) {
-        // Find index using DOM position
-        final index = _swatches.indexOf(swatch);
-        if (index != -1) {
-          _onColorSelected?.call(index);
-        }
-      }).toJS,
-    );
+  for (var i = 0; i < _swatches.length; i++) {
+    final swatch = _swatches.item(i) as HTMLElement;
+    // Capture index in closure
+    swatch.addEventListener('click', ((Event event) => _onColorSelected?.call(i)).toJS);
   }
 }
 
