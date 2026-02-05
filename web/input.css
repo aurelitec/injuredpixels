@@ -67,79 +67,20 @@
   --radius-toast: 0.5rem;
   --radius-button: 0.25rem;
   --radius-swatch: 0.125rem;
-
-  /* =========================
-     ANIMATIONS
-     ========================= */
-
-  --ease-panel-in: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-panel-out: cubic-bezier(0.4, 0, 1, 1);
-
-  --duration-panel-in: 250ms;
-  --duration-panel-out: 150ms;
-  --duration-toast-in: 200ms;
-  --duration-toast-out: 150ms;
 }
 
 /* =========================
-   KEYFRAME ANIMATIONS
+   BODY BACKGROUND COLORS
    ========================= */
 
-/* Panel entry: scale up + fade in */
-@keyframes panel-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Panel exit: fade out only */
-@keyframes panel-exit {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-/* Toast entry: slide up + fade in */
-@keyframes toast-slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Backdrop fade in */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Dialog scale in */
-@keyframes dialog-scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+body[data-color-index="0"] { @apply bg-[#FF0000]; } /* Red */
+body[data-color-index="1"] { @apply bg-[#00FF00]; } /* Green */
+body[data-color-index="2"] { @apply bg-[#0000FF]; } /* Blue */
+body[data-color-index="3"] { @apply bg-[#00FFFF]; } /* Cyan */
+body[data-color-index="4"] { @apply bg-[#FF00FF]; } /* Magenta */
+body[data-color-index="5"] { @apply bg-[#FFFF00]; } /* Yellow */
+body[data-color-index="6"] { @apply bg-[#000000]; } /* Black */
+body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
 
 /* =========================
    COMPONENT CLASSES
@@ -201,74 +142,78 @@
   }
 
   /* =========================
-     ANIMATION STATE CLASSES
+     CONTROL PANEL
      ========================= */
 
-  /* Panel inner - base transition */
-  .panel-inner {
-    @apply transition-[opacity,transform] duration-[250ms] ease-[cubic-bezier(0.16,1,0.3,1)];
+  /* Outer container - centers the panel */
+  .control-panel-outer {
+    @apply fixed inset-0 flex items-center justify-center p-4 pointer-events-none;
   }
 
-  .panel-inner.hiding {
-    @apply duration-[150ms] ease-[cubic-bezier(0.4,0,1,1)];
+  /* Inner panel - the visible card */
+  .control-panel-inner {
+    @apply relative rounded-panel shadow-surface pointer-events-auto
+           transition-[opacity,transform] duration-[250ms] ease-out;
   }
 
-  .panel-inner.hidden-state {
-    @apply opacity-0 scale-95;
+  /* Hidden state - faster exit animation */
+  .control-panel-outer.hidden .control-panel-inner {
+    @apply opacity-0 scale-95 pointer-events-none
+           duration-[150ms] ease-in;
   }
 
-  .panel-inner.visible-state {
-    @apply opacity-100 scale-100;
+  /* =========================
+     HELP DIALOG
+     ========================= */
+
+  /* Backdrop */
+  .help-dialog-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-dialog-backdrop
+           transition-opacity duration-200 ease-out;
   }
 
-  /* Dialog backdrop - base transition */
-  .dialog-backdrop {
-    @apply transition-opacity duration-200 ease-out;
+  .help-dialog-backdrop.hidden {
+    @apply opacity-0 pointer-events-none
+           duration-150 ease-in;
   }
 
-  .dialog-backdrop.hiding {
-    @apply ease-in duration-150;
+  /* Inner dialog */
+  .help-dialog-inner {
+    @apply relative rounded-panel shadow-surface max-w-sm w-[90vw] overflow-hidden
+           transition-[opacity,transform] duration-200 ease-out;
   }
 
-  .dialog-backdrop.hidden-state {
-    @apply opacity-0;
+  .help-dialog-backdrop.hidden .help-dialog-inner {
+    @apply opacity-0 scale-95
+           duration-150 ease-in;
   }
 
-  .dialog-backdrop.visible-state {
-    @apply opacity-100;
+  /* =========================
+     TOAST
+     ========================= */
+
+  .toast {
+    @apply fixed bottom-8 inset-x-0 mx-auto w-fit z-50 flex items-center gap-3
+           bg-toast-bg text-toast-text px-4 py-3 rounded-toast shadow-toast select-none
+           max-w-[calc(100vw-2rem)]
+           transition-[opacity,transform] duration-200 ease-out;
   }
 
-  /* Dialog inner - base transition */
-  .dialog-inner {
-    @apply transition-[opacity,transform] duration-200 ease-out;
+  .toast.hidden {
+    @apply opacity-0 translate-y-4 pointer-events-none
+           duration-150 ease-in;
   }
+}
 
-  .dialog-inner.hiding {
-    @apply ease-in duration-150;
-  }
+/* =========================
+   REDUCED MOTION
+   ========================= */
 
-  .dialog-inner.hidden-state {
-    @apply opacity-0 scale-95;
-  }
-
-  .dialog-inner.visible-state {
-    @apply opacity-100 scale-100;
-  }
-
-  /* Toast - base transition */
-  .toast-container {
-    @apply transition-[opacity,transform] duration-200 ease-out;
-  }
-
-  .toast-container.hiding {
-    @apply ease-in duration-150;
-  }
-
-  .toast-container.hidden-state {
-    @apply opacity-0 translate-y-4;
-  }
-
-  .toast-container.visible-state {
-    @apply opacity-100 translate-y-0;
+@media (prefers-reduced-motion: reduce) {
+  .control-panel-inner,
+  .help-dialog-backdrop,
+  .help-dialog-inner,
+  .toast {
+    @apply transition-none;
   }
 }
