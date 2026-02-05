@@ -7,6 +7,8 @@ import 'dart:js_interop';
 import 'package:web/web.dart';
 
 import 'components/control_panel.dart';
+import 'components/help_dialog.dart';
+import 'components/toast.dart';
 import 'services/fullscreen.dart';
 import 'services/keyboard.dart';
 import 'services/storage.dart';
@@ -17,19 +19,24 @@ const colorCount = 8;
 /// Storage key for persisting the selected color.
 const _colorIndexKey = 'colorIndex';
 
+/// Hint message shown when the panel is hidden for the first time.
+const _panelHideHint = 'Right-click or press Space to show controls';
+
 /// Main application class.
 ///
 /// Orchestrates the app: queries elements, wires events, coordinates components.
 class App {
   late final HTMLElement _body;
-  late final HTMLElement _helpDialogElement;
-  late final HTMLElement _toastElement;
 
   late final ControlPanel _controlPanel;
+  late final HelpDialog _helpDialog;
+  late final Toast _toast;
+
   late final FullscreenService _fullscreen;
   late final StorageService _storage;
 
   var _colorIndex = 0;
+  var _hasShownPanelHideHint = false;
 
   /// Runs the application.
   void run() {
@@ -44,8 +51,6 @@ class App {
   /// Queries required elements from the DOM.
   void _queryElements() {
     _body = document.body!;
-    _helpDialogElement = document.querySelector('#help-dialog') as HTMLElement;
-    _toastElement = document.querySelector('#toast') as HTMLElement;
   }
 
   /// Creates service instances.
@@ -64,6 +69,12 @@ class App {
       onColorSelected: selectColor,
       onAction: _handleAction,
     );
+
+    final helpDialogElement = document.querySelector('#help-dialog') as HTMLElement;
+    _helpDialog = HelpDialog(helpDialogElement);
+
+    final toastElement = document.querySelector('#toast') as HTMLElement;
+    _toast = Toast(toastElement);
   }
 
   /// Sets up body-level event handlers.
@@ -82,7 +93,7 @@ class App {
       'contextmenu',
       ((Event event) {
         event.preventDefault();
-        _controlPanel.toggle();
+        _togglePanel();
       }).toJS,
     );
   }
@@ -94,7 +105,7 @@ class App {
       onPrevious: _previousColor,
       onNext: _nextColor,
       onFullscreenToggle: _toggleFullscreen,
-      onPanelToggle: _controlPanel.toggle,
+      onPanelToggle: _togglePanel,
       onHelpToggle: _toggleHelp,
       onEscape: _handleEscape,
     );
@@ -138,9 +149,29 @@ class App {
       case 'fullscreen':
         _toggleFullscreen();
       case 'hide':
-        _controlPanel.hide();
+        _hidePanel();
       case 'help':
         _toggleHelp();
+    }
+  }
+
+  /// Toggles control panel visibility.
+  void _togglePanel() {
+    if (_controlPanel.isVisible) {
+      _hidePanel();
+    } else {
+      _controlPanel.show();
+    }
+  }
+
+  /// Hides control panel and shows hint toast on first hide.
+  void _hidePanel() {
+    _controlPanel.hide();
+
+    // Show hint toast on first panel hide per session
+    if (!_hasShownPanelHideHint) {
+      _hasShownPanelHideHint = true;
+      _toast.show(_panelHideHint);
     }
   }
 
@@ -161,6 +192,12 @@ class App {
 
   /// Handles Escape key.
   void _handleEscape() {
+    // Close help dialog if open
+    if (_helpDialog.isVisible) {
+      _helpDialog.hide();
+      return;
+    }
+
     // Show panel if hidden (panic recovery)
     if (!_controlPanel.isVisible) {
       _controlPanel.show();
@@ -169,6 +206,6 @@ class App {
 
   /// Toggles help dialog.
   void _toggleHelp() {
-    // TODO: Implement in Phase 6
+    _helpDialog.toggle();
   }
 }
