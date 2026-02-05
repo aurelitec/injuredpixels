@@ -74,7 +74,7 @@
    ========================= */
 
 body {
-  @apply min-h-screen flex items-center justify-center;
+  @apply min-h-screen flex items-center justify-center select-none;
 }
 
 body[data-color-index="0"] { @apply bg-[#FF0000]; } /* Red */
@@ -178,13 +178,8 @@ body[data-color-index="7"] { @apply bg-[#FFFFFF]; } /* White */
      TOAST (popover)
      ========================= */
 
-  /* Override popover defaults: inset:0 and margin:auto center it */
-  /* Don't set display here - popover uses display:none by default */
   .toast {
-    @apply inset-auto m-0 fixed bottom-8 left-1/2 -translate-x-1/2
-           w-fit
-           bg-toast-bg text-toast-text px-4 py-3 rounded-toast shadow-toast select-none
-           max-w-[calc(100vw-2rem)] border-0;
+    @apply mx-auto mt-auto mb-8 rounded-toast bg-toast-bg px-4 py-3 text-toast-text shadow-toast;
   }
 
   /* Only apply flex when popover is open */
