@@ -6,6 +6,8 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
+import 'components/control_panel.dart';
+
 /// Number of test colors available.
 const colorCount = 8;
 
@@ -14,26 +16,36 @@ const colorCount = 8;
 /// Orchestrates the app: queries elements, wires events, coordinates components.
 class App {
   late final HTMLElement _body;
-  late final HTMLElement _controlPanel;
-  late final HTMLElement _helpDialog;
-  late final HTMLElement _toast;
+  late final HTMLElement _helpDialogElement;
+  late final HTMLElement _toastElement;
+
+  late final ControlPanel _controlPanel;
 
   var _colorIndex = 0;
 
   /// Runs the application.
   void run() {
     _queryElements();
+    _createComponents();
     _setupBodyHandlers();
-    _setupPanelEventBlocking();
-    _selectInitialSwatch();
+    _selectInitialColor();
   }
 
   /// Queries required elements from the DOM.
   void _queryElements() {
     _body = document.body!;
-    _controlPanel = document.querySelector('#control-panel') as HTMLElement;
-    _helpDialog = document.querySelector('#help-dialog') as HTMLElement;
-    _toast = document.querySelector('#toast') as HTMLElement;
+    _helpDialogElement = document.querySelector('#help-dialog') as HTMLElement;
+    _toastElement = document.querySelector('#toast') as HTMLElement;
+  }
+
+  /// Creates component instances.
+  void _createComponents() {
+    final panelElement = document.querySelector('#control-panel') as HTMLElement;
+    _controlPanel = ControlPanel(
+      panelElement,
+      onColorSelected: selectColor,
+      onAction: _handleAction,
+    );
   }
 
   /// Sets up body-level event handlers.
@@ -52,26 +64,14 @@ class App {
       'contextmenu',
       ((Event event) {
         event.preventDefault();
-        _togglePanel();
+        _controlPanel.toggle();
       }).toJS,
     );
   }
 
-  /// Prevents body handlers from firing when interacting with the control panel.
-  void _setupPanelEventBlocking() {
-    for (final eventType in ['click', 'dblclick', 'contextmenu']) {
-      _controlPanel.addEventListener(
-        eventType,
-        ((Event event) {
-          event.stopPropagation();
-        }).toJS,
-      );
-    }
-  }
-
-  /// Selects the initial swatch (index 0) on startup.
-  void _selectInitialSwatch() {
-    _updateSwatchSelection(0);
+  /// Selects the initial color on startup.
+  void _selectInitialColor() {
+    selectColor(0);
   }
 
   /// Selects a color by index.
@@ -79,7 +79,7 @@ class App {
     if (index < 0 || index >= colorCount) return;
     _colorIndex = index;
     _body.dataset['colorIndex'] = index.toString();
-    _updateSwatchSelection(index);
+    _controlPanel.selectSwatch(index);
   }
 
   /// Gets the current color index.
@@ -95,35 +95,29 @@ class App {
     selectColor((_colorIndex - 1 + colorCount) % colorCount);
   }
 
-  /// Toggles control panel visibility.
-  void _togglePanel() {
-    _controlPanel.classList.toggle('hidden');
-  }
-
-  /// Shows the control panel.
-  void _showPanel() {
-    _controlPanel.classList.remove('hidden');
-  }
-
-  /// Hides the control panel.
-  void _hidePanel() {
-    _controlPanel.classList.add('hidden');
-  }
-
-  /// Whether the control panel is visible.
-  bool get _isPanelVisible => !_controlPanel.classList.contains('hidden');
-
-  /// Updates the selected state on swatches.
-  void _updateSwatchSelection(int index) {
-    final swatches = _controlPanel.querySelectorAll('[data-index]');
-    for (var i = 0; i < swatches.length; i++) {
-      final swatch = swatches.item(i) as HTMLElement;
-      final swatchIndex = int.tryParse(swatch.dataset['index']);
-      if (swatchIndex == index) {
-        swatch.classList.add('selected');
-      } else {
-        swatch.classList.remove('selected');
-      }
+  /// Handles toolbar button actions.
+  void _handleAction(String action) {
+    switch (action) {
+      case 'previous':
+        _previousColor();
+      case 'next':
+        _nextColor();
+      case 'fullscreen':
+        _toggleFullscreen();
+      case 'hide':
+        _controlPanel.hide();
+      case 'help':
+        _toggleHelp();
     }
+  }
+
+  /// Toggles fullscreen mode.
+  void _toggleFullscreen() {
+    // TODO: Implement in Phase 5
+  }
+
+  /// Toggles help dialog.
+  void _toggleHelp() {
+    // TODO: Implement in Phase 6
   }
 }
