@@ -59,6 +59,8 @@ doc/api/
 # Tailwind CSS output
 web/style.css
 
+# Portable build output
+build-portable
 
 # ---------------------------------------------------------------------------
 # Miscellaneous

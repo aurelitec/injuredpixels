@@ -19,6 +19,9 @@ Future<void> main() async {
     ['-i', 'web/input.css', '-o', 'build/style.css', '--minify'],
   );
 
+  // Minify the HTML
+  await run('minify', ['-o', 'build/index.html', 'build/index.html']);
+
   // Delete the input Tailwind CSS file from build output
   final inputCss = File('build/input.css');
   if (await inputCss.exists()) {
