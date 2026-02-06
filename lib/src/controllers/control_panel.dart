@@ -82,7 +82,7 @@ void selectSwatch(int index) {
 void show() => _element.classList.remove('is-hidden');
 
 /// Toggles control panel visibility.
-void toggle() => _element.classList.toggle('is-hidden');
+void toggle() => isVisible ? hide() : show();
 
 /// Queries and wires swatch buttons.
 void _initSwatches() {
