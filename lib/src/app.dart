@@ -30,35 +30,35 @@ const _defaultColorIndex = 0;
 /// Hint message shown when the panel is hidden for the first time.
 const _panelHideHint = 'Right-click or press Space to show controls';
 
-late final HTMLElement _body;
-
+/// The currently selected color index (the "state" of the app).
 var _colorIndex = _defaultColorIndex;
-
-var _hasShownPanelHideHint = false;
 
 /// Runs the application.
 void run() {
-  _queryElements();
-  _createComponents();
+  _createControllers();
   _setupBodyHandlers();
   _setupKeyboardShortcuts();
   _loadPersistedState();
 }
 
-/// Creates component instances.
-void _createComponents() {
+/// Initializes the controllers for the main UI components.
+void _createControllers() {
+  // Tracks whether the panel hide hint has been shown already.
+  var hasShownPanelHideHint = false;
+
+  /// Called after the control panel is hidden to show a hint toast once.
+  void afterControlPanelHide() {
+    if (!hasShownPanelHideHint) {
+      hasShownPanelHideHint = true;
+      toast_controller.show(_panelHideHint);
+    }
+  }
+
   control_panel_controller.init(
     onColorSelected: _selectColor,
     onAction: _handleAction,
-    afterHide: () {
-      // Show hint toast on first panel hide per session
-      if (!_hasShownPanelHideHint) {
-        _hasShownPanelHideHint = true;
-        toast_controller.show(_panelHideHint);
-      }
-    },
+    afterHide: afterControlPanelHide,
   );
-
   help_controller.init();
   toast_controller.init();
 }
@@ -76,14 +76,6 @@ void _handleAction(control_panel_controller.ToolbarAction action) {
       control_panel_controller.hide();
     case .help:
       help_controller.toggle();
-  }
-}
-
-/// Handles Escape key.
-void _handleEscape() {
-  // Show panel if hidden (panic recovery)
-  if (!control_panel_controller.isVisible) {
-    control_panel_controller.show();
   }
 }
 
@@ -107,18 +99,13 @@ void _previousColor() {
   _selectColor((_colorIndex - 1 + _colorCount) % _colorCount);
 }
 
-/// Queries required elements from the DOM.
-void _queryElements() {
-  _body = document.body!;
-}
-
 /// Selects a color by index.
 void _selectColor(int index) {
   if (index < 0 || index >= _colorCount || index == _colorIndex) return;
   _colorIndex = index;
 
   // Update the body background color
-  _body.style.backgroundColor = control_panel_controller.getSwatchBackgroundColor(index);
+  document.body?.style.backgroundColor = control_panel_controller.getSwatchBackgroundColor(index);
 
   // Update the control panel selection
   control_panel_controller.selectSwatch(index);
@@ -133,27 +120,30 @@ void _selectColor(int index) {
 
 /// Sets up body-level event handlers.
 void _setupBodyHandlers() {
-  // Double-click (only) on the colored body → next color
-  document.body?.addEventListener(
-    'dblclick',
-    ((MouseEvent event) {
-      if (event.target == event.currentTarget) _nextColor();
-    }).toJS,
-  );
+  /// Handles double-click events on the body to advance to the next color.
+  void onDblClick(MouseEvent event) {
+    if (event.target == event.currentTarget) _nextColor();
+  }
 
-  // Right-click (only) on the colored body → toggle control panel
-  // Also prevents the context menu from appearing
-  document.body?.addEventListener(
-    'contextmenu',
-    ((MouseEvent event) {
-      event.preventDefault();
-      if (event.target == event.currentTarget) control_panel_controller.toggle();
-    }).toJS,
-  );
+  /// Handles context menu events on the body to toggle the control panel and prevent the menu.
+  void onContextMenu(MouseEvent event) {
+    event.preventDefault();
+    if (event.target == event.currentTarget) control_panel_controller.toggle();
+  }
+
+  document.body?.addEventListener('dblclick', onDblClick.toJS);
+  document.body?.addEventListener('contextmenu', onContextMenu.toJS);
 }
 
 /// Sets up keyboard shortcuts.
 void _setupKeyboardShortcuts() {
+  /// Handles Escape key presses to show the control panel if hidden (as panic recovery).
+  void handleEscape() {
+    if (!control_panel_controller.isVisible) {
+      control_panel_controller.show();
+    }
+  }
+
   /// Handles keyboard actions from the keyboard service.
   void handleKeyboardAction(keyboard_service.KeyboardAction action) {
     switch (action) {
@@ -168,7 +158,7 @@ void _setupKeyboardShortcuts() {
       case .toggleHelp:
         help_controller.toggle();
       case .escape:
-        _handleEscape();
+        handleEscape();
     }
   }
 
