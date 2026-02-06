@@ -20,8 +20,5 @@ Future<void> main() async {
     ['-i', 'web/input.css', '-o', 'build/style.css', '--minify'],
   );
 
-  // Minify the HTML
-  await run('minify', ['-o', 'build/index.html', 'build/index.html']);
-
   print('\n✅ Intermediate build complete: build/');
 }

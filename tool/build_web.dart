@@ -43,5 +43,8 @@ Future<void> main() async {
     await copyDirectory(Directory('build/$name'), Directory('$_outputDir/$name'));
   }
 
+  // Minify the HTML (markers are just comments, minifier strips them)
+  await minifyHtml('$_outputDir/index.html');
+
   print('\n✅ Web build complete: $_outputDir/');
 }

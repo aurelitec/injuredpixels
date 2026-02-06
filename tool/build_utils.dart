@@ -28,6 +28,23 @@ Future<void> prepareOutputDir(String path) async {
   await dir.create();
 }
 
+/// Minifies an HTML file in place using the `minify` CLI.
+Future<void> minifyHtml(String path) async {
+  await run('minify', ['-o', path, path]);
+}
+
+/// Strips `<!-- web-only:start -->` to `<!-- web-only:end -->` blocks from a file.
+Future<void> stripWebOnlyBlocks(String path) async {
+  final file = File(path);
+  final content = await file.readAsString();
+  final stripped = content.replaceAll(
+    RegExp(r'[ \t]*<!--\s*web-only:start\s*-->.*?<!--\s*web-only:end\s*-->\n?',
+        dotAll: true),
+    '',
+  );
+  await file.writeAsString(stripped);
+}
+
 /// Recursively copies a directory.
 Future<void> copyDirectory(Directory source, Directory target) async {
   await target.create(recursive: true);

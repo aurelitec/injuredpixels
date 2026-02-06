@@ -30,6 +30,10 @@ Future<void> main() async {
     await File('build/$name').copy('$_outputDir/$name');
   }
 
+  // Strip web-only blocks and minify the HTML
+  await stripWebOnlyBlocks('$_outputDir/index.html');
+  await minifyHtml('$_outputDir/index.html');
+
   // Copy all static portable files
   await copyDirectory(Directory(_staticDir), Directory(_outputDir));
 
