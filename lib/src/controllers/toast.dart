@@ -51,7 +51,7 @@ void init() {
 ///
 /// The message text is read from the `data-msg-{id}` attribute on the toast element.
 void show(ToastMessage id, {Duration duration = _defaultDuration}) {
-  late final String message;
+  final String message;
   try {
     message = _element.dataset[id.datasetKey];
   } catch (e) {

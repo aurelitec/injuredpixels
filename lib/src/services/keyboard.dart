@@ -2,6 +2,9 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
+/// Keyboard service that sets up keyboard shortcuts for the application.
+library;
+
 import 'dart:js_interop';
 
 import 'package:web/web.dart';
