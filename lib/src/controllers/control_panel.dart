@@ -9,6 +9,15 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
+/// Actions that can be triggered via toolbar buttons.
+enum ToolbarAction {
+  previous,
+  next,
+  fullscreen,
+  hide,
+  help,
+}
+
 /// An optional callback invoked after the panel is hidden.
 ///
 /// Can be used to trigger hints or other actions.
@@ -17,10 +26,10 @@ late final void Function()? _afterHide;
 /// The main control panel HTML element.
 late final HTMLElement _element;
 
-/// Callback for when a color swatch is selected, providing the swatch index.
-late final void Function(String action)? _onAction;
-
 /// Callback for when a toolbar action button is pressed.
+late final void Function(ToolbarAction action)? _onAction;
+
+/// Callback for when a color swatch is selected, providing the swatch index.
 late final void Function(int index)? _onColorSelected;
 
 /// The swatches container element.
@@ -49,7 +58,7 @@ void hide() {
 /// Initializes the control panel controller by assigning callbacks and querying elements.
 void init({
   void Function(int index)? onColorSelected,
-  void Function(String action)? onAction,
+  void Function(ToolbarAction action)? onAction,
   void Function()? afterHide,
 }) {
   _onColorSelected = onColorSelected;
@@ -91,7 +100,8 @@ void _initToolbarButtons() {
   final buttons = _element.querySelectorAll('[data-action]');
   for (var i = 0; i < buttons.length; i++) {
     final button = buttons.item(i) as HTMLElement;
-    final action = button.dataset['action'];
+    final action = ToolbarAction.values.asNameMap()[button.dataset['action']];
+    if (action == null) continue;
     button.addEventListener('click', ((Event event) => _onAction?.call(action)).toJS);
   }
 }

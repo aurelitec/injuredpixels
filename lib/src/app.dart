@@ -147,17 +147,17 @@ class App {
   }
 
   /// Handles toolbar button actions.
-  void _handleAction(String action) {
+  void _handleAction(control_panel_controller.ToolbarAction action) {
     switch (action) {
-      case 'previous':
+      case .previous:
         _previousColor();
-      case 'next':
+      case .next:
         _nextColor();
-      case 'fullscreen':
+      case .fullscreen:
         _toggleFullscreen();
-      case 'hide':
+      case .hide:
         control_panel_controller.hide();
-      case 'help':
+      case .help:
         _toggleHelp();
     }
   }
