@@ -23,17 +23,14 @@ late final void Function(String action)? _onAction;
 /// Callback for when a toolbar action button is pressed.
 late final void Function(int index)? _onColorSelected;
 
-/// The currently selected swatch index.
-var _selectedIndex = 0;
-
 /// The color swatch elements (live HTMLCollection).
 late final HTMLCollection _swatches;
 
+/// The swatches container element.
+late final HTMLElement _swatchesContainer;
+
 /// Whether the control panel is visible.
 bool get isVisible => !_element.classList.contains('hidden');
-
-/// Gets the currently selected swatch index.
-int get selectedIndex => _selectedIndex;
 
 /// Returns the computed background color of the swatch at the given index.
 String getSwatchBackgroundColor(int index) {
@@ -68,15 +65,8 @@ void init({
 /// Selects a swatch by index (updates visual state only).
 void selectSwatch(int index) {
   if (index < 0 || index >= _swatches.length) return;
-
-  // Remove selection from previous swatch
-  if (_selectedIndex >= 0 && _selectedIndex < _swatches.length) {
-    _swatchAt(_selectedIndex).classList.remove('selected');
-  }
-
-  // Add selection to new swatch
+  _swatchesContainer.querySelector('.selected')?.classList.remove('selected');
   _swatchAt(index).classList.add('selected');
-  _selectedIndex = index;
 }
 
 /// Shows the control panel.
@@ -87,8 +77,8 @@ void toggle() => _element.classList.toggle('hidden');
 
 /// Queries and wires swatch buttons.
 void _initSwatches() {
-  final swatchesContainer = document.querySelector('#swatches') as HTMLElement;
-  _swatches = swatchesContainer.children;
+  _swatchesContainer = document.querySelector('#swatches') as HTMLElement;
+  _swatches = _swatchesContainer.children;
 
   for (var i = 0; i < _swatches.length; i++) {
     final swatch = _swatchAt(i);
