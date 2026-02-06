@@ -10,7 +10,7 @@ import 'run.dart';
 const _outputDir = 'build-portable';
 
 /// Files to copy from the web build output to the portable build.
-const _buildFiles = ['index.html', 'main.dart.js', 'style.css', 'favicon.ico'];
+const _buildFiles = ['index.html', 'main.dart.js', 'style.css', 'favicon.ico', 'favicon-96x96.png'];
 
 /// Directory containing static files to copy to the portable build.
 const _staticDir = 'static-portable';
