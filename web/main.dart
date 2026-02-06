@@ -2,8 +2,8 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-import 'package:injuredpixels/src/app.dart';
+import 'package:injuredpixels/src/app.dart' as app;
 
 void main() {
-  App().run();
+  app.run();
 }
