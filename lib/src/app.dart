@@ -94,7 +94,7 @@ class App {
 
   /// Sets up keyboard shortcuts.
   void _setupKeyboardShortcuts() {
-    // Handles keyboard actions from the keyboard service.
+    /// Handles keyboard actions from the keyboard service.
     void handleKeyboardAction(keyboard_service.KeyboardAction action) {
       switch (action) {
         case .previousColor:
