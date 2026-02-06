@@ -2,7 +2,7 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-import 'run.dart';
+import 'build_utils.dart';
 
 /// Intermediate production build: webdev + tailwindcss + minify → build/
 Future<void> main() async {

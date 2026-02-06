@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'run.dart';
+import 'build_utils.dart';
 
 /// Output directory for the web/PWA build.
 const _outputDir = 'build-web';
@@ -31,9 +31,7 @@ Future<void> main() async {
   await run('dart', ['run', 'tool/build.dart']);
 
   // Prepare the output directory
-  final outputDir = Directory(_outputDir);
-  if (await outputDir.exists()) await outputDir.delete(recursive: true);
-  await outputDir.create();
+  await prepareOutputDir(_outputDir);
 
   // Copy whitelisted files from the intermediate build
   for (final name in _buildFiles) {
@@ -42,21 +40,8 @@ Future<void> main() async {
 
   // Copy whitelisted directories from the intermediate build
   for (final name in _buildDirs) {
-    await _copyDirectory(Directory('build/$name'), Directory('$_outputDir/$name'));
+    await copyDirectory(Directory('build/$name'), Directory('$_outputDir/$name'));
   }
 
   print('\n✅ Web build complete: $_outputDir/');
-}
-
-/// Recursively copies a directory.
-Future<void> _copyDirectory(Directory source, Directory target) async {
-  await target.create(recursive: true);
-  await for (final entity in source.list()) {
-    final name = entity.uri.pathSegments.last;
-    if (entity is File) {
-      await entity.copy('${target.path}/$name');
-    } else if (entity is Directory) {
-      await _copyDirectory(entity, Directory('${target.path}/$name'));
-    }
-  }
 }

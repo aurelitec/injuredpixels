@@ -20,3 +20,23 @@ Future<Process> watch(String exe, List<String> args) async {
   process.stderr.listen(stderr.add);
   return process;
 }
+
+/// Prepares an output directory: deletes it if it exists, then creates it.
+Future<void> prepareOutputDir(String path) async {
+  final dir = Directory(path);
+  if (await dir.exists()) await dir.delete(recursive: true);
+  await dir.create();
+}
+
+/// Recursively copies a directory.
+Future<void> copyDirectory(Directory source, Directory target) async {
+  await target.create(recursive: true);
+  await for (final entity in source.list()) {
+    final name = entity.uri.pathSegments.last;
+    if (entity is File) {
+      await entity.copy('${target.path}/$name');
+    } else if (entity is Directory) {
+      await copyDirectory(entity, Directory('${target.path}/$name'));
+    }
+  }
+}

@@ -2,7 +2,7 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-import 'run.dart';
+import 'build_utils.dart';
 
 /// Start a development server with live reload and Tailwind CSS watch mode.
 Future<void> main() async {
