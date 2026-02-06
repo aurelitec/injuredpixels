@@ -114,12 +114,29 @@
   /* ---------------------------------------------------------------------- */
 
   .help-dialog {
-    @apply m-auto w-96 rounded-panel shadow-surface;
+    @apply m-auto w-96 scale-95 rounded-panel opacity-0 shadow-surface;
+    @apply transition-[opacity,transform,display] transition-discrete duration-150 ease-in;
   }
 
-  /* Native ::backdrop pseudo-element */
+  .help-dialog[open] {
+    @apply scale-100 opacity-100 duration-250 ease-out;
+
+    @starting-style {
+      @apply scale-95 opacity-0;
+    }
+  }
+
   .help-dialog::backdrop {
-    @apply bg-help-dialog-backdrop;
+    @apply bg-help-dialog-backdrop opacity-0;
+    @apply transition-[opacity,display] transition-discrete duration-150 ease-in;
+  }
+
+  .help-dialog[open]::backdrop {
+    @apply opacity-100 duration-250 ease-out;
+
+    @starting-style {
+      @apply opacity-0;
+    }
   }
 
   /* Help dialog shortcut row */
@@ -146,12 +163,17 @@
   /* ---------------------------------------------------------------------- */
 
   .toast {
-    @apply mx-auto mt-auto mb-8 rounded-toast bg-toast-bg px-4 py-3 text-toast-text shadow-toast;
+    @apply mx-auto mt-auto mb-8 rounded-toast bg-toast-bg px-4 py-3 text-toast-text opacity-0 translate-y-2 shadow-toast;
+    @apply transition-[opacity,transform,display] transition-discrete duration-150 ease-in;
   }
 
-  /* Only apply flex when popover is open */
   .toast:popover-open {
     @apply flex items-center gap-3;
+    @apply translate-y-0 opacity-100 duration-200 ease-out;
+
+    @starting-style {
+      @apply translate-y-2 opacity-0;
+    }
   }
 }
 
