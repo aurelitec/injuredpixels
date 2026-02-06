@@ -9,11 +9,8 @@ import 'run.dart';
 /// Output directory for the portable build.
 const _outputDir = 'build-portable';
 
-/// Files to copy from the webdev build output to the portable build.
-const _webdevFiles = ['index.html', 'main.dart.js'];
-
-/// Files to copy from the web source directory to the portable build.
-const _webFiles = ['favicon.ico'];
+/// Files to copy from the web build output to the portable build.
+const _buildFiles = ['index.html', 'main.dart.js', 'style.css', 'favicon.ico'];
 
 /// Directory containing static files to copy to the portable build.
 const _staticDir = 'static-portable';
@@ -22,32 +19,18 @@ const _staticDir = 'static-portable';
 Future<void> main() async {
   print('Building portable...\n');
 
-  // Build the web app (reuses webdev build output)
-  await run('webdev', ['build']);
+  // Run the full web build first (webdev + tailwindcss + minify)
+  await run('dart', ['run', 'tool/build.dart']);
 
   // Prepare the output directory
   final outputDir = Directory(_outputDir);
   if (await outputDir.exists()) await outputDir.delete(recursive: true);
   await outputDir.create();
 
-  // Copy whitelisted files from webdev build output
-  for (final name in _webdevFiles) {
+  // Copy whitelisted files from the web build (already minified/optimized)
+  for (final name in _buildFiles) {
     await File('build/$name').copy('$_outputDir/$name');
   }
-
-  // Copy whitelisted files from web source directory
-  for (final name in _webFiles) {
-    await File('web/$name').copy('$_outputDir/$name');
-  }
-
-  // Build the Tailwind CSS for production (minified)
-  await run(
-    'tailwindcss',
-    ['-i', 'web/input.css', '-o', '$_outputDir/style.css', '--minify'],
-  );
-
-  // Minify the HTML
-  await run('minify', ['-o', '$_outputDir/index.html', '$_outputDir/index.html']);
 
   // Copy all static portable files
   final staticDir = Directory(_staticDir);
