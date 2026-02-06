@@ -10,7 +10,7 @@ import 'controllers/control_panel.dart' as control_panel_controller;
 import 'controllers/help.dart' as help_controller;
 import 'controllers/toast.dart' as toast_controller;
 import 'services/fullscreen.dart' as fullscreen_service;
-import 'services/keyboard.dart';
+import 'services/keyboard.dart' as keyboard_service;
 import 'services/storage.dart';
 
 /// Number of test colors available.
@@ -94,14 +94,24 @@ class App {
 
   /// Sets up keyboard shortcuts.
   void _setupKeyboardShortcuts() {
-    setupKeyboardShortcuts(
+    keyboard_service.setupKeyboardShortcuts(
       onColorSelect: selectColor,
-      onPrevious: _previousColor,
-      onNext: _nextColor,
-      onFullscreenToggle: _toggleFullscreen,
-      onPanelToggle: control_panel_controller.toggle,
-      onHelpToggle: _toggleHelp,
-      onEscape: _handleEscape,
+      onKeyboardAction: (keyboard_service.KeyboardAction action) {
+        switch (action) {
+          case .previousColor:
+            _previousColor();
+          case .nextColor:
+            _nextColor();
+          case .toggleFullscreen:
+            _toggleFullscreen();
+          case .toggleControlPanel:
+            control_panel_controller.toggle();
+          case .toggleHelp:
+            _toggleHelp();
+          case .escape:
+            _handleEscape();
+        }
+      },
     );
   }
 

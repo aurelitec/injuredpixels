@@ -6,15 +6,23 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
+/// Actions that can be triggered via keyboard shortcuts.
+enum KeyboardAction {
+  previousColor,
+  nextColor,
+  toggleFullscreen,
+  toggleControlPanel,
+  toggleHelp,
+  escape,
+}
+
 /// Sets up keyboard shortcuts for the application.
+///
+/// [onColorSelect] is called with the selected color index (0-7) when a color is selected.
+/// [onKeyboardAction] is called with the corresponding [KeyboardAction] for other actions.
 void setupKeyboardShortcuts({
   required void Function(int) onColorSelect,
-  required void Function() onPrevious,
-  required void Function() onNext,
-  required void Function() onFullscreenToggle,
-  required void Function() onPanelToggle,
-  required void Function() onHelpToggle,
-  required void Function() onEscape,
+  required void Function(KeyboardAction) onKeyboardAction,
 }) {
   document.addEventListener(
     'keydown',
@@ -37,24 +45,24 @@ void setupKeyboardShortcuts({
 
       switch (key) {
         case 'ArrowLeft':
-          onPrevious();
+          onKeyboardAction(.previousColor);
           event.preventDefault();
         case 'ArrowRight':
-          onNext();
+          onKeyboardAction(.nextColor);
           event.preventDefault();
         case 'f':
         case 'F':
-          onFullscreenToggle();
+          onKeyboardAction(.toggleFullscreen);
           event.preventDefault();
         case ' ':
-          onPanelToggle();
+          onKeyboardAction(.toggleControlPanel);
           event.preventDefault();
         case '?':
-          onHelpToggle();
+          onKeyboardAction(.toggleHelp);
           event.preventDefault();
         case 'Escape':
-          onEscape();
-          // Don't preventDefault for Escape - browser may need it for fullscreen exit
+          onKeyboardAction(.escape);
+        // Don't preventDefault for Escape - browser may need it for fullscreen exit
       }
     }).toJS,
   );

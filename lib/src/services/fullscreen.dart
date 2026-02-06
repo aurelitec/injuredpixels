@@ -2,15 +2,13 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-/// Wraps the Fullscreen API with change notifications.
+/// Wraps the Fullscreen API to provide a simple interface for toggling fullscreen mode.
 library;
 
 import 'package:web/web.dart';
 
-/// Whether the document is currently in fullscreen mode.
-bool get _isFullscreen => document.fullscreenElement != null;
-
 /// Toggles fullscreen mode.
 void toggle() {
-  _isFullscreen ? document.exitFullscreen() : document.documentElement?.requestFullscreen();
+  final isFullscreen = document.fullscreenElement != null;
+  isFullscreen ? document.exitFullscreen() : document.documentElement?.requestFullscreen();
 }
