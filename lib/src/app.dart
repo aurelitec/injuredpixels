@@ -11,7 +11,7 @@ import 'controllers/help.dart' as help_controller;
 import 'controllers/toast.dart' as toast_controller;
 import 'services/fullscreen.dart' as fullscreen_service;
 import 'services/keyboard.dart' as keyboard_service;
-import 'services/storage.dart';
+import 'services/storage.dart' as storage_service;
 
 /// Number of test colors available.
 const colorCount = 8;
@@ -28,15 +28,12 @@ const _panelHideHint = 'Right-click or press Space to show controls';
 class App {
   late final HTMLElement _body;
 
-  late final StorageService _storage;
-
   var _colorIndex = 0;
   var _hasShownPanelHideHint = false;
 
   /// Runs the application.
   void run() {
     _queryElements();
-    _createServices();
     _createComponents();
     _setupBodyHandlers();
     _setupKeyboardShortcuts();
@@ -46,11 +43,6 @@ class App {
   /// Queries required elements from the DOM.
   void _queryElements() {
     _body = document.body!;
-  }
-
-  /// Creates service instances.
-  void _createServices() {
-    _storage = StorageService();
   }
 
   /// Creates component instances.
@@ -120,8 +112,12 @@ class App {
 
   /// Loads persisted state from storage.
   void _loadPersistedState() {
-    final savedIndex = _storage.read<int>(_colorIndexKey);
-    selectColor(savedIndex ?? 0);
+    try {
+      final savedIndex = storage_service.getInt(_colorIndexKey);
+      selectColor(savedIndex ?? 0);
+    } on Exception {
+      selectColor(0);
+    }
   }
 
   /// Selects a color by index.
@@ -130,7 +126,11 @@ class App {
     _colorIndex = index;
     _body.style.backgroundColor = control_panel_controller.getSwatchBackgroundColor(index);
     control_panel_controller.selectSwatch(index);
-    _storage.write(_colorIndexKey, index);
+    try {
+      storage_service.setInt(_colorIndexKey, index);
+    } on Exception {
+      // Storage write failure is non-critical — color still works in memory
+    }
   }
 
   /// Gets the current color index.
