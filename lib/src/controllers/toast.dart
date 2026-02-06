@@ -12,7 +12,13 @@ import 'package:web/web.dart';
 
 /// Predefined toast messages stored as `data-msg-*` attributes on the toast element.
 enum ToastMessage {
-  hideHint,
+  hideHint(datasetKey: 'msgHideHint')
+  ;
+
+  const ToastMessage({required this.datasetKey});
+
+  /// The key used to access the corresponding dataset attribute.
+  final String datasetKey;
 }
 
 /// Default duration before toast auto-dismisses.
@@ -45,8 +51,13 @@ void init() {
 ///
 /// The message text is read from the `data-msg-{id}` attribute on the toast element.
 void show(ToastMessage id, {Duration duration = _defaultDuration}) {
-  final message = _element.dataset['msg-${id.name}'];
-  assert(message != null, 'Missing toast message in HTML: "data-msg-${id.name}"');
+  late final String message;
+  try {
+    message = _element.dataset[id.datasetKey];
+  } catch (e) {
+    print('Missing toast message in HTML for ${id.name}. Error: $e');
+    return;
+  }
 
   // Cancel any existing timer
   _dismissTimer?.cancel();
