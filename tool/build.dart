@@ -8,6 +8,9 @@ import 'build_utils.dart';
 Future<void> main() async {
   print('Building intermediate...\n');
 
+  // Clean previous build output
+  await prepareOutputDir('build');
+
   // Compile Dart to JS
   await run('webdev', ['build']);
 
