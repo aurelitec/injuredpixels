@@ -67,7 +67,7 @@ void _handleAction(control_panel_controller.ToolbarAction action) {
     case .next:
       _nextColor();
     case .fullscreen:
-      fullscreen_service.toggle();
+      _toggleFullscreen();
     case .hide:
       control_panel_controller.hide();
     case .help:
@@ -148,7 +148,7 @@ void _setupKeyboardShortcuts() {
       case .nextColor:
         _nextColor();
       case .toggleFullscreen:
-        fullscreen_service.toggle();
+        _toggleFullscreen();
       case .toggleControlPanel:
         control_panel_controller.toggle();
       case .toggleHelp:
@@ -162,4 +162,12 @@ void _setupKeyboardShortcuts() {
     onColorSelect: _selectColor,
     onKeyboardAction: handleKeyboardAction,
   );
+}
+
+/// Toggles fullscreen mode.
+void _toggleFullscreen() {
+  // First ensure help dialog is closed to avoid it getting behind the Control Panel
+  if (help_controller.isVisible) help_controller.hide();
+
+  fullscreen_service.toggle();
 }
