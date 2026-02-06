@@ -2,9 +2,8 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-/// Main application library.
-///
-/// Orchestrates the app: queries elements, wires events, coordinates components.
+/// Main application singleton that orchestrates the app: queries elements, wires events,
+/// coordinates controllers and services, and manages the overall state.
 library;
 
 import 'dart:js_interop';
