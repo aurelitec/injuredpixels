@@ -14,10 +14,13 @@ import 'services/keyboard.dart' as keyboard_service;
 import 'services/storage.dart' as storage_service;
 
 /// Number of test colors available.
-const colorCount = 8;
+const _colorCount = 8;
 
 /// Storage key for persisting the selected color.
 const _colorIndexKey = 'colorIndex';
+
+/// Default color index used the first time the app runs or if previously used index is invalid.
+const _defaultColorIndex = 0;
 
 /// Hint message shown when the panel is hidden for the first time.
 const _panelHideHint = 'Right-click or press Space to show controls';
@@ -28,7 +31,7 @@ const _panelHideHint = 'Right-click or press Space to show controls';
 class App {
   late final HTMLElement _body;
 
-  var _colorIndex = 0;
+  var _colorIndex = _defaultColorIndex;
   var _hasShownPanelHideHint = false;
 
   /// Runs the application.
@@ -48,7 +51,7 @@ class App {
   /// Creates component instances.
   void _createComponents() {
     control_panel_controller.init(
-      onColorSelected: selectColor,
+      onColorSelected: _selectColor,
       onAction: _handleAction,
       afterHide: () {
         // Show hint toast on first panel hide per session
@@ -94,18 +97,18 @@ class App {
         case .nextColor:
           _nextColor();
         case .toggleFullscreen:
-          _toggleFullscreen();
+          fullscreen_service.toggle();
         case .toggleControlPanel:
           control_panel_controller.toggle();
         case .toggleHelp:
-          _toggleHelp();
+          help_controller.toggle();
         case .escape:
           _handleEscape();
       }
     }
 
     keyboard_service.setupKeyboardShortcuts(
-      onColorSelect: selectColor,
+      onColorSelect: _selectColor,
       onKeyboardAction: handleKeyboardAction,
     );
   }
@@ -114,18 +117,24 @@ class App {
   void _loadPersistedState() {
     try {
       final savedIndex = storage_service.getInt(_colorIndexKey);
-      selectColor(savedIndex ?? 0);
+      _selectColor(savedIndex ?? _defaultColorIndex);
     } on Exception {
-      selectColor(0);
+      _selectColor(_defaultColorIndex);
     }
   }
 
   /// Selects a color by index.
-  void selectColor(int index) {
-    if (index < 0 || index >= colorCount) return;
+  void _selectColor(int index) {
+    if (index < 0 || index >= _colorCount || index == _colorIndex) return;
     _colorIndex = index;
+
+    // Update the body background color
     _body.style.backgroundColor = control_panel_controller.getSwatchBackgroundColor(index);
+
+    // Update the control panel selection
     control_panel_controller.selectSwatch(index);
+
+    // Persist selection
     try {
       storage_service.setInt(_colorIndexKey, index);
     } on Exception {
@@ -133,17 +142,14 @@ class App {
     }
   }
 
-  /// Gets the current color index.
-  int get colorIndex => _colorIndex;
-
   /// Advances to the next color (wraps around).
   void _nextColor() {
-    selectColor((_colorIndex + 1) % colorCount);
+    _selectColor((_colorIndex + 1) % _colorCount);
   }
 
   /// Goes to the previous color (wraps around).
   void _previousColor() {
-    selectColor((_colorIndex - 1 + colorCount) % colorCount);
+    _selectColor((_colorIndex - 1 + _colorCount) % _colorCount);
   }
 
   /// Handles toolbar button actions.
@@ -154,17 +160,12 @@ class App {
       case .next:
         _nextColor();
       case .fullscreen:
-        _toggleFullscreen();
+        fullscreen_service.toggle();
       case .hide:
         control_panel_controller.hide();
       case .help:
-        _toggleHelp();
+        help_controller.toggle();
     }
-  }
-
-  /// Toggles fullscreen mode.
-  void _toggleFullscreen() {
-    fullscreen_service.toggle();
   }
 
   /// Handles Escape key.
@@ -173,10 +174,5 @@ class App {
     if (!control_panel_controller.isVisible) {
       control_panel_controller.show();
     }
-  }
-
-  /// Toggles help dialog.
-  void _toggleHelp() {
-    help_controller.toggle();
   }
 }

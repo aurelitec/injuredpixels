@@ -4,8 +4,8 @@
 
 /// Wraps localStorage with type-specific accessors.
 ///
-/// Methods throw on storage unavailability (e.g. private browsing) or parse
-/// errors. Callers decide error handling policy.
+/// Methods throw on storage unavailability (e.g. private browsing) or parse errors. Callers decide
+/// error handling policy.
 library;
 
 import 'package:web/web.dart';
@@ -27,11 +27,4 @@ int? getInt(String key) {
 /// Throws if storage is unavailable.
 void setInt(String key, int value) {
   window.localStorage.setItem('$_prefix$key', value.toString());
-}
-
-/// Removes a value from localStorage.
-///
-/// Throws if storage is unavailable.
-void remove(String key) {
-  window.localStorage.removeItem('$_prefix$key');
 }
