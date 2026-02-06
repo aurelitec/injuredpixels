@@ -77,7 +77,7 @@
   }
 
   /* Hidden state - faster exit animation */
-  .control-panel.hidden {
+  .control-panel.is-hidden {
     @apply pointer-events-none scale-95 opacity-0 duration-150 ease-in;
   }
 

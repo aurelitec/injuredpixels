@@ -36,7 +36,7 @@ late final void Function(int index)? _onColorSelected;
 late final HTMLElement _swatchesContainer;
 
 /// Whether the control panel is visible.
-bool get isVisible => !_element.classList.contains('hidden');
+bool get isVisible => !_element.classList.contains('is-hidden');
 
 /// The color swatch elements (live HTMLCollection).
 HTMLCollection get _swatches => _swatchesContainer.children;
@@ -49,7 +49,7 @@ String getSwatchBackgroundColor(int index) {
 
 /// Hides the control panel.
 void hide() {
-  _element.classList.add('hidden');
+  _element.classList.add('is-hidden');
 
   // Invoke after-hide callback if provided
   _afterHide?.call();
@@ -79,10 +79,10 @@ void selectSwatch(int index) {
 }
 
 /// Shows the control panel.
-void show() => _element.classList.remove('hidden');
+void show() => _element.classList.remove('is-hidden');
 
 /// Toggles control panel visibility.
-void toggle() => _element.classList.toggle('hidden');
+void toggle() => _element.classList.toggle('is-hidden');
 
 /// Queries and wires swatch buttons.
 void _initSwatches() {
