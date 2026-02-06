@@ -101,6 +101,7 @@ void _initToolbarButtons() {
   for (var i = 0; i < buttons.length; i++) {
     final button = buttons.item(i) as HTMLElement;
     final action = ToolbarAction.values.asNameMap()[button.dataset['action']];
+    assert(action != null, 'Unknown toolbar action: "${button.dataset['action']}"');
     if (action == null) continue;
     button.addEventListener('click', ((Event event) => _onAction?.call(action)).toJS);
   }
