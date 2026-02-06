@@ -94,24 +94,27 @@ class App {
 
   /// Sets up keyboard shortcuts.
   void _setupKeyboardShortcuts() {
+    // Handles keyboard actions from the keyboard service.
+    void handleKeyboardAction(keyboard_service.KeyboardAction action) {
+      switch (action) {
+        case .previousColor:
+          _previousColor();
+        case .nextColor:
+          _nextColor();
+        case .toggleFullscreen:
+          _toggleFullscreen();
+        case .toggleControlPanel:
+          control_panel_controller.toggle();
+        case .toggleHelp:
+          _toggleHelp();
+        case .escape:
+          _handleEscape();
+      }
+    }
+
     keyboard_service.setupKeyboardShortcuts(
       onColorSelect: selectColor,
-      onKeyboardAction: (keyboard_service.KeyboardAction action) {
-        switch (action) {
-          case .previousColor:
-            _previousColor();
-          case .nextColor:
-            _nextColor();
-          case .toggleFullscreen:
-            _toggleFullscreen();
-          case .toggleControlPanel:
-            control_panel_controller.toggle();
-          case .toggleHelp:
-            _toggleHelp();
-          case .escape:
-            _handleEscape();
-        }
-      },
+      onKeyboardAction: handleKeyboardAction,
     );
   }
 
