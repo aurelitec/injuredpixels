@@ -23,11 +23,11 @@ late final void Function(String action)? _onAction;
 /// Callback for when a toolbar action button is pressed.
 late final void Function(int index)? _onColorSelected;
 
-/// The color swatch elements (live HTMLCollection).
-late final HTMLCollection _swatches;
-
 /// The swatches container element.
 late final HTMLElement _swatchesContainer;
+
+/// The color swatch elements (live HTMLCollection).
+HTMLCollection get _swatches => _swatchesContainer.children;
 
 /// Whether the control panel is visible.
 bool get isVisible => !_element.classList.contains('hidden');
@@ -78,7 +78,6 @@ void toggle() => _element.classList.toggle('hidden');
 /// Queries and wires swatch buttons.
 void _initSwatches() {
   _swatchesContainer = document.querySelector('#swatches') as HTMLElement;
-  _swatches = _swatchesContainer.children;
 
   for (var i = 0; i < _swatches.length; i++) {
     final swatch = _swatchAt(i);
