@@ -27,9 +27,6 @@ const _colorIndexKey = 'colorIndex';
 /// Default color index used the first time the app runs or if previously used index is invalid.
 const _defaultColorIndex = 0;
 
-/// Hint message shown when the panel is hidden for the first time.
-const _panelHideHint = 'Right-click or press Space to show controls';
-
 /// The currently selected color index (the "state" of the app).
 var _colorIndex = _defaultColorIndex;
 
@@ -50,7 +47,7 @@ void _createControllers() {
   void afterControlPanelHide() {
     if (!hasShownPanelHideHint) {
       hasShownPanelHideHint = true;
-      toast_controller.show(_panelHideHint);
+      toast_controller.show(.hideHint);
     }
   }
 

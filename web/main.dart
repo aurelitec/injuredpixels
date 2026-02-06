@@ -4,6 +4,7 @@
 
 import 'package:injuredpixels/src/app.dart' as app;
 
+/// Entry point for the web app that runs the main application logic.
 void main() {
   app.run();
 }

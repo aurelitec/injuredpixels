@@ -10,6 +10,11 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart';
 
+/// Predefined toast messages stored as `data-msg-*` attributes on the toast element.
+enum ToastMessage {
+  hideHint,
+}
+
 /// Default duration before toast auto-dismisses.
 const _defaultDuration = Duration(milliseconds: 4500);
 
@@ -36,8 +41,13 @@ void init() {
   dismissButton?.addEventListener('click', ((Event event) => _hide()).toJS);
 }
 
-/// Shows a toast message with optional auto-dismiss duration.
-void show(String message, {Duration duration = _defaultDuration}) {
+/// Shows a predefined toast message with optional auto-dismiss duration.
+///
+/// The message text is read from the `data-msg-{id}` attribute on the toast element.
+void show(ToastMessage id, {Duration duration = _defaultDuration}) {
+  final message = _element.dataset['msg-${id.name}'];
+  assert(message != null, 'Missing toast message in HTML: "data-msg-${id.name}"');
+
   // Cancel any existing timer
   _dismissTimer?.cancel();
 
