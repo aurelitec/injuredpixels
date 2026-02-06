@@ -26,11 +26,11 @@ late final void Function(int index)? _onColorSelected;
 /// The swatches container element.
 late final HTMLElement _swatchesContainer;
 
-/// The color swatch elements (live HTMLCollection).
-HTMLCollection get _swatches => _swatchesContainer.children;
-
 /// Whether the control panel is visible.
 bool get isVisible => !_element.classList.contains('hidden');
+
+/// The color swatch elements (live HTMLCollection).
+HTMLCollection get _swatches => _swatchesContainer.children;
 
 /// Returns the computed background color of the swatch at the given index.
 String getSwatchBackgroundColor(int index) {
