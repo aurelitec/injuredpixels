@@ -59,8 +59,9 @@ doc/api/
 # Tailwind CSS output
 web/style.css
 
-# Portable build output
+# App build outputs
 build-portable
+build-web
 
 # ---------------------------------------------------------------------------
 # Miscellaneous
@@ -72,3 +73,4 @@ build-portable
 .vscode/mcp.json
 .work
 temp
+

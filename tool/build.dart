@@ -2,15 +2,13 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-import 'dart:io';
-
 import 'run.dart';
 
-/// Build the web app for production.
+/// Intermediate production build: webdev + tailwindcss + minify → build/
 Future<void> main() async {
-  print('Building for production...\n');
+  print('Building intermediate...\n');
 
-  // Build the web app
+  // Compile Dart to JS
   await run('webdev', ['build']);
 
   // Build the Tailwind CSS for production (minified)
@@ -22,11 +20,5 @@ Future<void> main() async {
   // Minify the HTML
   await run('minify', ['-o', 'build/index.html', 'build/index.html']);
 
-  // Delete the input Tailwind CSS file from build output
-  final inputCss = File('build/input.css');
-  if (await inputCss.exists()) {
-    await inputCss.delete();
-  }
-
-  print('\n✅ Build complete: build/');
+  print('\n✅ Intermediate build complete: build/');
 }
