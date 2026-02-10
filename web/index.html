@@ -115,15 +115,9 @@
         <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-right"/></svg>
         <span class="toolbar-btn-label">Next</span>
       </button>
-      <button data-action="fullscreen" class="toolbar-btn lg:mr-auto" aria-label="Toggle fullscreen">
-        <svg class="toolbar-btn-icon inline [*:fullscreen_&]:hidden" width="1em" height="1em"><use href="#icon-enter-fullscreen"/></svg>
-        <svg class="toolbar-btn-icon hidden [*:fullscreen_&]:inline" width="1em" height="1em"><use href="#icon-exit-fullscreen"/></svg>
-        <span class="toolbar-btn-label md:inline [*:fullscreen_&]:hidden">Enter fullscreen</span>
-        <span class="toolbar-btn-label hidden md:[*:fullscreen_&]:inline">Exit fullscreen</span>
-      </button>
-      <button data-action="hide" class="toolbar-btn">
+      <button data-action="inspectMode" class="toolbar-btn">
         <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-hide"/></svg>
-        <span class="toolbar-btn-label">Hide controls</span>
+        <span class="toolbar-btn-label">Inspect Mode</span>
       </button>
       <button data-action="help" class="toolbar-btn">
         <svg class="toolbar-btn-icon" width="1em" height="1em"><use href="#icon-help"/></svg>
@@ -191,7 +185,7 @@
     TOAST (popover)
   --------------------------------------------------------------------------->
 
-  <div id="toast" class="toast" popover="manual" role="status" aria-live="polite" data-msg-hide-hint="Press Space or Escape, right-click, or touch and hold to show panel">
+  <div id="toast" class="toast" popover="manual" role="status" aria-live="polite" data-msg-hide-hint="Press Space or Escape, right-click, or touch and hold to exit Inspect Mode.">
     <span class="text-sm" data-message></span>
     <button data-action="dismiss" class="shrink-0 rounded p-1 transition-colors hover:bg-white/10" aria-label="Dismiss">
       <svg class="h-4 w-4"><use href="#icon-close"/></svg>

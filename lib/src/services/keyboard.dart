@@ -13,10 +13,8 @@ import 'package:web/web.dart';
 enum KeyboardAction {
   previousColor,
   nextColor,
-  toggleFullscreen,
-  toggleControlPanel,
+  toggleInspectMode,
   toggleHelp,
-  escape,
 }
 
 /// Sets up keyboard shortcuts for the application.
@@ -50,19 +48,12 @@ void setupKeyboardShortcuts({
       case 'ArrowRight':
         onKeyboardAction(.nextColor);
         event.preventDefault();
-      case 'f':
-      case 'F':
-        onKeyboardAction(.toggleFullscreen);
-        event.preventDefault();
       case ' ':
-        onKeyboardAction(.toggleControlPanel);
+        onKeyboardAction(.toggleInspectMode);
         event.preventDefault();
       case '?':
         onKeyboardAction(.toggleHelp);
         event.preventDefault();
-      case 'Escape':
-        onKeyboardAction(.escape);
-      // Don't preventDefault for Escape - browser may need it for fullscreen exit
     }
   }
 
