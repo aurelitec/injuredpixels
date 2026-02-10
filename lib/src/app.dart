@@ -29,6 +29,7 @@ const _defaultColorIndex = 0;
 /// The currently selected color index (the "state" of the app).
 var _colorIndex = _defaultColorIndex;
 
+/// Whether the app is in inspect mode (fullscreen with controls hidden for screen inspection).
 var _isInspectMode = false;
 
 /// Runs the application.
@@ -47,8 +48,7 @@ void _handleAction(control_panel_controller.ToolbarAction action) {
     case .next:
       _nextColor();
     case .inspectMode:
-      _setInspectMode(!_isInspectMode);
-    // or _setInspectMode(true); because the toolbar button is only visible when inspect mode is off
+      _setInspectMode(true);
     case .help:
       help_controller.toggle();
   }
