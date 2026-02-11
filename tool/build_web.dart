@@ -14,6 +14,7 @@ const _buildEntries = <BuildEntry>[
   BuildFile('style.css'),
   BuildFile('favicon.ico'),
   BuildFile('manifest.json'),
+  BuildFile('sw.js'),
   BuildDirectory('icons'),
 ];
 

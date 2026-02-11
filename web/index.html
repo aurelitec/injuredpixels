@@ -13,6 +13,11 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <script defer src="main.dart.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
   <!-- web-only:end -->
   <!-- portable-only:start -->
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">

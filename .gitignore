@@ -63,6 +63,9 @@ web/style.css
 build-portable
 build-web
 
+# The Dart block above ignores all .js files, but we need the service worker
+!web/sw.js
+
 # ---------------------------------------------------------------------------
 # Miscellaneous
 # ---------------------------------------------------------------------------
