@@ -14,7 +14,7 @@ const _buildEntries = <BuildEntry>[
   BuildFile('index.html', target: 'InjuredPixels.html'),
   BuildFile('main.dart.js', target: 'assets/main.dart.js'),
   BuildFile('style.css', target: 'assets/style.css'),
-  BuildFile('favicon-96x96.png', target: 'assets/favicon-96x96.png'),
+  BuildFile('icons/favicon-96x96.png', target: 'assets/favicon-96x96.png'),
 ];
 
 /// Directory containing static files to copy to the portable build.

@@ -13,8 +13,6 @@ const _buildEntries = <BuildEntry>[
   BuildFile('main.dart.js'),
   BuildFile('style.css'),
   BuildFile('favicon.ico'),
-  BuildFile('favicon-96x96.png'),
-  BuildFile('apple-touch-icon.png'),
   BuildFile('manifest.json'),
   BuildDirectory('icons'),
 ];
