@@ -4,6 +4,17 @@
 
 import 'dart:io';
 
+/// A file to copy from the intermediate build to the output directory.
+class BuildFile {
+  /// Source path relative to the intermediate build directory.
+  final String source;
+
+  /// Target path relative to the output directory. Defaults to [source].
+  final String target;
+
+  const BuildFile(this.source, {String? target}) : target = target ?? source;
+}
+
 /// Run a command and print its output.
 Future<void> run(String exe, List<String> args) async {
   print('→ $exe ${args.join(' ')}');
@@ -28,18 +39,35 @@ Future<void> prepareOutputDir(String path) async {
   await dir.create();
 }
 
+/// Copies build files from [buildDir] to [outputDir] based on [BuildFile] mappings.
+///
+/// Creates subdirectories in [outputDir] as needed.
+Future<void> copyBuildFiles(
+  String buildDir,
+  String outputDir,
+  List<BuildFile> files,
+) async {
+  for (final f in files) {
+    final targetPath = '$outputDir/${f.target}';
+    await Directory(File(targetPath).parent.path).create(recursive: true);
+    await File('$buildDir/${f.source}').copy(targetPath);
+  }
+}
+
 /// Minifies an HTML file in place using the `minify` CLI.
 Future<void> minifyHtml(String path) async {
   await run('minify', ['-o', path, path]);
 }
 
-/// Strips `<!-- web-only:start -->` to `<!-- web-only:end -->` blocks from a file.
-Future<void> stripWebOnlyBlocks(String path) async {
+/// Strips `<!-- name:start -->` to `<!-- name:end -->` blocks from a file.
+Future<void> stripConditionalBlocks(String path, String name) async {
   final file = File(path);
   final content = await file.readAsString();
   final stripped = content.replaceAll(
-    RegExp(r'[ \t]*<!--\s*web-only:start\s*-->.*?<!--\s*web-only:end\s*-->\n?',
-        dotAll: true),
+    RegExp(
+      r'[ \t]*<!--\s*' + RegExp.escape(name) + r':start\s*-->.*?<!--\s*' + RegExp.escape(name) + r':end\s*-->\n?',
+      dotAll: true,
+    ),
     '',
   );
   await file.writeAsString(stripped);

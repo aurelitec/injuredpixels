@@ -11,13 +11,13 @@ const _outputDir = 'build-web';
 
 /// Files to copy from the intermediate build output.
 const _buildFiles = [
-  'index.html',
-  'main.dart.js',
-  'style.css',
-  'favicon.ico',
-  'favicon-96x96.png',
-  'apple-touch-icon.png',
-  'manifest.json',
+  BuildFile('index.html'),
+  BuildFile('main.dart.js'),
+  BuildFile('style.css'),
+  BuildFile('favicon.ico'),
+  BuildFile('favicon-96x96.png'),
+  BuildFile('apple-touch-icon.png'),
+  BuildFile('manifest.json'),
 ];
 
 /// Directories to copy from the intermediate build output.
@@ -34,16 +34,15 @@ Future<void> main() async {
   await prepareOutputDir(_outputDir);
 
   // Copy whitelisted files from the intermediate build
-  for (final name in _buildFiles) {
-    await File('build/$name').copy('$_outputDir/$name');
-  }
+  await copyBuildFiles('build', _outputDir, _buildFiles);
 
   // Copy whitelisted directories from the intermediate build
   for (final name in _buildDirs) {
     await copyDirectory(Directory('build/$name'), Directory('$_outputDir/$name'));
   }
 
-  // Minify the HTML (markers are just comments, minifier strips them)
+  // Strip portable-only blocks and minify the HTML
+  await stripConditionalBlocks('$_outputDir/index.html', 'portable-only');
   await minifyHtml('$_outputDir/index.html');
 
   print('\n✅ Web build complete: $_outputDir/');

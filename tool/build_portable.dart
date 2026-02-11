@@ -10,7 +10,12 @@ import 'build_utils.dart';
 const _outputDir = 'build-portable';
 
 /// Files to copy from the intermediate build output.
-const _buildFiles = ['index.html', 'main.dart.js', 'style.css', 'favicon.ico', 'favicon-96x96.png'];
+const _buildFiles = [
+  BuildFile('index.html', target: 'InjuredPixels.html'),
+  BuildFile('main.dart.js', target: 'assets/main.dart.js'),
+  BuildFile('style.css', target: 'assets/style.css'),
+  BuildFile('favicon-96x96.png', target: 'assets/favicon-96x96.png'),
+];
 
 /// Directory containing static files to copy to the portable build.
 const _staticDir = 'static-portable';
@@ -26,13 +31,11 @@ Future<void> main() async {
   await prepareOutputDir(_outputDir);
 
   // Copy whitelisted files from the intermediate build
-  for (final name in _buildFiles) {
-    await File('build/$name').copy('$_outputDir/$name');
-  }
+  await copyBuildFiles('build', _outputDir, _buildFiles);
 
   // Strip web-only blocks and minify the HTML
-  await stripWebOnlyBlocks('$_outputDir/index.html');
-  await minifyHtml('$_outputDir/index.html');
+  await stripConditionalBlocks('$_outputDir/InjuredPixels.html', 'web-only');
+  await minifyHtml('$_outputDir/InjuredPixels.html');
 
   // Copy all static portable files
   await copyDirectory(Directory(_staticDir), Directory(_outputDir));
