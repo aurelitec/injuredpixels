@@ -75,6 +75,11 @@ Future<void> minifyHtml(String path) async {
   await run('minify', ['-o', path, path]);
 }
 
+/// Minifies a JavaScript file in place using the `minify` CLI.
+Future<void> minifyJs(String path) async {
+  await run('minify', ['-o', path, path]);
+}
+
 /// Strips `<!-- name:start -->` to `<!-- name:end -->` blocks from a file.
 Future<void> stripConditionalBlocks(String path, String name) async {
   final file = File(path);

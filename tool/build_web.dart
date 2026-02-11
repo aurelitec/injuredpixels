@@ -35,5 +35,8 @@ Future<void> main() async {
   await stripConditionalBlocks('$_outputDir/index.html', 'portable-only');
   await minifyHtml('$_outputDir/index.html');
 
+  // Minify the service worker
+  await minifyJs('$_outputDir/sw.js');
+
   print('\n✅ Web build complete: $_outputDir/');
 }
