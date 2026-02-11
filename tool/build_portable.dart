@@ -9,8 +9,8 @@ import 'build_utils.dart';
 /// Output directory for the portable build.
 const _outputDir = 'build-portable';
 
-/// Files to copy from the intermediate build output.
-const _buildFiles = [
+/// Entries to copy from the intermediate build output.
+const _buildEntries = <BuildEntry>[
   BuildFile('index.html', target: 'InjuredPixels.html'),
   BuildFile('main.dart.js', target: 'assets/main.dart.js'),
   BuildFile('style.css', target: 'assets/style.css'),
@@ -30,8 +30,8 @@ Future<void> main() async {
   // Prepare the output directory
   await prepareOutputDir(_outputDir);
 
-  // Copy whitelisted files from the intermediate build
-  await copyBuildFiles('build', _outputDir, _buildFiles);
+  // Copy whitelisted entries from the intermediate build
+  await copyBuildEntries('build', _outputDir, _buildEntries);
 
   // Strip web-only blocks and minify the HTML
   await stripConditionalBlocks('$_outputDir/InjuredPixels.html', 'web-only');

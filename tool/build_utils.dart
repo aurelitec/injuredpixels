@@ -4,15 +4,25 @@
 
 import 'dart:io';
 
-/// A file to copy from the intermediate build to the output directory.
-class BuildFile {
+/// A file or directory to copy from the intermediate build to the output directory.
+sealed class BuildEntry {
   /// Source path relative to the intermediate build directory.
   final String source;
 
   /// Target path relative to the output directory. Defaults to [source].
   final String target;
 
-  const BuildFile(this.source, {String? target}) : target = target ?? source;
+  const BuildEntry(this.source, {String? target}) : target = target ?? source;
+}
+
+/// A single file to copy.
+class BuildFile extends BuildEntry {
+  const BuildFile(super.source, {super.target});
+}
+
+/// A directory to copy recursively.
+class BuildDirectory extends BuildEntry {
+  const BuildDirectory(super.source, {super.target});
 }
 
 /// Run a command and print its output.
@@ -39,18 +49,24 @@ Future<void> prepareOutputDir(String path) async {
   await dir.create();
 }
 
-/// Copies build files from [buildDir] to [outputDir] based on [BuildFile] mappings.
+/// Copies build entries from [buildDir] to [outputDir] based on [BuildEntry] mappings.
 ///
-/// Creates subdirectories in [outputDir] as needed.
-Future<void> copyBuildFiles(
+/// Handles both files and directories. Creates subdirectories in [outputDir] as needed.
+Future<void> copyBuildEntries(
   String buildDir,
   String outputDir,
-  List<BuildFile> files,
+  List<BuildEntry> entries,
 ) async {
-  for (final f in files) {
-    final targetPath = '$outputDir/${f.target}';
-    await Directory(File(targetPath).parent.path).create(recursive: true);
-    await File('$buildDir/${f.source}').copy(targetPath);
+  for (final e in entries) {
+    final sourcePath = '$buildDir/${e.source}';
+    final targetPath = '$outputDir/${e.target}';
+    switch (e) {
+      case BuildFile():
+        await Directory(File(targetPath).parent.path).create(recursive: true);
+        await File(sourcePath).copy(targetPath);
+      case BuildDirectory():
+        await copyDirectory(Directory(sourcePath), Directory(targetPath));
+    }
   }
 }
 
@@ -65,7 +81,11 @@ Future<void> stripConditionalBlocks(String path, String name) async {
   final content = await file.readAsString();
   final stripped = content.replaceAll(
     RegExp(
-      r'[ \t]*<!--\s*' + RegExp.escape(name) + r':start\s*-->.*?<!--\s*' + RegExp.escape(name) + r':end\s*-->\n?',
+      r'[ \t]*<!--\s*' +
+          RegExp.escape(name) +
+          r':start\s*-->.*?<!--\s*' +
+          RegExp.escape(name) +
+          r':end\s*-->\n?',
       dotAll: true,
     ),
     '',
@@ -73,7 +93,7 @@ Future<void> stripConditionalBlocks(String path, String name) async {
   await file.writeAsString(stripped);
 }
 
-/// Recursively copies a directory.
+/// Recursively copies the contents of a directory.
 Future<void> copyDirectory(Directory source, Directory target) async {
   await target.create(recursive: true);
   await for (final entity in source.list()) {
