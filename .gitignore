@@ -122,6 +122,9 @@ $RECYCLE.BIN/
 # App-specific ignores
 # ---------------------------------------------------------------------------
 
+# Main HTML file output
+web/index.html
+
 # Tailwind CSS output
 web/style.css
 
