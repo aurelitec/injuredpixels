@@ -29,33 +29,16 @@ const _defaultColorIndex = 0;
 /// The currently selected color index (the "state" of the app).
 var _colorIndex = _defaultColorIndex;
 
-/// Whether the app is in inspect mode (fullscreen with controls hidden for screen inspection).
-var _isInspectMode = false;
-
 /// Runs the application.
 void run() {
-  _initControllersAndServices();
+  _createControllers();
   _setupBodyHandlers();
   _setupKeyboardShortcuts();
   _loadPersistedState();
 }
 
-/// Handles toolbar button actions.
-void _handleAction(control_panel_controller.ToolbarAction action) {
-  switch (action) {
-    case .previous:
-      _previousColor();
-    case .next:
-      _nextColor();
-    case .inspectMode:
-      _setInspectMode(true);
-    case .help:
-      help_controller.toggle();
-  }
-}
-
-/// Initializes the controllers and services for coordination and state management.
-void _initControllersAndServices() {
+/// Initializes the controllers for the main UI components.
+void _createControllers() {
   // Tracks whether the panel hide hint has been shown already.
   var hasShownPanelHideHint = false;
 
@@ -67,14 +50,6 @@ void _initControllersAndServices() {
     }
   }
 
-  /// Handles changes to fullscreen mode to sync the inspect mode state accordingly.
-  void onFullscreenChange(bool isFullscreen) {
-    if (!isFullscreen && _isInspectMode) {
-      _setInspectMode(false);
-    }
-  }
-
-  // Initialize the controllers with their respective callbacks
   control_panel_controller.init(
     onColorSelected: _selectColor,
     onAction: _handleAction,
@@ -82,11 +57,22 @@ void _initControllersAndServices() {
   );
   help_controller.init();
   toast_controller.init();
+}
 
-  // Initialize the fullscreen service with the change callback to sync inspect mode state
-  fullscreen_service.init(
-    onFullscreenChange: onFullscreenChange,
-  );
+/// Handles toolbar button actions.
+void _handleAction(control_panel_controller.ToolbarAction action) {
+  switch (action) {
+    case .previous:
+      _previousColor();
+    case .next:
+      _nextColor();
+    case .inspect:
+      control_panel_controller.hide();
+    case .fullscreen:
+      _toggleFullscreen();
+    case .help:
+      help_controller.toggle();
+  }
 }
 
 /// Loads persisted state from storage.
@@ -128,32 +114,6 @@ void _selectColor(int index) {
   }
 }
 
-/// Sets inspect mode on or off, which also toggles fullscreen mode and control panel visibility.
-void _setInspectMode(bool enabled) {
-  _isInspectMode = enabled;
-
-  if (_isInspectMode) {
-    // When entering inspect mode
-
-    // Hide the control panel to allow unobstructed inspection of the screen
-    control_panel_controller.hide();
-
-    // Also ensure the help dialog is closed in inspect mode
-    if (help_controller.isVisible) help_controller.hide();
-
-    // Enter fullscreen to allow the user to inspect the entire screen
-    fullscreen_service.enter();
-  } else {
-    // When exiting inspect mode
-
-    // Show the control panel again for user interaction
-    control_panel_controller.show();
-
-    // Exit fullscreen to return to normal browsing mode
-    fullscreen_service.exit();
-  }
-}
-
 /// Sets up body-level event handlers.
 void _setupBodyHandlers() {
   /// Handles double-click events on the body to advance to the next color.
@@ -161,10 +121,10 @@ void _setupBodyHandlers() {
     if (event.target == event.currentTarget) _nextColor();
   }
 
-  /// Handles context menu events on the body to toggle the inspect mode and prevent the menu.
+  /// Handles context menu events on the body to toggle the control panel and prevent the menu.
   void onContextMenu(MouseEvent event) {
     event.preventDefault();
-    if (event.target == event.currentTarget) _setInspectMode(!_isInspectMode);
+    if (event.target == event.currentTarget) control_panel_controller.toggle();
   }
 
   document.body?.addEventListener('dblclick', onDblClick.toJS);
@@ -173,6 +133,13 @@ void _setupBodyHandlers() {
 
 /// Sets up keyboard shortcuts.
 void _setupKeyboardShortcuts() {
+  /// Handles Escape key presses to show the control panel if hidden (as panic recovery).
+  void handleEscape() {
+    if (!control_panel_controller.isVisible) {
+      control_panel_controller.show();
+    }
+  }
+
   /// Handles keyboard actions from the keyboard service.
   void handleKeyboardAction(keyboard_service.KeyboardAction action) {
     switch (action) {
@@ -180,10 +147,14 @@ void _setupKeyboardShortcuts() {
         _previousColor();
       case .nextColor:
         _nextColor();
-      case .toggleInspectMode:
-        _setInspectMode(!_isInspectMode);
+      case .toggleFullscreen:
+        _toggleFullscreen();
+      case .toggleControlPanel:
+        control_panel_controller.toggle();
       case .toggleHelp:
         help_controller.toggle();
+      case .escape:
+        handleEscape();
     }
   }
 
@@ -191,4 +162,12 @@ void _setupKeyboardShortcuts() {
     onColorSelect: _selectColor,
     onKeyboardAction: handleKeyboardAction,
   );
+}
+
+/// Toggles fullscreen mode.
+void _toggleFullscreen() {
+  // First ensure help dialog is closed to avoid it getting behind the Control Panel
+  if (help_controller.isVisible) help_controller.hide();
+
+  fullscreen_service.toggle();
 }

@@ -13,7 +13,8 @@ import 'package:web/web.dart';
 enum ToolbarAction {
   previous,
   next,
-  inspectMode,
+  inspect,
+  fullscreen,
   help,
 }
 
@@ -33,6 +34,9 @@ late final void Function(int index)? _onColorSelected;
 
 /// The swatches container element.
 late final HTMLElement _swatchesContainer;
+
+/// Whether the control panel is visible.
+bool get isVisible => !_element.classList.contains('is-hidden');
 
 /// The color swatch elements (live HTMLCollection).
 HTMLCollection get _swatches => _swatchesContainer.children;
@@ -76,6 +80,9 @@ void selectSwatch(int index) {
 
 /// Shows the control panel.
 void show() => _element.classList.remove('is-hidden');
+
+/// Toggles control panel visibility.
+void toggle() => isVisible ? hide() : show();
 
 /// Queries and wires swatch buttons.
 void _initSwatches() {
