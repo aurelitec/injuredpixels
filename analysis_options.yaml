@@ -1,0 +1,23 @@
+include: package:lints/recommended.yaml
+
+
+linter:
+  rules:
+    - avoid_final_parameters
+    - omit_local_variable_types
+    - omit_obvious_local_variable_types
+    - omit_obvious_property_types
+    - parameter_assignments
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - prefer_final_fields
+    - prefer_final_in_for_each
+    - prefer_final_locals
+    - prefer_single_quotes
+    - unnecessary_const
+    - unnecessary_nullable_for_final_variable_declarations
+
+formatter:
+  page_width: 100
+  trailing_commas: preserve
