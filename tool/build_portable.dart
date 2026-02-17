@@ -11,7 +11,6 @@ const _outputDir = 'build-portable';
 
 /// Entries to copy from the intermediate build output.
 const _buildEntries = <BuildEntry>[
-  BuildFile('index.html', target: 'InjuredPixels.html'),
   BuildFile('main.dart.js', target: 'assets/main.dart.js'),
   BuildFile('style.css', target: 'assets/style.css'),
   BuildFile('icons/favicon-96x96.png', target: 'assets/favicon-96x96.png'),
@@ -33,8 +32,13 @@ Future<void> main() async {
   // Copy whitelisted entries from the intermediate build
   await copyBuildEntries('build', _outputDir, _buildEntries);
 
-  // Strip web-only blocks and minify the HTML
-  await stripConditionalBlocks('$_outputDir/InjuredPixels.html', 'web-only');
+  // Generate portable-target HTML and minify it
+  await run('dart', [
+    'run',
+    'tool/generate_html.dart',
+    'portable',
+    '$_outputDir/InjuredPixels.html',
+  ]);
   await minifyHtml('$_outputDir/InjuredPixels.html');
 
   // Copy all static portable files

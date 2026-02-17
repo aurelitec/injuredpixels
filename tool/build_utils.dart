@@ -80,24 +80,6 @@ Future<void> minifyJs(String path) async {
   await run('minify', ['-o', path, path]);
 }
 
-/// Strips `<!-- name:start -->` to `<!-- name:end -->` blocks from a file.
-Future<void> stripConditionalBlocks(String path, String name) async {
-  final file = File(path);
-  final content = await file.readAsString();
-  final stripped = content.replaceAll(
-    RegExp(
-      r'[ \t]*<!--\s*' +
-          RegExp.escape(name) +
-          r':start\s*-->.*?<!--\s*' +
-          RegExp.escape(name) +
-          r':end\s*-->\n?',
-      dotAll: true,
-    ),
-    '',
-  );
-  await file.writeAsString(stripped);
-}
-
 /// Recursively copies the contents of a directory.
 Future<void> copyDirectory(Directory source, Directory target) async {
   await target.create(recursive: true);

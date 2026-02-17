@@ -31,8 +31,7 @@ Future<void> main() async {
   // Copy whitelisted entries from the intermediate build
   await copyBuildEntries('build', _outputDir, _buildEntries);
 
-  // Strip portable-only blocks and minify the HTML
-  await stripConditionalBlocks('$_outputDir/index.html', 'portable-only');
+  // Minify the HTML
   await minifyHtml('$_outputDir/index.html');
 
   // Minify the service worker

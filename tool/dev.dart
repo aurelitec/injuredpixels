@@ -8,6 +8,9 @@ import 'build_utils.dart';
 Future<void> main() async {
   print('Starting development server...\n');
 
+  // Generate web-target HTML before starting the server
+  await run('dart', ['run', 'tool/generate_html.dart', 'web', 'web/index.html']);
+
   // Start webdev serve with auto refresh
   final webdev = await watch('webdev', ['serve', '--auto', 'refresh']);
 
