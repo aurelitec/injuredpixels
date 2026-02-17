@@ -4,23 +4,25 @@
 
 import 'dart:io';
 
-/// A file or directory to copy from the intermediate build to the output directory.
+/// A build artifact reference — a file or directory produced by the build scripts.
+///
+/// Used to define copy operations (with [target]) or to identify artifacts for cleanup.
 sealed class BuildEntry {
-  /// Source path relative to the intermediate build directory.
+  /// The artifact path (or source path in copy operations).
   final String source;
 
-  /// Target path relative to the output directory. Defaults to [source].
-  final String target;
+  /// The destination path in copy operations. `null` when not used for copying.
+  final String? target;
 
-  const BuildEntry(this.source, {String? target}) : target = target ?? source;
+  const BuildEntry(this.source, {this.target});
 }
 
-/// A single file to copy.
+/// A single file build artifact.
 class BuildFile extends BuildEntry {
   const BuildFile(super.source, {super.target});
 }
 
-/// A directory to copy recursively.
+/// A directory build artifact.
 class BuildDirectory extends BuildEntry {
   const BuildDirectory(super.source, {super.target});
 }
@@ -59,7 +61,7 @@ Future<void> copyBuildEntries(
 ) async {
   for (final e in entries) {
     final sourcePath = '$buildDir/${e.source}';
-    final targetPath = '$outputDir/${e.target}';
+    final targetPath = '$outputDir/${e.target ?? e.source}';
     switch (e) {
       case BuildFile():
         await Directory(File(targetPath).parent.path).create(recursive: true);

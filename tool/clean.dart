@@ -4,16 +4,32 @@
 
 import 'dart:io';
 
-/// Directories to delete.
-const _dirs = ['build', 'build-web', 'build-portable'];
+import 'build_utils.dart';
 
-/// Clean all build outputs and tooling cache.
+/// Build artifacts to delete.
+const _artifacts = <BuildEntry>[
+  BuildDirectory('build'),
+  BuildDirectory('build-web'),
+  BuildDirectory('build-portable'),
+  BuildFile('web/index.html'),
+];
+
+/// Clean all build outputs.
 Future<void> main() async {
-  for (final name in _dirs) {
-    final dir = Directory(name);
-    if (await dir.exists()) {
-      await dir.delete(recursive: true);
-      print('Deleted $name/');
+  for (final e in _artifacts) {
+    switch (e) {
+      case BuildDirectory():
+        final dir = Directory(e.source);
+        if (await dir.exists()) {
+          await dir.delete(recursive: true);
+          print('Deleted ${e.source}/');
+        }
+      case BuildFile():
+        final file = File(e.source);
+        if (await file.exists()) {
+          await file.delete();
+          print('Deleted ${e.source}');
+        }
     }
   }
   print('\n✅ Clean complete.');
