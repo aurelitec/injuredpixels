@@ -3,6 +3,7 @@
     "dart-code.dart-code",
     "mhutchie.git-graph",
     "nhoizey.gremlins",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "qlevar.pub-manager"
   ]
 }
