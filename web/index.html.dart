@@ -2,6 +2,8 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
+// TODO: "dart run tool/dev.dart" still loads the service worker in dev mode, which causes caching issues. Fix this by adding a "dev" flag and conditionally loading the service worker script?
+
 /// HTML template for InjuredPixels. Generates target-specific HTML (web or portable).
 String indexHtml({required String target}) =>
     '''
