@@ -40,20 +40,20 @@ Controls
 --------
 
 Keyboard:
-  1-8            Jump to color
-  Left / Right   Cycle colors
-  F              Toggle fullscreen
-  Space          Toggle control panel
-  Esc            Exit fullscreen / show controls
-  ?              Show help
+  1-8              Jump to color
+  Left / Right     Cycle colors
+  F                Enter / exit fullscreen
+  Space            Inspect / show controls
+  Esc              Exit fullscreen / show controls
+  ?                Show / hide help
 
 Mouse:
-  Double-click       Next color
-  Right-click        Toggle control panel
+  Double-click     Next color
+  Right-click      Inspect / show controls
 
 Touch:
-  Double-tap         Next color
-  Touch and hold     Toggle control panel
+  Double-tap       Next color
+  Touch and hold   Inspect / show controls
 
 
 Tips
