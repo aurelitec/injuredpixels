@@ -1,6 +1,11 @@
 InjuredPixels
 =============
 
+Version 5.0.0
+Copyright (c) 2009-2026 Aurelitec
+https://www.aurelitec.com/
+
+
 Check your screen for dead, stuck, or hot pixels on LCD and OLED displays.
 
 Use InjuredPixels to test a new monitor before purchasing, or during the
@@ -73,7 +78,8 @@ Tips
 About the app
 -------------
 
-InjuredPixels is free and open source.
+InjuredPixels is free and open source, supported by East-Tec.
+Protect your privacy, cover your tracks: https://www.east-tec.com
 
   Online app:   https://injuredpixels.aurelitec.com
   Website:      https://www.aurelitec.com/injuredpixels/
