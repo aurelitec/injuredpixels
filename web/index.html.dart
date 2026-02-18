@@ -2,9 +2,7 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-// TODO: "dart run tool/dev.dart" still loads the service worker in dev mode, which causes caching issues. Fix this by adding a "dev" flag and conditionally loading the service worker script?
-
-/// HTML template for InjuredPixels. Generates target-specific HTML (web or portable).
+/// HTML template for InjuredPixels. Generates target-specific HTML (web, dev, portable).
 String indexHtml({required String target}) =>
     '''
 <!DOCTYPE html>
@@ -15,7 +13,8 @@ String indexHtml({required String target}) =>
   <meta name="description" content="Detect dead, stuck, or hot pixels on LCD/OLED displays by filling the screen with solid colors.">
   <meta name="theme-color" content="#000000">
   <title>InjuredPixels</title>
-${target == 'web' ? '''
+${switch (target) {
+    'web' => '''
   <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
@@ -26,10 +25,20 @@ ${target == 'web' ? '''
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
     }
-  </script>''' : '''
+  </script>''',
+    'dev' => '''
+  <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="main.dart.js"></script>''',
+    'portable' => '''
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
   <link rel="stylesheet" href="assets/style.css">
-  <script defer src="assets/main.dart.js"></script>'''}
+  <script defer src="assets/main.dart.js"></script>''',
+    _ => throw ArgumentError('Unknown target: $target'),
+  }}
 </head>
 <body class="flex min-h-screen items-center justify-center select-none" style="background-color: rgb(255, 0, 0);">
 

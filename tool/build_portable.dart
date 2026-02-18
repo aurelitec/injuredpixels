@@ -11,6 +11,7 @@ const _outputDir = 'build-portable';
 
 /// Entries to copy from the intermediate build output.
 const _buildEntries = <BuildEntry>[
+  BuildFile('index.html', target: 'InjuredPixels.html'),
   BuildFile('main.dart.js', target: 'assets/main.dart.js'),
   BuildFile('style.css', target: 'assets/style.css'),
   BuildFile('icons/favicon-96x96.png', target: 'assets/favicon-96x96.png'),
@@ -23,7 +24,10 @@ const _staticDir = 'static-portable';
 Future<void> main() async {
   print('Building portable...\n');
 
-  // Run the intermediate build (webdev + tailwindcss + minify)
+  // Generate portable-target HTML
+  await run('dart', ['run', 'tool/generate_html.dart', 'portable', 'web/index.html']);
+
+  // Run the intermediate build (webdev + tailwindcss)
   await run('dart', ['run', 'tool/build.dart']);
 
   // Prepare the output directory
@@ -32,13 +36,7 @@ Future<void> main() async {
   // Copy whitelisted entries from the intermediate build
   await copyBuildEntries('build', _outputDir, _buildEntries);
 
-  // Generate portable-target HTML and minify it
-  await run('dart', [
-    'run',
-    'tool/generate_html.dart',
-    'portable',
-    '$_outputDir/InjuredPixels.html',
-  ]);
+  // Minify HTML
   await minifyHtml('$_outputDir/InjuredPixels.html');
 
   // Copy all static portable files

@@ -22,7 +22,10 @@ const _buildEntries = <BuildEntry>[
 Future<void> main() async {
   print('Building web...\n');
 
-  // Run the intermediate build (webdev + tailwindcss + minify)
+  // Generate web-target HTML
+  await run('dart', ['run', 'tool/generate_html.dart', 'web', 'web/index.html']);
+
+  // Run the intermediate build (webdev + tailwindcss)
   await run('dart', ['run', 'tool/build.dart']);
 
   // Prepare the output directory

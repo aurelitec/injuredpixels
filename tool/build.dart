@@ -11,9 +11,6 @@ Future<void> main() async {
   // Clean previous build output
   await prepareOutputDir('build');
 
-  // Generate web-target HTML before compiling
-  await run('dart', ['run', 'tool/generate_html.dart', 'web', 'web/index.html']);
-
   // Compile Dart to JS
   await run('webdev', ['build']);
 
