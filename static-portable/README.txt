@@ -18,7 +18,7 @@ Keyboard:
   Left/Right   Cycle colors
   F            Toggle fullscreen
   Space        Toggle control panel
-  Esc          Exit fullscreen
+  Esc          Exit fullscreen / show controls
 
 Mouse:
   Double-click       Next color

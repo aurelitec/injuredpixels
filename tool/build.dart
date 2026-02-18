@@ -4,7 +4,7 @@
 
 import 'build_utils.dart';
 
-/// Intermediate production build: webdev + tailwindcss + minify → build/
+/// Intermediate production build: webdev + tailwindcss → build/
 Future<void> main() async {
   print('Building intermediate...\n');
 

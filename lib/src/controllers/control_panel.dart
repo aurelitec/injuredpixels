@@ -93,7 +93,6 @@ void _initSwatches() {
 
   for (var i = 0; i < _swatches.length; i++) {
     final swatch = _swatchAt(i);
-    // Capture index in closure
     swatch.addEventListener('click', ((Event event) => _onColorSelected?.call(i)).toJS);
   }
 }
