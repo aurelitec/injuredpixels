@@ -83,9 +83,9 @@ Use `dart analyze` to check code for errors and `dart format .` to format code.
 
 ## History
 
-InjuredPixels started in 2009 as a Windows desktop application built with C# and .NET Windows Forms. For over 15 years, it was a popular free tool for testing LCD monitors on Windows.
+InjuredPixels started in 2009 as a Windows desktop application built with C# and .NET Framework Windows Forms, and was later released as a native Android app. For over 15 years, it was a popular free tool for testing LCD monitors.
 
-In 2026, InjuredPixels was rewritten from scratch as a cross-platform Dart web app - replacing both the Windows desktop version and an earlier Flutter web prototype. The new version runs on any device with a modern browser.
+In 2026, InjuredPixels was rewritten from scratch as a cross-platform Dart web app - replacing both the Windows desktop version and the Android native app. The new version runs on any device with a modern browser.
 
 The original Windows Forms source code is available in the [`legacy/winforms`](https://github.com/aurelitec/injuredpixels/tree/legacy/winforms) branch. The last Windows release can be downloaded from [Aurelitec](https://www.aurelitec.com/injuredpixels/windows/download/).
 
