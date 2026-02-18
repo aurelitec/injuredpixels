@@ -1,21 +1,19 @@
 InjuredPixels
 =============
 
-Check your screen for dead, stuck, or hot pixels on LCD and OLED
-displays.
+Check your screen for dead, stuck, or hot pixels on LCD and OLED displays.
 
-Use InjuredPixels to test a new monitor before purchasing, or during
-the warranty period - you may qualify for a replacement under the
-manufacturer's dead pixel policy. InjuredPixels fills the entire
-screen with a solid color, allowing you to inspect every pixel for
-defects.
+Use InjuredPixels to test a new monitor before purchasing, or during the
+warranty period - you may qualify for a replacement under the manufacturer's
+dead pixel policy. InjuredPixels fills the entire screen with a solid color,
+allowing you to inspect every pixel for defects.
 
 
 Getting Started
 ---------------
 
-Open InjuredPixels.html in any modern browser. No installation or
-internet connection required.
+Open InjuredPixels.html in any modern browser. No installation or internet
+connection required.
 
   1. Select a color from the control panel.
   2. Press F to enter fullscreen mode.
@@ -27,8 +25,8 @@ internet connection required.
 Test Colors
 -----------
 
-InjuredPixels includes 8 test colors, each designed to reveal
-different types of pixel defects:
+InjuredPixels includes 8 test colors, each designed to reveal different types
+of pixel defects:
 
   Red, Green, Blue         Test individual subpixels
   Cyan, Magenta, Yellow    Test subpixel combinations
@@ -61,19 +59,19 @@ Touch:
 Tips
 ----
 
-- Wipe your screen gently before testing. What looks like a dead
-  pixel might just be dust or dirt. InjuredPixels is designed so
-  that wiping the screen won't accidentally trigger any actions.
+- Wipe your screen gently before testing. What looks like a dead pixel might
+  just be dust or dirt. InjuredPixels is designed so that wiping the screen
+  won't accidentally trigger any actions.
 
-- Test in a dimly lit room for best results. Bright ambient light
-  can make subtle defects harder to spot.
+- Test in a dimly lit room for best results. Bright ambient light can make
+  subtle defects harder to spot.
 
-- Use fullscreen mode (press F) to test pixels at the very edges
-  of your screen, hidden behind browser chrome in normal mode.
+- Use fullscreen mode (press F) to test pixels at the very edges of your
+  screen, hidden behind browser chrome in normal mode.
 
 
-About
------
+About the app
+-------------
 
 InjuredPixels is free and open source.
 
@@ -82,19 +80,17 @@ InjuredPixels is free and open source.
   Source code:  https://github.com/aurelitec/injuredpixels
 
 
-License
--------
-
 MIT License
+-----------
 
 Copyright (c) 2009-2026 Aurelitec
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
