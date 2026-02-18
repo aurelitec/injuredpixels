@@ -2,12 +2,21 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
-/// Generate a color swatch button with the given label and Tailwind CSS classes.
+/// Generates a color swatch button with the given label and Tailwind CSS classes.
 String _colorSwatch(String label, String classes) =>
     '''
   <button class="color-swatch $classes">
     <span class="color-swatch-label">$label</span>
   </button>
+''';
+
+/// Generates a shortcut row with the given keys and description.
+String _shortcutRow(String keys, String description) =>
+    '''
+  <div class="shortcut-row">
+    <dt class="shortcut-key">$keys</dt>
+    <dd class="shortcut-desc">$description</dd>
+  </div>
 ''';
 
 /// HTML template for InjuredPixels. Generates target-specific HTML (web, dev, portable).
@@ -179,20 +188,20 @@ ${switch (target) {
     <div class="rounded-b-panel bg-help-dialog-bg px-6 py-5">
       <dl class="space-y-1.5 text-sm">
         <h3 class="shortcut-section">Keyboard</h3>
-        <div class="shortcut-row"><dt class="shortcut-key">1-8</dt><dd class="shortcut-desc">Jump to color</dd></div>
-        <div class="shortcut-row"><dt class="shortcut-key">← →</dt><dd class="shortcut-desc">Cycle colors</dd></div>
-        <div class="shortcut-row"><dt class="shortcut-key">F</dt><dd class="shortcut-desc">Enter/exit fullscreen</dd></div>
-        <div class="shortcut-row"><dt class="shortcut-key">Space</dt><dd class="shortcut-desc">Hide/show controls</dd></div>
-        <div class="shortcut-row"><dt class="shortcut-key">Esc</dt><dd class="shortcut-desc">Show controls</dd></div>
-        <div class="shortcut-row"><dt class="shortcut-key">?</dt><dd class="shortcut-desc">Show/hide help</dd></div>
+        ${_shortcutRow('1-8', 'Jump to color')}
+        ${_shortcutRow('← →', 'Cycle colors')}
+        ${_shortcutRow('F', 'Enter/exit fullscreen')}
+        ${_shortcutRow('Space', 'Hide/show controls')}
+        ${_shortcutRow('Esc', 'Show controls')}
+        ${_shortcutRow('?', 'Show/hide help')}
 
         <h3 class="shortcut-section">Mouse</h3>
-        <div class="shortcut-row"><dt class="shortcut-key">Double-click</dt><dd class="shortcut-desc">Next color</dd></div>
-        <div class="shortcut-row"><dt class="shortcut-key">Right-click</dt><dd class="shortcut-desc">Hide/show controls</dd></div>
+        ${_shortcutRow('Double-click', 'Next color')}
+        ${_shortcutRow('Right-click', 'Hide/show controls')}
 
         <h3 class="shortcut-section">Touch</h3>
-        <div class="shortcut-row"><dt class="shortcut-key">Double-tap</dt><dd class="shortcut-desc">Next color</dd></div>
-        <div class="shortcut-row"><dt class="shortcut-key">Touch and hold</dt><dd class="shortcut-desc">Hide/show controls</dd></div>
+        ${_shortcutRow('Double-tap', 'Next color')}
+        ${_shortcutRow('Touch and hold', 'Hide/show controls')}
       </dl>
 
       <!-- About footer -->
