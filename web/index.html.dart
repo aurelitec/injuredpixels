@@ -2,6 +2,14 @@
 // https://www.aurelitec.com/injuredpixels/
 // Licensed under the MIT License.
 
+/// Generate a color swatch button with the given label and Tailwind CSS classes.
+String _colorSwatch(String label, String classes) =>
+    '''
+  <button class="color-swatch $classes">
+    <span class="color-swatch-label">$label</span>
+  </button>
+''';
+
 /// HTML template for InjuredPixels. Generates target-specific HTML (web, dev, portable).
 String indexHtml({required String target}) =>
     '''
@@ -14,7 +22,7 @@ String indexHtml({required String target}) =>
   <meta name="theme-color" content="#000000">
   <title>InjuredPixels</title>
 ${switch (target) {
-    'web' => '''
+      'web' => '''
   <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
@@ -26,19 +34,19 @@ ${switch (target) {
       navigator.serviceWorker.register('sw.js');
     }
   </script>''',
-    'dev' => '''
+      'dev' => '''
   <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <script defer src="main.dart.js"></script>''',
-    'portable' => '''
+      'portable' => '''
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
   <link rel="stylesheet" href="assets/style.css">
   <script defer src="assets/main.dart.js"></script>''',
-    _ => throw ArgumentError('Unknown target: $target'),
-  }}
+      _ => throw ArgumentError('Unknown target: $target'),
+    }}
 </head>
 <body class="flex min-h-screen items-center justify-center select-none" style="background-color: rgb(255, 0, 0);">
 
@@ -109,30 +117,14 @@ ${switch (target) {
 
     <!-- Color swatches grid -->
     <div id="swatches" class="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 sm:gap-swatch-gap sm:p-panel-padding md:grid-cols-8">
-      <button class="color-swatch selected bg-[#FF0000] text-[#FFFFFF]">
-        <span class="color-swatch-label">Red</span>
-      </button>
-      <button class="color-swatch bg-[#00FF00] text-[#000000]">
-        <span class="color-swatch-label">Green</span>
-      </button>
-      <button class="color-swatch bg-[#0000FF] text-[#FFFFFF]">
-        <span class="color-swatch-label">Blue</span>
-      </button>
-      <button class="color-swatch bg-[#00FFFF] text-[#000000]">
-        <span class="color-swatch-label">Cyan</span>
-      </button>
-      <button class="color-swatch bg-[#FF00FF] text-[#FFFFFF]">
-        <span class="color-swatch-label">Magenta</span>
-      </button>
-      <button class="color-swatch bg-[#FFFF00] text-[#000000]">
-        <span class="color-swatch-label">Yellow</span>
-      </button>
-      <button class="color-swatch bg-[#000000] text-[#FFFFFF]">
-        <span class="color-swatch-label">Black</span>
-      </button>
-      <button class="color-swatch bg-[#FFFFFF] text-[#000000]">
-        <span class="color-swatch-label">White</span>
-      </button>
+      ${_colorSwatch('Red', 'selected bg-[#FF0000] text-[#FFFFFF]')}
+      ${_colorSwatch('Green', 'bg-[#00FF00] text-[#000000]')}
+      ${_colorSwatch('Blue', 'bg-[#0000FF] text-[#FFFFFF]')}
+      ${_colorSwatch('Cyan', 'bg-[#00FFFF] text-[#000000]')}
+      ${_colorSwatch('Magenta', 'bg-[#FF00FF] text-[#FFFFFF]')}
+      ${_colorSwatch('Yellow', 'bg-[#FFFF00] text-[#000000]')}
+      ${_colorSwatch('Black', 'bg-[#000000] text-[#FFFFFF]')}
+      ${_colorSwatch('White', 'bg-[#FFFFFF] text-[#000000]')}
     </div>
 
     <!-- Action toolbar -->
