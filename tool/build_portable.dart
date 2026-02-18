@@ -6,9 +6,6 @@ import 'dart:io';
 
 import 'build_utils.dart';
 
-/// Output directory for the portable build.
-const _outputDir = 'build-portable';
-
 /// Entries to copy from the intermediate build output.
 const _buildEntries = <BuildEntry>[
   BuildFile('index.html', target: 'InjuredPixels.html'),
@@ -16,6 +13,9 @@ const _buildEntries = <BuildEntry>[
   BuildFile('style.css', target: 'assets/style.css'),
   BuildFile('icons/favicon-96x96.png', target: 'assets/favicon-96x96.png'),
 ];
+
+/// Output directory for the portable build.
+const _outputDir = 'build-portable';
 
 /// Directory containing static files to copy to the portable build.
 const _staticDir = 'static-portable';

@@ -17,38 +17,14 @@ sealed class BuildEntry {
   const BuildEntry(this.source, {this.target});
 }
 
-/// A single file build artifact.
-class BuildFile extends BuildEntry {
-  const BuildFile(super.source, {super.target});
-}
-
 /// A directory build artifact.
 class BuildDirectory extends BuildEntry {
   const BuildDirectory(super.source, {super.target});
 }
 
-/// Run a command and print its output.
-Future<void> run(String exe, List<String> args) async {
-  print('→ $exe ${args.join(' ')}');
-  final result = await Process.run(exe, args);
-  stdout.write(result.stdout);
-  stderr.write(result.stderr);
-  if (result.exitCode != 0) exit(result.exitCode);
-}
-
-/// Start a process and stream its output.
-Future<Process> watch(String exe, List<String> args) async {
-  final process = await Process.start(exe, args);
-  process.stdout.listen(stdout.add);
-  process.stderr.listen(stderr.add);
-  return process;
-}
-
-/// Prepares an output directory: deletes it if it exists, then creates it.
-Future<void> prepareOutputDir(String path) async {
-  final dir = Directory(path);
-  if (await dir.exists()) await dir.delete(recursive: true);
-  await dir.create();
+/// A single file build artifact.
+class BuildFile extends BuildEntry {
+  const BuildFile(super.source, {super.target});
 }
 
 /// Copies build entries from [buildDir] to [outputDir] based on [BuildEntry] mappings.
@@ -72,16 +48,6 @@ Future<void> copyBuildEntries(
   }
 }
 
-/// Minifies an HTML file in place using the `minify` CLI.
-Future<void> minifyHtml(String path) async {
-  await run('minify', ['-o', path, path]);
-}
-
-/// Minifies a JavaScript file in place using the `minify` CLI.
-Future<void> minifyJs(String path) async {
-  await run('minify', ['-o', path, path]);
-}
-
 /// Recursively copies the contents of a directory.
 Future<void> copyDirectory(Directory source, Directory target) async {
   await target.create(recursive: true);
@@ -93,4 +59,38 @@ Future<void> copyDirectory(Directory source, Directory target) async {
       await copyDirectory(entity, Directory('${target.path}/$name'));
     }
   }
+}
+
+/// Minifies an HTML file in place using the `minify` CLI.
+Future<void> minifyHtml(String path) async {
+  await run('minify', ['-o', path, path]);
+}
+
+/// Minifies a JavaScript file in place using the `minify` CLI.
+Future<void> minifyJs(String path) async {
+  await run('minify', ['-o', path, path]);
+}
+
+/// Prepares an output directory: deletes it if it exists, then creates it.
+Future<void> prepareOutputDir(String path) async {
+  final dir = Directory(path);
+  if (await dir.exists()) await dir.delete(recursive: true);
+  await dir.create();
+}
+
+/// Run a command and print its output.
+Future<void> run(String exe, List<String> args) async {
+  print('→ $exe ${args.join(' ')}');
+  final result = await Process.run(exe, args);
+  stdout.write(result.stdout);
+  stderr.write(result.stderr);
+  if (result.exitCode != 0) exit(result.exitCode);
+}
+
+/// Start a process and stream its output.
+Future<Process> watch(String exe, List<String> args) async {
+  final process = await Process.start(exe, args);
+  process.stdout.listen(stdout.add);
+  process.stderr.listen(stderr.add);
+  return process;
 }
