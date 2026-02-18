@@ -71,11 +71,14 @@ void init({
   _initToolbarButtons();
 }
 
-/// Selects a swatch by index (updates visual state only).
+/// Selects a swatch by index (updates visual and accessibility state).
 void selectSwatch(int index) {
   if (index < 0 || index >= _swatches.length) return;
-  _swatchesContainer.querySelector('.selected')?.classList.remove('selected');
+  final previous = _swatchesContainer.querySelector('.selected');
+  previous?.classList.remove('selected');
+  previous?.setAttribute('aria-pressed', 'false');
   _swatchAt(index).classList.add('selected');
+  _swatchAt(index).setAttribute('aria-pressed', 'true');
 }
 
 /// Shows the control panel.

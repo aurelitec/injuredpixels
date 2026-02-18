@@ -3,9 +3,9 @@
 // Licensed under the MIT License.
 
 /// Generates a color swatch button with the given label and Tailwind CSS classes.
-String _colorSwatch(String label, String classes) =>
+String _colorSwatch(String label, String classes, {bool selected = false}) =>
     '''
-  <button class="color-swatch $classes">
+  <button class="color-swatch $classes" aria-pressed="${selected ? 'true' : 'false'}">
     <span class="color-swatch-label">$label</span>
   </button>
 ''';
@@ -126,7 +126,7 @@ ${switch (target) {
 
     <!-- Color swatches grid -->
     <div id="swatches" class="grid grid-cols-4 justify-items-center gap-2 rounded-t-panel bg-panel-swatch p-3 sm:gap-swatch-gap sm:p-panel-padding md:grid-cols-8">
-      ${_colorSwatch('Red', 'selected bg-[#FF0000] text-[#FFFFFF]')}
+      ${_colorSwatch('Red', 'selected bg-[#FF0000] text-[#FFFFFF]', selected: true)}
       ${_colorSwatch('Green', 'bg-[#00FF00] text-[#000000]')}
       ${_colorSwatch('Blue', 'bg-[#0000FF] text-[#FFFFFF]')}
       ${_colorSwatch('Cyan', 'bg-[#00FFFF] text-[#000000]')}
