@@ -190,22 +190,22 @@ ${switch (target) {
       <dl>
         ${_shortcutRow('1-8', 'Jump to color')}
         ${_shortcutRow('← →', 'Cycle colors')}
-        ${_shortcutRow('F', 'Enter/exit fullscreen')}
-        ${_shortcutRow('Space', 'Hide/show controls')}
-        ${_shortcutRow('Esc', 'Show controls')}
-        ${_shortcutRow('?', 'Show/hide help')}
+        ${_shortcutRow('F', 'Enter / exit fullscreen')}
+        ${_shortcutRow('Space', 'Inspect / show controls')}
+        ${_shortcutRow('Esc', 'Exit fullscreen / show controls')}
+        ${_shortcutRow('?', 'Show / hide help')}
       </dl>
 
       <h3 class="shortcut-section">Mouse</h3>
       <dl>
         ${_shortcutRow('Double-click', 'Next color')}
-        ${_shortcutRow('Right-click', 'Hide/show controls')}
+        ${_shortcutRow('Right-click', 'Inspect / show controls')}
       </dl>
 
       <h3 class="shortcut-section">Touch</h3>
       <dl>
         ${_shortcutRow('Double-tap', 'Next color')}
-        ${_shortcutRow('Touch and hold', 'Hide/show controls')}
+        ${_shortcutRow('Touch and hold', 'Inspect / show controls')}
       </dl>
 
       <!-- About footer -->
