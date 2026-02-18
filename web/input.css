@@ -142,7 +142,7 @@
   /* Help dialog shortcut row */
 
   .shortcut-row {
-    @apply flex justify-between gap-4;
+    @apply flex justify-between gap-4 py-0.75;
   }
 
   .shortcut-key {

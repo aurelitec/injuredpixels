@@ -185,21 +185,25 @@ ${switch (target) {
     </div>
 
     <!-- Light body — shortcuts -->
-    <div class="rounded-b-panel bg-help-dialog-bg px-6 py-5">
-      <dl class="space-y-1.5 text-sm">
-        <h3 class="shortcut-section">Keyboard</h3>
+    <div class="rounded-b-panel bg-help-dialog-bg px-6 py-5 text-sm">
+      <h3 class="shortcut-section">Keyboard</h3>
+      <dl>
         ${_shortcutRow('1-8', 'Jump to color')}
         ${_shortcutRow('← →', 'Cycle colors')}
         ${_shortcutRow('F', 'Enter/exit fullscreen')}
         ${_shortcutRow('Space', 'Hide/show controls')}
         ${_shortcutRow('Esc', 'Show controls')}
         ${_shortcutRow('?', 'Show/hide help')}
+      </dl>
 
-        <h3 class="shortcut-section">Mouse</h3>
+      <h3 class="shortcut-section">Mouse</h3>
+      <dl>
         ${_shortcutRow('Double-click', 'Next color')}
         ${_shortcutRow('Right-click', 'Hide/show controls')}
+      </dl>
 
-        <h3 class="shortcut-section">Touch</h3>
+      <h3 class="shortcut-section">Touch</h3>
+      <dl>
         ${_shortcutRow('Double-tap', 'Next color')}
         ${_shortcutRow('Touch and hold', 'Hide/show controls')}
       </dl>
